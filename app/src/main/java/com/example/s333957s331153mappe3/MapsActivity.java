@@ -97,8 +97,6 @@ public class MapsActivity extends AppCompatActivity implements
         } else {
             handleNewLocation(location);
         }
-        ;
-
     }
 
     @Override
