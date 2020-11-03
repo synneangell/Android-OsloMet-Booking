@@ -4,6 +4,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class RomAdministrator extends AppCompatActivity {
+public class RomAdministrerer extends AppCompatActivity {
 
 }
