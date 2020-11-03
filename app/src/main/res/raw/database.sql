@@ -32,9 +32,9 @@ CREATE TABLE Reservasjon (
 INSERT INTO Hus values ('', 'P35', 'Pilestredet 35', 8, '59.920503, 10.735504');
 INSERT INTO Hus values ('', 'P52', 'Pilestredet 52', 3, '59.922588, 10.732752');
 
-*//*INSERT INTO Rom values ();
 INSERT INTO Rom values ();
-INSERT INTO Rom values ();*//*
+INSERT INTO Rom values ();
+INSERT INTO Rom values ();
 
 INSERT INTO Reservasjon values ('', 'Gudrun Pedersen', '10:30', '12:30', '12/12/2020');
 INSERT INTO Reservasjon values ('', 'Jakob Anthonsen', '08:00', '11:30', '10/12/2020');
