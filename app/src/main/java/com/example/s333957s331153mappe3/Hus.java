@@ -11,8 +11,8 @@ public class Hus {
         this.HusID = HudID;
         this.beskrivelse = beskrivelse;
         this.gateAdresse = gateAdresse;
-        this.gpsKoordinater = gpsKoordinater;
         this.antallEtasjer = antallEtasjer;
+        this.gpsKoordinater = gpsKoordinater;
     }
 
     public int getHusID(){

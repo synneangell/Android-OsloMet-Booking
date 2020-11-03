@@ -4,16 +4,16 @@ import java.util.Date;
 public class Reservasjon {
     public int ReservasjonsID;
     public String navn;
-    public Date dato;
-    public String klokkeslettFra;
-    public String klokkeslettTil;
+    public String dato;
+    public String TidFra;
+    public String TidTil;
 
-    public Reservasjon(int reservasjonsID, String navn, Date dato, String klokkeslettFra, String klokkeslettTil) {
+    public Reservasjon(int reservasjonsID, String navn, String dato, String TidFra, String TidTil) {
         this.ReservasjonsID = reservasjonsID;
         this.navn = navn;
         this.dato = dato;
-        this.klokkeslettFra = klokkeslettFra;
-        this.klokkeslettTil = klokkeslettTil;
+        this.TidFra = TidFra;
+        this.TidTil = TidTil;
     }
 
     public int getReservasjonsID() {
@@ -24,15 +24,15 @@ public class Reservasjon {
         return navn;
     }
 
-    public Date getDato() {
+    public String getDato() {
         return dato;
     }
 
     public String getKlokkeslettFra() {
-        return klokkeslettFra;
+        return TidFra;
     }
 
     public String getKlokkeslettTil() {
-        return klokkeslettTil;
+        return TidTil;
     }
 }

@@ -1,18 +1,13 @@
 package com.example.s333957s331153mappe3;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
-import android.app.Activity;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-
 import android.util.Log;
-
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -23,7 +18,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import java.util.ArrayList;
 
 public class MapsActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -34,12 +31,16 @@ public class MapsActivity extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private GoogleMap mMap;
+    ArrayList<LatLng> al = new ArrayList<>();
+    LatLng oslo = new LatLng(59.918958, 10.755287);
+    LatLng p35 = new LatLng(59.920503, 10.735504);
+    LatLng p52 = new LatLng(59.922588, 10.732752);
+    ArrayList<String> navn = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -55,11 +56,16 @@ public class MapsActivity extends AppCompatActivity implements
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+
+        al.add(oslo);
+        al.add(p35);
+        al.add(p52);
+        navn.add("Oslo");
+        navn.add("Pilestredet 35");
+        navn.add("Pilestredet 52");
     }
 
-
     public void handleNewLocation(Location location) {
-
         Log.d(TAG, location.toString());
 
         double currentLatitude = location.getLatitude();
@@ -71,8 +77,6 @@ public class MapsActivity extends AppCompatActivity implements
                 .title("Jeg er her!");
         mMap.addMarker(options);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-
-
     }
 
     @Override
@@ -102,7 +106,6 @@ public class MapsActivity extends AppCompatActivity implements
     @Override
     public void onConnectionSuspended(int i) {
         Log.i(TAG, "Location services suspended. Please reconnect.");
-
     }
 
     @Override
@@ -117,9 +120,7 @@ public class MapsActivity extends AppCompatActivity implements
         } else {
             Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
         }
-
     }
-
 
     @Override
     protected void onResume() {
@@ -135,21 +136,33 @@ public class MapsActivity extends AppCompatActivity implements
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
             mGoogleApiClient.disconnect();
         }
-
     }
 
     @Override
     public void onLocationChanged(Location location) {
         handleNewLocation(location);
-
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-
+        for(int i = 0; i < al.size(); i++){
+            for(int j = 0; j < navn.size(); j++){
+                mMap.addMarker(new MarkerOptions().position(al.get(i)).title(String.valueOf(navn.get(j))));
+            }
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(al.get(i)));
+        }
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                String markerTittel = marker.getTitle();
+                Intent i = new Intent(MapsActivity.this, RegistrerBygning.class);
+                i.putExtra("navn", markerTittel);
+                startActivity(i);
+                return false;
+            }
+        });
     }
 }
 
