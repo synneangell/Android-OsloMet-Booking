@@ -46,6 +46,7 @@ public class MapsActivity extends AppCompatActivity implements
     Boolean floatingButtonAapnet;
     TextView leggTilBygning;
     TextView leggTilRom;
+    LatLng nyBygning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +84,9 @@ public class MapsActivity extends AppCompatActivity implements
         fabLeggTilBygning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MapsActivity.this, HusAdministrerer.class));
+                Intent i = new Intent(MapsActivity.this, HusAdministrerer.class);
+                i.putExtra("koordinater", nyBygning);
+                startActivity(i);
             }
         });
 
@@ -135,6 +138,7 @@ public class MapsActivity extends AppCompatActivity implements
 
         //Her må startposisjon være pilestredet!
     }
+
 
     @Override
     public void onConnected(Bundle bundle) {
@@ -210,6 +214,35 @@ public class MapsActivity extends AppCompatActivity implements
             }
             mMap.moveCamera(CameraUpdateFactory.newLatLng(al.get(i)));
         }
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+                // Creating a marker
+                MarkerOptions markerOptions = new MarkerOptions();
+
+                // Setting the position for the marker
+                markerOptions.position(latLng);
+
+                // Setting the title for the marker.
+                // This will be displayed on taping the marker
+                nyBygning = new LatLng(latLng.latitude, latLng.longitude);
+                markerOptions.title("Ny bygning?");
+
+                // Clears the previously touched position
+                mMap.clear();
+
+                // Animating to the touched position
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                // Placing a marker on the touched position
+                mMap.addMarker(markerOptions);
+            }
+        });
+
+
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
