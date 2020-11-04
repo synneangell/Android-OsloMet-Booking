@@ -10,19 +10,22 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class HusAdministrerer extends AppCompatActivity {
     Spinner etasjer;
+    TextView txtKoordinater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_husadministrator);
 
+        txtKoordinater = (TextView) findViewById(R.id.koordinater);
         etasjer = (Spinner) findViewById(R.id.spinnerEtasjer);
 
         Integer[] items = new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
         ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,android.R.layout.simple_spinner_item, items);
         etasjer.setAdapter(adapter);
 
-        Intent intent = getIntent();
+        LatLng koordinater = getIntent().getExtras().getParcelable("koordinater");
+        txtKoordinater.setText(koordinater.toString());
 
 
     }

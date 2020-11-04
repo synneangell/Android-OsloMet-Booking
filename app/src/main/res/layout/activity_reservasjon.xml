@@ -1,93 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bakgrunn"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    tools:context=".Aktivitet_MoteDeltagelse">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Reserver rom"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:textStyle="bold" />
 
-<!--    <ImageView
-        android:id="@+id/slett"
-        app:srcCompat="@drawable/ic_baseline_delete_forever_24"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="350dp"
-        android:layout_marginRight="10dp"
-        android:onClick="slett"
+    <TextView
+        android:id="@+id/headerBygning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="100dp"
+        android:ems="10"
+        android:text="Bygning"
+        />
+
+    <TextView
+        android:id="@+id/valgtBygning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="120dp"
+        android:ems="10"
         />
 
     <ImageView
-        android:id="@+id/endre"
-        app:srcCompat="@drawable/ic_baseline_edit_24"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="318dp"
+        android:id="@+id/imgNavnBygning"
+        app:srcCompat="@drawable/ic_baseline_business_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginRight="10dp"
-        android:onClick="endre"
-        />-->
+        />
 
     <TextView
-        android:id="@+id/moteinformasjon"
-        android:layout_width="400dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="55dp"
-        android:layout_marginLeft="15dp"
-        android:textColor="#040000"
-        android:textSize="20sp"
-        />
-    <TextView
-        android:id="@+id/deltakere"
-        android:text="@string/deltakere"
-        android:layout_width="400dp"
+        android:id="@+id/headerEtasje"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="220dp"
-        android:layout_marginLeft="60dp"
-        android:textColor="#040000"
-        android:textSize="20sp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="150dp"
+        android:ems="10"
+        android:text="Etasje"
         />
 
-    <FrameLayout
-        android:id="@+id/frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+    <ImageView
+        android:id="@+id/imgEtasjer"
+        app:srcCompat="@drawable/ic_baseline_layers_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        />
 
-        <ListView
-            android:id="@+id/listView_kontakter"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="450dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/motedeltagelse" >
+    <Spinner
+        android:id="@+id/spinnerEtasjer"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="170dp" />
 
-        </ListView>
+    <TextView
+        android:id="@+id/headerRom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="195dp"
+        android:ems="10"
+        android:text="Rom"
+        />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            app:backgroundTint="@color/toolbar"
-            app:srcCompat="@drawable/ic_baseline_person_add_24"/>
+    <Spinner
+        android:id="@+id/spinnerRom"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="210dp" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="210dp"
-            android:layout_marginLeft="15dp"
-            app:srcCompat="@drawable/ic_baseline_people_24" />
+    <ImageView
+        android:id="@+id/imgRomNr"
+        app:srcCompat="@drawable/ic_baseline_location_on_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        />
 
-    </FrameLayout>
+    <TextView
+        android:id="@+id/headerKapasitet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="250dp"
+        android:text="Kapasitet" />
+
+    <TextView
+        android:id="@+id/kapasitet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="270dp"
+        android:ems="10" />
+
+    <TextView
+        android:id="@+id/headerBeskrivelse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="300dp"
+        android:ems="10"
+        android:text="Beskrivelse" />
+    <TextView
+        android:id="@+id/beskrivelse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="320dp"
+        android:ems="10" />
+
+    <ImageView
+        android:id="@+id/imgKapasitet"
+        app:srcCompat="@drawable/ic_baseline_group_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="250dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        />
+
+    <TextView
+        android:id="@+id/beskrivelseRom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="300dp"
+        android:ems="10"
+        android:text="Beskrivelse" />
+
+    <ImageView
+        android:id="@+id/imgBeskrivelseBygning"
+        app:srcCompat="@drawable/ic_baseline_comment_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        />
 
 
 </RelativeLayout>
