@@ -140,15 +140,6 @@
         android:layout_marginRight="10dp"
         />
 
-    <TextView
-        android:id="@+id/beskrivelseRom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="300dp"
-        android:ems="10"
-        android:text="Beskrivelse" />
-
     <ImageView
         android:id="@+id/imgBeskrivelseBygning"
         app:srcCompat="@drawable/ic_baseline_comment_24"
