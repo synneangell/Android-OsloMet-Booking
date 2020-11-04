@@ -1,13 +1,13 @@
 package com.example.s333957s331153mappe3;
 
-public class Model_Rom {
+public class Rom {
     public int RomID;
     public int etasjeNr;
     public int romNr;
     public int kapasitet;
     public String beskrivelse;
 
-    public Model_Rom(int romID, int etasjeNr, int romNr, int kapasitet, String beskrivelse) {
+    public Rom(int romID, int etasjeNr, int romNr, int kapasitet, String beskrivelse) {
         this.RomID = romID;
         this.etasjeNr = etasjeNr;
         this.romNr = romNr;
