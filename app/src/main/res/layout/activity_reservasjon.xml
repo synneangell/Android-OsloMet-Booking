@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bakgrunn"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".Reservasjon">
+    tools:context=".Aktivitet_MoteDeltagelse">
 
 
 <!--    <ImageView
@@ -42,6 +43,7 @@
         />
     <TextView
         android:id="@+id/deltakere"
+        android:text="@string/deltakere"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="220dp"
@@ -68,6 +70,22 @@
 
         </ListView>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            app:backgroundTint="@color/toolbar"
+            app:srcCompat="@drawable/ic_baseline_person_add_24"/>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="210dp"
+            android:layout_marginLeft="15dp"
+            app:srcCompat="@drawable/ic_baseline_people_24" />
 
     </FrameLayout>
 

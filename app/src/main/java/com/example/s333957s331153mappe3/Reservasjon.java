@@ -1,24 +1,38 @@
 package com.example.s333957s331153mappe3;
-import android.os.Bundle;
-import android.widget.Spinner;
-import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Date;
 
-public class Reservasjon extends AppCompatActivity {
-    TextView markerText;
-    Date dato;
-    Spinner tid;
-    TextView navn;
+public class Reservasjon {
+    public int ReservasjonsID;
+    public String navn;
+    public String dato;
+    public String TidFra;
+    public String TidTil;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_romadministrator);
-        markerText = findViewById(R.id.marker);
-        String tittel = getIntent().getStringExtra("navn");
-        markerText.setText(tittel);
+    public Reservasjon(int reservasjonsID, String navn, String dato, String TidFra, String TidTil) {
+        this.ReservasjonsID = reservasjonsID;
+        this.navn = navn;
+        this.dato = dato;
+        this.TidFra = TidFra;
+        this.TidTil = TidTil;
+    }
 
+    public int getReservasjonsID() {
+        return ReservasjonsID;
+    }
+
+    public String getNavn() {
+        return navn;
+    }
+
+    public String getDato() {
+        return dato;
+    }
+
+    public String getKlokkeslettFra() {
+        return TidFra;
+    }
+
+    public String getKlokkeslettTil() {
+        return TidTil;
     }
 }
