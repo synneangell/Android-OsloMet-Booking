@@ -8,12 +8,16 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -21,6 +25,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
 public class MapsActivity extends AppCompatActivity implements
@@ -33,15 +39,21 @@ public class MapsActivity extends AppCompatActivity implements
     private LocationRequest mLocationRequest;
     private GoogleMap mMap;
     ArrayList<LatLng> al = new ArrayList<>();
-    LatLng pilestredet = new LatLng(59.923927, 10.731458);
+    LatLng oslo = new LatLng(59.918958, 10.755287);
     LatLng p35 = new LatLng(59.920503, 10.735504);
     LatLng p52 = new LatLng(59.922588, 10.732752);
     ArrayList<String> navn = new ArrayList<>();
+    Boolean floatingButtonAapnet;
+    TextView leggTilBygning;
+    TextView leggTilRom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        leggTilBygning = (TextView) findViewById(R.id.txtLeggTilBygning);
+        leggTilRom = (TextView) findViewById(R.id.txtLeggTilRom);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -58,30 +70,68 @@ public class MapsActivity extends AppCompatActivity implements
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
-        //Må hente de lagrede bygningene ut fra databasen og sette de inn her
+        al.add(oslo);
         al.add(p35);
         al.add(p52);
         navn.add("Oslo");
         navn.add("Pilestredet 35");
         navn.add("Pilestredet 52");
+
+        /**---- OPPRETTER FLOATINGBUTTONS ----**/
+        final FloatingActionButton fabLeggTilBygning = findViewById(R.id.fabLeggTilBygning);
+        fabLeggTilBygning.hide();
+        fabLeggTilBygning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MapsActivity.this, HusAdministrerer.class));
+            }
+        });
+
+        final FloatingActionButton fabLeggTilRom = findViewById(R.id.fabLeggTilRom);
+        fabLeggTilRom.hide();
+        fabLeggTilRom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MapsActivity.this, RomAdministrerer.class));
+            }
+        });
+
+        floatingButtonAapnet = false;
+
+        FloatingActionButton fabLeggTil = findViewById(R.id.fabLeggTil);
+        fabLeggTil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(floatingButtonAapnet == false){
+                    fabLeggTilBygning.show();
+                    fabLeggTilRom.show();
+                    leggTilBygning.setText("Legg til bygning");
+                    leggTilRom.setText("Legg til rom");
+                    floatingButtonAapnet = true;
+                }
+                else {
+                    fabLeggTilBygning.hide();
+                    fabLeggTilRom.hide();
+                    leggTilBygning.setText("");
+                    leggTilRom.setText("");
+                    floatingButtonAapnet = false;
+                }
+            }
+        });
     }
 
     public void handleNewLocation(Location location) {
         Log.d(TAG, location.toString());
-/*
+
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
         MarkerOptions options = new MarkerOptions()
-                .position(pilestredet)
-                .title("Jeg er her!");*/
-
-        CameraUpdate center = CameraUpdateFactory.newLatLng(pilestredet);
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(13);
-
-        mMap.moveCamera(center);
-        mMap.animateCamera(zoom);
+                .position(latLng)
+                .title("Jeg er her!");
+        mMap.addMarker(options);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 
     @Override
@@ -162,7 +212,7 @@ public class MapsActivity extends AppCompatActivity implements
             @Override
             public boolean onMarkerClick(Marker marker) {
                 String markerTittel = marker.getTitle();
-                Intent i = new Intent(MapsActivity.this, Reservasjon.class);
+                Intent i = new Intent(MapsActivity.this, HusAdministrerer.class);
                 i.putExtra("navn", markerTittel);
                 startActivity(i);
                 return false;
