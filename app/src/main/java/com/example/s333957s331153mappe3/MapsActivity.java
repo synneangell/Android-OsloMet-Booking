@@ -18,6 +18,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -39,7 +40,7 @@ public class MapsActivity extends AppCompatActivity implements
     private LocationRequest mLocationRequest;
     private GoogleMap mMap;
     ArrayList<LatLng> al = new ArrayList<>();
-    LatLng oslo = new LatLng(59.918958, 10.755287);
+    LatLng pilestredet = new LatLng(59.923927, 10.731458);
     LatLng p35 = new LatLng(59.920503, 10.735504);
     LatLng p52 = new LatLng(59.922588, 10.732752);
     ArrayList<String> navn = new ArrayList<>();
@@ -70,7 +71,7 @@ public class MapsActivity extends AppCompatActivity implements
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
-        al.add(oslo);
+        //Må hente de lagrede bygningene ut fra databasen og sette de inn her
         al.add(p35);
         al.add(p52);
         navn.add("Oslo");
@@ -122,16 +123,20 @@ public class MapsActivity extends AppCompatActivity implements
 
     public void handleNewLocation(Location location) {
         Log.d(TAG, location.toString());
-
+/*
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
         MarkerOptions options = new MarkerOptions()
-                .position(latLng)
-                .title("Jeg er her!");
-        mMap.addMarker(options);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                .position(pilestredet)
+                .title("Jeg er her!");*/
+
+        CameraUpdate center = CameraUpdateFactory.newLatLng(pilestredet);
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(13);
+
+        mMap.moveCamera(center);
+        mMap.animateCamera(zoom);
     }
 
     @Override
@@ -212,7 +217,7 @@ public class MapsActivity extends AppCompatActivity implements
             @Override
             public boolean onMarkerClick(Marker marker) {
                 String markerTittel = marker.getTitle();
-                Intent i = new Intent(MapsActivity.this, HusAdministrerer.class);
+                Intent i = new Intent(MapsActivity.this, Reservasjon.class);
                 i.putExtra("navn", markerTittel);
                 startActivity(i);
                 return false;
