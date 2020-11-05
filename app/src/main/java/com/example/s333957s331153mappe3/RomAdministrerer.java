@@ -14,11 +14,15 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RomAdministrerer extends AppCompatActivity {
     Spinner etasje;
     EditText romNr, kapasitet, beskrivelse;
     TextView test;
+    List<Rom> rom;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +34,22 @@ public class RomAdministrerer extends AppCompatActivity {
         beskrivelse = (EditText) findViewById(R.id.beskrivelseRom);
         test = (TextView) findViewById(R.id.test);
 
+        rom = new ArrayList<>();
         RomGetJSON task = new RomGetJSON();
         task.execute(new String[]{"http://student.cs.hioa.no/~s333975/Romjsonout.php"});
+        //rom = task.getRom();
+        //test.setText(rom.size());
+        //test.setText(task.jsonObject.toString());
     }
 
     public void regRom(View v){
 
     }
 
-    class RomGetJSON extends AsyncTask<String, Void, String> {
+    private class RomGetJSON extends AsyncTask<String, Void, String> {
+        JSONObject jsonObject;
+        List <Rom> rom = new ArrayList<>();
+
         @Override
         protected String doInBackground(String... urls) {
             String retur = "";
@@ -48,30 +59,39 @@ public class RomAdministrerer extends AppCompatActivity {
                 try {
                     URL urlen = new URL(urls[0]);
                     HttpURLConnection conn = (HttpURLConnection)
-                            urlen.openConnection(); conn.setRequestMethod("GET");
+                            urlen.openConnection();
+                    conn.setRequestMethod("GET");
                     conn.setRequestProperty("Accept", "application/json");
                     if (conn.getResponseCode() != 200) {
                         throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
                     }
 
-                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
                     System.out.println("Output from server .... \n");
                     while ((s = br.readLine()) != null) {
                         output = output + s;
                     }
                     conn.disconnect();
                     try {
-                        JSONArray rom = new JSONArray(output);
-                        for (int i = 0; i < rom.length(); i++) {
-                            JSONObject jsonobject = rom.getJSONObject(i);
+                        JSONArray rommene = new JSONArray(output);
+                        for (int i = 0; i < rommene.length(); i++) {
+                            JSONObject jsonobject = rommene.getJSONObject(i);
                             int RomID = jsonobject.getInt("RomID");
-                            String Beskrivelse = jsonobject.getString("Beskrivelse");
                             int HusID = jsonobject.getInt("HusID");
                             int Etasje = jsonobject.getInt("Etasje");
                             int Romnr = jsonobject.getInt("RomNr");
                             int Kapasitet = jsonobject.getInt("Kapasitet");
+                            String Beskrivelse = jsonobject.getString("Beskrivelse");
+                            Rom etRom = new Rom();
+                            etRom.setRomID(RomID);
+                            etRom.setHusID(HusID);
+                            etRom.setEtasje(Etasje);
+                            etRom.setRomNr(Romnr);
+                            etRom.setKapasitet(Kapasitet);
+                            etRom.setBeskrivelse(Beskrivelse);
+                            rom.add(etRom);
 
-                            retur = RomID + HusID + Etasje + Romnr + Kapasitet + Beskrivelse + "\n";
+                            retur = retur + RomID + HusID + Etasje + Romnr + Kapasitet + Beskrivelse + "\n";
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -86,6 +106,10 @@ public class RomAdministrerer extends AppCompatActivity {
         @Override
         protected void onPostExecute(String ss) {
             test.setText(ss);
+        }
+
+        public List<Rom> getRom() {
+            return rom;
         }
     }
 }
