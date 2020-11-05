@@ -15,33 +15,6 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/bygning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="100dp"
-        android:ems="10"
-        android:text="Velg bygning"
-        />
-
-    <Spinner
-        android:id="@+id/spinnerBygning"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="120dp" />
-
-    <ImageView
-        android:id="@+id/imgNavnBygning"
-        app:srcCompat="@drawable/ic_baseline_business_24"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="10dp"
-        />
-
-    <TextView
         android:id="@+id/etasje"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -128,71 +101,22 @@
         android:layout_marginRight="10dp"
         />
 
-
-
-   <!-- <EditText
-        android:id="@+id/beskrivelseBygning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="150dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Beskrivelse" />
-
-    <ImageView
-        android:id="@+id/imgBeskrivelseBygning"
-        app:srcCompat="@drawable/ic_baseline_comment_24"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="10dp"
-        />
-
-    <EditText
-        android:id="@+id/adresseBygning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="200dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Adresse" />
-
-    <ImageView
-        android:id="@+id/imgAdresseBygning"
-        app:srcCompat="@drawable/ic_baseline_location_on_24"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="10dp"
-        />
-
     <TextView
-        android:id="@+id/koordinater"
+        android:id="@+id/test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="400dp"
         android:ems="10"
         />
 
-    <Spinner
-        android:id="@+id/spinnerEtasjer"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="310dp" />
-
-    <TextView
-        android:id="@+id/etasjer"
+    <Button
+        android:id="@+id/regRom"
+        android:onClick="regRom"
+        android:text="Registrer rom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="290dp"
-        android:ems="10"
-        android:text="Etasje" />-->
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="500dp"/>
 
 </RelativeLayout>
