@@ -18,6 +18,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -42,18 +43,20 @@ public class MapsActivity extends AppCompatActivity implements
     LatLng oslo = new LatLng(59.918958, 10.755287);
     LatLng p35 = new LatLng(59.920503, 10.735504);
     LatLng p52 = new LatLng(59.922588, 10.732752);
+    LatLng pilestredet = new LatLng(59.923889, 10.731474);
     ArrayList<String> navn = new ArrayList<>();
     Boolean floatingButtonAapnet;
     TextView leggTilBygning;
     TextView leggTilRom;
+    LatLng nyBygning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        leggTilBygning = (TextView) findViewById(R.id.txtLeggTilBygning);
-        leggTilRom = (TextView) findViewById(R.id.txtLeggTilRom);
+        //leggTilBygning = (TextView) findViewById(R.id.txtLeggTilBygning);
+        //leggTilRom = (TextView) findViewById(R.id.txtLeggTilRom);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -77,47 +80,6 @@ public class MapsActivity extends AppCompatActivity implements
         navn.add("Pilestredet 35");
         navn.add("Pilestredet 52");
 
-        /**---- OPPRETTER FLOATINGBUTTONS ----**/
-        final FloatingActionButton fabLeggTilBygning = findViewById(R.id.fabLeggTilBygning);
-        fabLeggTilBygning.hide();
-        fabLeggTilBygning.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MapsActivity.this, HusAdministrerer.class));
-            }
-        });
-
-        final FloatingActionButton fabLeggTilRom = findViewById(R.id.fabLeggTilRom);
-        fabLeggTilRom.hide();
-        fabLeggTilRom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MapsActivity.this, RomAdministrerer.class));
-            }
-        });
-
-        floatingButtonAapnet = false;
-
-        FloatingActionButton fabLeggTil = findViewById(R.id.fabLeggTil);
-        fabLeggTil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(floatingButtonAapnet == false){
-                    fabLeggTilBygning.show();
-                    fabLeggTilRom.show();
-                    leggTilBygning.setText("Legg til bygning");
-                    leggTilRom.setText("Legg til rom");
-                    floatingButtonAapnet = true;
-                }
-                else {
-                    fabLeggTilBygning.hide();
-                    fabLeggTilRom.hide();
-                    leggTilBygning.setText("");
-                    leggTilRom.setText("");
-                    floatingButtonAapnet = false;
-                }
-            }
-        });
     }
 
     public void handleNewLocation(Location location) {
@@ -133,8 +95,11 @@ public class MapsActivity extends AppCompatActivity implements
         mMap.addMarker(options);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
-        //Her må startposisjon være pilestredet!
+        //Setter startposisjon til pilestredet
+        CameraUpdate startPosisjon = CameraUpdateFactory.newLatLngZoom(pilestredet, 15);
+        mMap.animateCamera(startPosisjon);
     }
+
 
     @Override
     public void onConnected(Bundle bundle) {
@@ -210,12 +175,30 @@ public class MapsActivity extends AppCompatActivity implements
             }
             mMap.moveCamera(CameraUpdateFactory.newLatLng(al.get(i)));
         }
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng latLng) {
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+
+                nyBygning = new LatLng(latLng.latitude, latLng.longitude);
+                markerOptions.title("Ny bygning?");
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                mMap.addMarker(markerOptions);
+            }
+        });
+
+
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                String markerTittel = marker.getTitle();
-                Intent i = new Intent(MapsActivity.this, HusAdministrerer.class);
-                i.putExtra("navn", markerTittel);
+                //String markerTittel = marker.getTitle();
+                Intent i = new Intent(MapsActivity.this, RomAdministrerer.class);
+                //i.putExtra("koordinater", nyBygning);
                 startActivity(i);
                 return false;
             }
