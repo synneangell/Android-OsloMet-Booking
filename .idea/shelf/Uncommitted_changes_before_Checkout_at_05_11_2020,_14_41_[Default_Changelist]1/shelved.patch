@@ -1,0 +1,26 @@
+Index: app/src/main/res/layout/activity_maps.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.constraintlayout.widget.ConstraintLayout\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    tools:context=\".MapsActivity\"\n    tools:ignore=\"HardcodedText\">\n\n    <fragment\n        android:id=\"@+id/map\"\n        android:name=\"com.google.android.gms.maps.MapFragment\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\"\n        tools:context=\"com.example.s333957s331153mappe3.MapsActivity\" />\n\n    <com.google.android.material.floatingactionbutton.FloatingActionButton\n        android:id=\"@+id/fabLeggTil\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_gravity=\"end\"\n        android:layout_marginEnd=\"16dp\"\n        android:layout_marginBottom=\"16dp\"\n        android:text=\"Actions\"\n        app:backgroundTint=\"@color/gul\"\n        app:srcCompat=\"@drawable/ic_baseline_add_24\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\" />\n\n    <com.google.android.material.floatingactionbutton.FloatingActionButton\n        android:id=\"@+id/fabLeggTilBygning\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginBottom=\"24dp\"\n        app:backgroundTint=\"@color/gul\"\n        app:fabSize=\"normal\"\n        app:layout_constraintBottom_toTopOf=\"@+id/fabLeggTil\"\n        app:layout_constraintEnd_toEndOf=\"@+id/fabLeggTil\"\n        app:srcCompat=\"@drawable/ic_baseline_business_24\" />\n\n    <TextView\n        android:id=\"@+id/txtLeggTilBygning\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginEnd=\"8dp\"\n        app:layout_constraintBottom_toBottomOf=\"@+id/fabLeggTilBygning\"\n        app:layout_constraintEnd_toStartOf=\"@+id/fabLeggTilBygning\"\n        app:layout_constraintTop_toTopOf=\"@+id/fabLeggTilBygning\" />\n\n    <com.google.android.material.floatingactionbutton.FloatingActionButton\n        android:id=\"@+id/fabLeggTilRom\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginBottom=\"24dp\"\n        app:backgroundTint=\"@color/gul\"\n        app:fabSize=\"normal\"\n        app:layout_constraintBottom_toTopOf=\"@+id/fabLeggTilBygning\"\n        app:layout_constraintEnd_toEndOf=\"@+id/fabLeggTilBygning\"\n        app:layout_constraintStart_toStartOf=\"@+id/fabLeggTilBygning\"\n        app:srcCompat=\"@drawable/ic_baseline_check_box_outline_blank_24\" />\n\n    <TextView\n        android:id=\"@+id/txtLeggTilRom\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginEnd=\"8dp\"\n        app:layout_constraintBottom_toBottomOf=\"@+id/fabLeggTilRom\"\n        app:layout_constraintEnd_toStartOf=\"@+id/fabLeggTilRom\"\n        app:layout_constraintTop_toTopOf=\"@+id/fabLeggTilRom\" />\n\n</androidx.constraintlayout.widget.ConstraintLayout>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_maps.xml	(revision 7dd2c9a1df21a37c9e607d1640e9f88542a6f8b4)
++++ app/src/main/res/layout/activity_maps.xml	(date 1604582901000)
+@@ -15,6 +15,8 @@
+         android:layout_height="match_parent"
+         tools:context="com.example.s333957s331153mappe3.MapsActivity" />
+ 
++    <!--
++
+     <com.google.android.material.floatingactionbutton.FloatingActionButton
+         android:id="@+id/fabLeggTil"
+         android:layout_width="wrap_content"
+@@ -67,6 +69,6 @@
+         android:layout_marginEnd="8dp"
+         app:layout_constraintBottom_toBottomOf="@+id/fabLeggTilRom"
+         app:layout_constraintEnd_toStartOf="@+id/fabLeggTilRom"
+-        app:layout_constraintTop_toTopOf="@+id/fabLeggTilRom" />
++        app:layout_constraintTop_toTopOf="@+id/fabLeggTilRom" /> -->
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
