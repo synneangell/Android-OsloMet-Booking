@@ -2,36 +2,70 @@ package com.example.s333957s331153mappe3;
 
 public class Rom {
     public int RomID;
-    public int etasjeNr;
-    public int romNr;
-    public int kapasitet;
-    public String beskrivelse;
+    public int HusID;
+    public int Etasje;
+    public int RomNr;
+    public int Kapasitet;
+    public String Beskrivelse;
 
-    public Rom(int romID, int etasjeNr, int romNr, int kapasitet, String beskrivelse) {
-        this.RomID = romID;
-        this.etasjeNr = etasjeNr;
-        this.romNr = romNr;
-        this.kapasitet = kapasitet;
-        this.beskrivelse = beskrivelse;
+
+    public Rom() {
+
+    }
+
+    public Rom(int RomID, int Etasje, int RomNr, int Kapasitet, String Beskrivelse) {
+        this.RomID = RomID;
+        this.Etasje = Etasje;
+        this.RomNr = RomNr;
+        this.Kapasitet = Kapasitet;
+        this.Beskrivelse = Beskrivelse;
     }
 
     public int getRomID() {
         return RomID;
     }
 
-    public int getEtasjeNr() {
-        return etasjeNr;
+    public int getHusID() {
+        return HusID;
+    }
+
+    public int getEtasje() {
+        return Etasje;
     }
 
     public int getRomNr() {
-        return romNr;
+        return RomNr;
     }
 
     public int getKapasitet() {
-        return kapasitet;
+        return Kapasitet;
     }
 
     public String getBeskrivelse() {
-        return beskrivelse;
+        return Beskrivelse;
+    }
+
+    public void setRomID(int RomID) {
+        this.RomID = RomID;
+    }
+
+    public void setHusID(int HusID) {
+        this.HusID = HusID;
+    }
+
+    public void setEtasje(int Etasje) {
+        this.Etasje = Etasje;
+    }
+
+    public void setRomNr(int RomNr) {
+        this.RomNr = RomNr;
+    }
+
+    public void setKapasitet(int Kapasitet) {
+        this.Kapasitet = Kapasitet;
+    }
+
+    public void setBeskrivelse(String Beskrivelse) {
+        this.Beskrivelse = Beskrivelse;
     }
 }

@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Date;
 
-public class ReservasjonAdministrator extends AppCompatActivity {
+public class ReservasjonAdministrerer extends AppCompatActivity {
     TextView markerText;
     Date dato;
     Spinner tid;

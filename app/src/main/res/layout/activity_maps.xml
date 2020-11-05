@@ -15,6 +15,8 @@
         android:layout_height="match_parent"
         tools:context="com.example.s333957s331153mappe3.MapsActivity" />
 
+    <!--
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabLeggTil"
         android:layout_width="wrap_content"
@@ -67,6 +69,6 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/fabLeggTilRom"
         app:layout_constraintEnd_toStartOf="@+id/fabLeggTilRom"
-        app:layout_constraintTop_toTopOf="@+id/fabLeggTilRom" />
+        app:layout_constraintTop_toTopOf="@+id/fabLeggTilRom" /> -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
