@@ -36,7 +36,7 @@ public class RomAdministrerer extends AppCompatActivity {
 
         rom = new ArrayList<>();
         RomGetJSON task = new RomGetJSON();
-        task.execute(new String[]{"http://student.cs.hioa.no/~s333975/Romjsonout.php"});
+        task.execute(new String[]{"http://www.student.cs.hioa.no/~s333975/Romjsonout.php"});
         //rom = task.getRom();
         //test.setText(rom.size());
         //test.setText(task.jsonObject.toString());
@@ -48,7 +48,6 @@ public class RomAdministrerer extends AppCompatActivity {
 
     private class RomGetJSON extends AsyncTask<String, Void, String> {
         JSONObject jsonObject;
-        List <Rom> rom = new ArrayList<>();
 
         @Override
         protected String doInBackground(String... urls) {
@@ -82,20 +81,14 @@ public class RomAdministrerer extends AppCompatActivity {
                             int Romnr = jsonobject.getInt("RomNr");
                             int Kapasitet = jsonobject.getInt("Kapasitet");
                             String Beskrivelse = jsonobject.getString("Beskrivelse");
-                            Rom etRom = new Rom();
-                            etRom.setRomID(RomID);
-                            etRom.setHusID(HusID);
-                            etRom.setEtasje(Etasje);
-                            etRom.setRomNr(Romnr);
-                            etRom.setKapasitet(Kapasitet);
-                            etRom.setBeskrivelse(Beskrivelse);
-                            rom.add(etRom);
 
-                            retur = retur + RomID + HusID + Etasje + Romnr + Kapasitet + Beskrivelse + "\n";
+                            retur = RomID + HusID + Etasje + Romnr + Kapasitet + Beskrivelse + "\n";
                         }
+                        return retur;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    return retur;
                 } catch (Exception e) {
                     return "Noe gikk galt";
                 }
@@ -106,10 +99,6 @@ public class RomAdministrerer extends AppCompatActivity {
         @Override
         protected void onPostExecute(String ss) {
             test.setText(ss);
-        }
-
-        public List<Rom> getRom() {
-            return rom;
         }
     }
 }

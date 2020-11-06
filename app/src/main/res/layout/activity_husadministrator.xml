@@ -109,5 +109,14 @@
         android:ems="10"
         android:text="Antall etasjer" />
 
+    <TextView
+        android:id="@+id/test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="400dp"
+        android:ems="10"
+        />
+
 
 </RelativeLayout>
