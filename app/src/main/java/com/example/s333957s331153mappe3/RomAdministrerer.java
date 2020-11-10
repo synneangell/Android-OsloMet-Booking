@@ -36,7 +36,7 @@ public class RomAdministrerer extends AppCompatActivity {
 
         rom = new ArrayList<>();
         RomGetJSON task = new RomGetJSON();
-        task.execute(new String[]{"http://www.student.cs.hioa.no/~s333975/Romjsonout.php"});
+        task.execute(new String[]{"http://student.cs.hioa.no/~s333975/Romjsonout.php"});
         //rom = task.getRom();
         //test.setText(rom.size());
         //test.setText(task.jsonObject.toString());
@@ -59,7 +59,7 @@ public class RomAdministrerer extends AppCompatActivity {
                     URL urlen = new URL(urls[0]);
                     HttpURLConnection conn = (HttpURLConnection)
                             urlen.openConnection();
-                    conn.setRequestMethod("GET");
+                    conn.setRequestMethod("POST");
                     conn.setRequestProperty("Accept", "application/json");
                     if (conn.getResponseCode() != 200) {
                         throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
@@ -82,7 +82,16 @@ public class RomAdministrerer extends AppCompatActivity {
                             int Kapasitet = jsonobject.getInt("Kapasitet");
                             String Beskrivelse = jsonobject.getString("Beskrivelse");
 
-                            retur = RomID + HusID + Etasje + Romnr + Kapasitet + Beskrivelse + "\n";
+                            retur = retur + RomID + HusID + Etasje + Romnr + Kapasitet + Beskrivelse + "\n";
+
+                            /**
+                             * retur = retur + RomID + "\n";
+                             * retur += HusID + "\n";
+                             * retur += Etasje + "\n";
+                             * retur += Romnr + "\n";
+                             * retur += Kapasitet + "\n";
+                             * retur += Beskrivelse + "\n";
+                             */
                         }
                         return retur;
                     } catch (JSONException e) {
