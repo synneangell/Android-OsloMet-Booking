@@ -60,7 +60,11 @@ public class MapsActivity extends AppCompatActivity implements
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
         AlleAsyncTask task = new AlleAsyncTask();
+        task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
         alleHus = task.getAlleHus();
+        Log.d("Alle hus size:", Integer.toString(alleHus.size()));
+
+        mGoogleApiClient.connect();
     }
 
     public void handleNewLocation(Location location) {
@@ -129,12 +133,32 @@ public class MapsActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         //setUpMapIfNeeded();
+        AlleAsyncTask task = new AlleAsyncTask();
+        alleHus = task.getAlleHus();
+        for(Hus etHus : alleHus){
+            Double latitude = etHus.getLatitude();
+            Double longitude = etHus.getLongitude();
+            LatLng latLng = new LatLng(latitude, longitude);
+            //float zoomSize = 15.0f;
+            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getNavn()));
+            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
+        }
         mGoogleApiClient.connect();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        AlleAsyncTask task = new AlleAsyncTask();
+        alleHus = task.getAlleHus();
+        for(Hus etHus : alleHus){
+            Double latitude = etHus.getLatitude();
+            Double longitude = etHus.getLongitude();
+            LatLng latLng = new LatLng(latitude, longitude);
+            float zoomSize = 15.0f;
+            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getNavn()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
+        }
         if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
             mGoogleApiClient.disconnect();
@@ -151,6 +175,7 @@ public class MapsActivity extends AppCompatActivity implements
         mMap = googleMap;
 
         for(Hus etHus : alleHus){
+            Log.d("Alle hus", etHus.navn);
             Double latitude = etHus.getLatitude();
             Double longitude = etHus.getLongitude();
             LatLng latLng = new LatLng(latitude, longitude);

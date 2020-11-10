@@ -54,7 +54,6 @@ class AlleAsyncTask extends AsyncTask<String, Void,String> {
                             Double latitude = jsonobject.getDouble("Latitude");
                             Double longitude = jsonobject.getDouble("Longitude");
                             int etasjer = jsonobject.getInt("Etasjer");
-                            retur = retur + navn + "\n";
                             Hus etHus = new Hus(navn, beskrivelse, gateadresse, latitude, longitude, etasjer);
                             alleHus.add(etHus);
                         }
