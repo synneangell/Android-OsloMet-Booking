@@ -83,12 +83,22 @@
         android:ems="10"
          />
 
-    <Spinner
+<!--    <Spinner
         android:id="@+id/spinnerEtasjer"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="310dp" />
+        android:layout_marginTop="310dp" />-->
+
+    <EditText
+        android:id="@+id/etasjerBygning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="310dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="Etasjer" />
 
     <ImageView
         android:id="@+id/imgEtasjer"
@@ -117,6 +127,15 @@
         android:layout_marginTop="400dp"
         android:ems="10"
         />
+
+    <Button
+        android:id="@+id/regBygning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="450dp"
+        android:onClick="regBygning"
+        android:text="Registrer"
+        android:layout_marginLeft="70dp"/>
 
 
 </RelativeLayout>

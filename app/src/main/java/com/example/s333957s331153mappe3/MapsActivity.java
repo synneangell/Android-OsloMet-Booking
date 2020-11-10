@@ -2,6 +2,7 @@ package com.example.s333957s331153mappe3;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -9,10 +10,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.Button;
 import android.widget.TextView;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -26,8 +25,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
 
 public class MapsActivity extends AppCompatActivity implements
@@ -40,23 +37,16 @@ public class MapsActivity extends AppCompatActivity implements
     private LocationRequest mLocationRequest;
     private GoogleMap mMap;
     ArrayList<LatLng> al = new ArrayList<>();
-    LatLng oslo = new LatLng(59.918958, 10.755287);
     LatLng p35 = new LatLng(59.920503, 10.735504);
     LatLng p52 = new LatLng(59.922588, 10.732752);
     LatLng pilestredet = new LatLng(59.923889, 10.731474);
     ArrayList<String> navn = new ArrayList<>();
-    Boolean floatingButtonAapnet;
-    TextView leggTilBygning;
-    TextView leggTilRom;
     LatLng nyBygning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-        //leggTilBygning = (TextView) findViewById(R.id.txtLeggTilBygning);
-        //leggTilRom = (TextView) findViewById(R.id.txtLeggTilRom);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -73,13 +63,10 @@ public class MapsActivity extends AppCompatActivity implements
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
-        al.add(oslo);
         al.add(p35);
         al.add(p52);
-        navn.add("Oslo");
         navn.add("Pilestredet 35");
         navn.add("Pilestredet 52");
-
     }
 
     public void handleNewLocation(Location location) {
@@ -132,7 +119,6 @@ public class MapsActivity extends AppCompatActivity implements
     public void onConnectionFailed(ConnectionResult connectionResult) {
         if (connectionResult.hasResolution()) {
             try {
-                // Start an Activity that tries to resolve the error
                 connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
             } catch (IntentSender.SendIntentException e) {
                 e.printStackTrace();
@@ -194,10 +180,30 @@ public class MapsActivity extends AppCompatActivity implements
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                //String markerTittel = marker.getTitle();
-                Intent i = new Intent(MapsActivity.this, HusAdministrerer.class);
-                //i.putExtra("koordinater", nyBygning);
-                startActivity(i);
+                Dialog dialog = new Dialog(MapsActivity.this);
+                dialog.setContentView(R.layout.dialog);
+                dialog.setCancelable(false);
+                dialog.show();
+
+                Button btnRom, btnReservasjon;
+                btnRom = dialog.findViewById(R.id.btnRom);
+                btnReservasjon = dialog.findViewById(R.id.btnReservasjon);
+
+                btnRom.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(MapsActivity.this, RomAdministrerer.class);
+                        startActivity(i);
+                    }
+                });
+
+                btnReservasjon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(MapsActivity.this, ReservasjonAdministrerer.class);
+                        startActivity(i);
+                    }
+                });
                 return false;
             }
         });
