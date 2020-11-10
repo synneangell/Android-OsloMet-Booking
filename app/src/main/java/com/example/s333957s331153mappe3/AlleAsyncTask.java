@@ -51,10 +51,11 @@ class AlleAsyncTask extends AsyncTask<String, Void,String> {
                             String navn = jsonobject.getString("Navn");
                             String beskrivelse = jsonobject.getString("Beskrivelse");
                             String gateadresse = jsonobject.getString("Gateadresse");
-                            String koordinater = jsonobject.getString("Koordinater");
+                            Double latitude = jsonobject.getDouble("Latitude");
+                            Double longitude = jsonobject.getDouble("Longitude");
                             int etasjer = jsonobject.getInt("Etasjer");
                             retur = retur + navn + "\n";
-                            Hus etHus = new Hus(navn, beskrivelse, gateadresse, koordinater, etasjer);
+                            Hus etHus = new Hus(navn, beskrivelse, gateadresse, latitude, longitude, etasjer);
                             alleHus.add(etHus);
                         }
                     }

@@ -5,15 +5,18 @@ public class Hus {
     public String navn;
     public String beskrivelse;
     public String gateAdresse;
-    public String koordinater;
+    public Double latitude;
+    public Double longitude;
     public int etasjer;
 
-    public Hus(String navn, String beskrivelse, String gateAdresse, String koordinater, int etasjer){
+    public Hus(String navn, String beskrivelse, String gateAdresse, Double latitude, Double longitude, int etasjer){
         this.navn = navn;
         this.beskrivelse = beskrivelse;
         this.gateAdresse = gateAdresse;
         this.etasjer = etasjer;
-        this.koordinater = koordinater;
+        this.latitude = latitude;
+        this.longitude = longitude;
+
     }
 
     public int getHusID(){
@@ -32,8 +35,12 @@ public class Hus {
         return gateAdresse;
     }
 
-    public String getKoordinater(){
-        return koordinater;
+    public Double getLatitude(){
+        return latitude;
+    }
+
+    public Double getLongitude(){
+        return longitude;
     }
 
     public int getEtasjer(){
@@ -56,8 +63,12 @@ public class Hus {
         this.gateAdresse = gateAdresse;
     }
 
-    public void setKoordinater(String koordinater) {
-        this.koordinater = koordinater;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(Double latitude) {
+        this.longitude = longitude;
     }
 
     public void setEtasjer(int etasjer) {

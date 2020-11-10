@@ -27,6 +27,7 @@ public class HusAdministrerer extends AppCompatActivity {
     Spinner etasjer;
     TextView koordinater;
     EditText navn, beskrivelse, gateadresse;
+    LatLng innKoordinater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class HusAdministrerer extends AppCompatActivity {
         ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,android.R.layout.simple_spinner_item, items);
         etasjer.setAdapter(adapter);
 
-        LatLng innKoordinater = getIntent().getExtras().getParcelable("koordinater");
+        innKoordinater = getIntent().getExtras().getParcelable("koordinater");
         koordinater.setText(innKoordinater.toString());
 
     }
@@ -56,7 +57,8 @@ public class HusAdministrerer extends AppCompatActivity {
                 "Navn=" + navn.getText().toString() +
                 "&Beskrivelse=" + beskrivelse.getText().toString() +
                 "&Gateadresse=" + gateadresse.getText().toString() +
-                "&Koordinater=" + koordinater.getText().toString() +
+                "&Latitude=" + innKoordinater.latitude +
+                "&Longitude=" + innKoordinater.longitude +
                 "&Etasjer=" + etasjer.getSelectedItem() )
                 .replaceAll(" ", "%20");
         task.execute(urlString);
