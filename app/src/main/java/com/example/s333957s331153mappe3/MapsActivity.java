@@ -83,8 +83,6 @@ public class MapsActivity extends AppCompatActivity implements
     }
 
     public void handleNewLocation(Location location) {
-       Log.d(TAG, location.toString());
-
      double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
@@ -118,7 +116,7 @@ public class MapsActivity extends AppCompatActivity implements
 
         if (location == null) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-            handleNewLocation(location);
+            //handleNewLocation(location);
 
         } else {
             handleNewLocation(location);

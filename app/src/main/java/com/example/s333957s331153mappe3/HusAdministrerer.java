@@ -1,23 +1,19 @@
 package com.example.s333957s331153mappe3;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.maps.model.LatLng;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import javax.crypto.interfaces.PBEKey;
 
 public class HusAdministrerer extends AppCompatActivity {
     Spinner etasjer;
@@ -71,11 +67,12 @@ public class HusAdministrerer extends AppCompatActivity {
                             JSONArray mat = new JSONArray(output); for (int i = 0; i < mat.length(); i++) {
                                 JSONObject jsonobject = mat.getJSONObject(i);
                                 int husID = jsonobject.getInt("HusID");
-                                String beskrivelse = jsonobject.getString("Beskrivelse");
-                                String gateadresse = jsonobject.getString("Gateadresse");
-                                String gspKoordinater = jsonobject.getString("GspKoordinater");
-                                int etasjer = jsonobject.getInt("Etasjer");
-                                retur = retur + husID + "\n";
+                                String Navn = jsonobject.getString("Navn");
+                                String Beskrivelse = jsonobject.getString("Beskrivelse");
+                                String Gateadresse = jsonobject.getString("Gateadresse");
+                                String Koordinater = jsonobject.getString("Koordinater");
+                                int Etasjer = jsonobject.getInt("Etasjer");
+                                retur = retur + husID + Navn + Beskrivelse + Gateadresse + Koordinater + Etasjer + "\n";
                             }
                             return retur;
                         } catch (JSONException e) {

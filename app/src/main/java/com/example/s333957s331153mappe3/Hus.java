@@ -2,21 +2,27 @@ package com.example.s333957s331153mappe3;
 
 public class Hus {
     public int HusID;
+    public String Navn;
     public String beskrivelse;
     public String gateAdresse;
-    public String gpsKoordinater;
-    public int antallEtasjer;
+    public String Koordinater;
+    public int Etasjer;
 
-    public Hus(int HudID, String beskrivelse, String gateAdresse, String gpsKoordinater, int antallEtasjer){
+    public Hus(int HudID, String Navn, String beskrivelse, String gateAdresse, String gpsKoordinater, int Etasjer){
         this.HusID = HudID;
+        this.Navn = Navn;
         this.beskrivelse = beskrivelse;
         this.gateAdresse = gateAdresse;
-        this.antallEtasjer = antallEtasjer;
-        this.gpsKoordinater = gpsKoordinater;
+        this.Etasjer = Etasjer;
+        this.Koordinater = gpsKoordinater;
     }
 
     public int getHusID(){
         return HusID;
+    }
+
+    public String getNavn(){
+        return Navn;
     }
 
     public String getBeskrivelse(){
@@ -27,11 +33,11 @@ public class Hus {
         return gateAdresse;
     }
 
-    public String getGpsKoordinater(){
-        return gpsKoordinater;
+    public String getKoordinater(){
+        return Koordinater;
     }
 
-    public int getAntallEtasjer(){
-        return antallEtasjer;
+    public int getEtasjer(){
+        return Etasjer;
     }
 }
