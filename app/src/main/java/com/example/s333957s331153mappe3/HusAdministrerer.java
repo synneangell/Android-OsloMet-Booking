@@ -40,7 +40,7 @@ public class HusAdministrerer extends AppCompatActivity {
         navnBygning = (EditText) findViewById(R.id.navnBygning);
         beskrivelseBygning = (EditText) findViewById(R.id.beskrivelseBygning);
         adresseBygning = (EditText) findViewById(R.id.adresseBygning);
-        etasjerBygning = (EditText) findViewById(R.id.etasjerBygning);
+        //etasjerBygning = (EditText) findViewById(R.id.etasjerBygning);
         test = (TextView) findViewById(R.id.test);
         builder = new AlertDialog.Builder(HusAdministrerer.this);
 
@@ -55,10 +55,10 @@ public class HusAdministrerer extends AppCompatActivity {
         txtKoordinater.setText(koordinater.toString());*/
 
         HusAdministrerer.HusGetJSON task = new HusAdministrerer.HusGetJSON();
-        task.execute(new String[]{"http://student.cs.hioa.no/~s333975/Husjsonout.php"});
+        task.execute(new String[]{"http://student.cs.hioa.no/~s331153/husjsonout.php"});
     }
 
-    public void regBygning(View v){
+/*    public void regBygning(View v){
         final String navn, beskrivelse, adresse, etasjer;
         navn = navnBygning.getText().toString();
         beskrivelse = beskrivelseBygning.getText().toString();
@@ -100,7 +100,15 @@ public class HusAdministrerer extends AppCompatActivity {
                 return params;
             }
         };
-    }
+    }*/
+
+    /**
+     *     private class HusGetJSON extends AsyncTask<String, Void, List<Hus>> {
+     *        @Override
+     *         protected List<Hus> doInBackground(String... urls) {
+     *             List<Hus> husListe = new ArrayList<>();
+     *             JSONArray hus = JsonParser.createJsonArray(urls[0]);
+     */
 
     private class HusGetJSON extends AsyncTask<String, Void, String> {
         @Override

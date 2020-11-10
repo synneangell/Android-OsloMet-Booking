@@ -180,7 +180,7 @@ public class MapsActivity extends AppCompatActivity implements
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Dialog dialog = new Dialog(MapsActivity.this);
+/*                Dialog dialog = new Dialog(MapsActivity.this);
                 dialog.setContentView(R.layout.dialog);
                 dialog.setCancelable(false);
                 dialog.show();
@@ -201,9 +201,10 @@ public class MapsActivity extends AppCompatActivity implements
                     @Override
                     public void onClick(View view) {
                         Intent i = new Intent(MapsActivity.this, ReservasjonAdministrerer.class);
-                        startActivity(i);
-                    }
-                });
+                        startActivity(i);*/
+                Intent i = new Intent(MapsActivity.this, HusAdministrerer.class);
+                startActivity(i);
+
                 return false;
             }
         });

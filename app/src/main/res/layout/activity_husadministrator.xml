@@ -83,22 +83,12 @@
         android:ems="10"
          />
 
-<!--    <Spinner
+    <Spinner
         android:id="@+id/spinnerEtasjer"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="310dp" />-->
-
-    <EditText
-        android:id="@+id/etasjerBygning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="310dp"
-        android:ems="10"
-        android:inputType="number"
-        android:text="Etasjer" />
+        android:layout_marginTop="310dp" />
 
     <ImageView
         android:id="@+id/imgEtasjer"
@@ -119,23 +109,15 @@
         android:ems="10"
         android:text="Antall etasjer" />
 
-    <TextView
-        android:id="@+id/test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="400dp"
-        android:ems="10"
+    <ImageView
+        android:id="@+id/imgLagre"
+        app:srcCompat="@drawable/ic_baseline_save_alt_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="350dp"
+        android:layout_marginRight="10dp"
         />
-
-    <Button
-        android:id="@+id/regBygning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="450dp"
-        android:onClick="regBygning"
-        android:text="Registrer"
-        android:layout_marginLeft="70dp"/>
 
 
 </RelativeLayout>
