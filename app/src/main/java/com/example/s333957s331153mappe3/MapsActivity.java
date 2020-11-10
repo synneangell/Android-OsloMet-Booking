@@ -8,10 +8,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -26,9 +22,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -39,24 +35,14 @@ public class MapsActivity extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private GoogleMap mMap;
-    ArrayList<LatLng> al = new ArrayList<>();
-    LatLng oslo = new LatLng(59.918958, 10.755287);
-    LatLng p35 = new LatLng(59.920503, 10.735504);
-    LatLng p52 = new LatLng(59.922588, 10.732752);
     LatLng pilestredet = new LatLng(59.923889, 10.731474);
-    ArrayList<String> navn = new ArrayList<>();
-    Boolean floatingButtonAapnet;
-    TextView leggTilBygning;
-    TextView leggTilRom;
     LatLng nyBygning;
+    List<Hus> alleHus = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-        //leggTilBygning = (TextView) findViewById(R.id.txtLeggTilBygning);
-        //leggTilRom = (TextView) findViewById(R.id.txtLeggTilRom);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -73,17 +59,14 @@ public class MapsActivity extends AppCompatActivity implements
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
-        al.add(oslo);
-        al.add(p35);
-        al.add(p52);
-        navn.add("Oslo");
-        navn.add("Pilestredet 35");
-        navn.add("Pilestredet 52");
-
+        AlleAsyncTask task = new AlleAsyncTask();
+        alleHus = task.getAlleHus();
     }
 
     public void handleNewLocation(Location location) {
-     double currentLatitude = location.getLatitude();
+      /* Log.d(TAG, location.toString());
+
+       double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
@@ -91,7 +74,7 @@ public class MapsActivity extends AppCompatActivity implements
                 .position(latLng)
                 .title("Jeg er her!");
         mMap.addMarker(options);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));*/
 
         //Setter startposisjon til pilestredet
         CameraUpdate startPosisjon = CameraUpdateFactory.newLatLngZoom(pilestredet, 15);
@@ -116,7 +99,7 @@ public class MapsActivity extends AppCompatActivity implements
 
         if (location == null) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-            //handleNewLocation(location);
+            handleNewLocation(location);
 
         } else {
             handleNewLocation(location);
@@ -167,11 +150,13 @@ public class MapsActivity extends AppCompatActivity implements
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        for(int i = 0; i < al.size(); i++){
-            for(int j = 0; j < navn.size(); j++){
-                mMap.addMarker(new MarkerOptions().position(al.get(i)).title(String.valueOf(navn.get(j))));
-            }
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(al.get(i)));
+        for(Hus etHus : alleHus){
+            Double latitude = etHus.getLatitude();
+            Double longitude = etHus.getLongitude();
+            LatLng latLng = new LatLng(latitude, longitude);
+            float zoomSize = 15.0f;
+            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getNavn()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
         }
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -196,11 +181,12 @@ public class MapsActivity extends AppCompatActivity implements
             public boolean onMarkerClick(Marker marker) {
                 //String markerTittel = marker.getTitle();
                 Intent i = new Intent(MapsActivity.this, HusAdministrerer.class);
-                //i.putExtra("koordinater", nyBygning);
+                i.putExtra("koordinater", nyBygning);
                 startActivity(i);
                 return false;
             }
         });
     }
+
 }
 

@@ -1,28 +1,30 @@
 package com.example.s333957s331153mappe3;
 
 public class Hus {
-    public int HusID;
-    public String Navn;
+    public int husID;
+    public String navn;
     public String beskrivelse;
     public String gateAdresse;
-    public String Koordinater;
-    public int Etasjer;
+    public Double latitude;
+    public Double longitude;
+    public int etasjer;
 
-    public Hus(int HudID, String Navn, String beskrivelse, String gateAdresse, String gpsKoordinater, int Etasjer){
-        this.HusID = HudID;
-        this.Navn = Navn;
+    public Hus(String navn, String beskrivelse, String gateAdresse, Double latitude, Double longitude, int etasjer){
+        this.navn = navn;
         this.beskrivelse = beskrivelse;
         this.gateAdresse = gateAdresse;
-        this.Etasjer = Etasjer;
-        this.Koordinater = gpsKoordinater;
+        this.etasjer = etasjer;
+        this.latitude = latitude;
+        this.longitude = longitude;
+
     }
 
     public int getHusID(){
-        return HusID;
+        return husID;
     }
 
     public String getNavn(){
-        return Navn;
+        return navn;
     }
 
     public String getBeskrivelse(){
@@ -33,11 +35,43 @@ public class Hus {
         return gateAdresse;
     }
 
-    public String getKoordinater(){
-        return Koordinater;
+    public Double getLatitude(){
+        return latitude;
+    }
+
+    public Double getLongitude(){
+        return longitude;
     }
 
     public int getEtasjer(){
-        return Etasjer;
+        return etasjer;
+    }
+
+    public void setHusID(int husID) {
+        this.husID = husID;
+    }
+
+    public void setNavn(String navn) {
+        this.navn = navn;
+    }
+
+    public void setBeskrivelse(String beskrivelse) {
+        this.beskrivelse = beskrivelse;
+    }
+
+    public void setGateAdresse(String gateAdresse) {
+        this.gateAdresse = gateAdresse;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(Double latitude) {
+        this.longitude = longitude;
+    }
+
+    public void setEtasjer(int etasjer) {
+        this.etasjer = etasjer;
     }
 }
