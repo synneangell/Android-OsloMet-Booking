@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +29,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MapsActivity extends AppCompatActivity implements
@@ -73,19 +82,14 @@ public class MapsActivity extends AppCompatActivity implements
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
-        al.add(oslo);
-        al.add(p35);
-        al.add(p52);
-        navn.add("Oslo");
-        navn.add("Pilestredet 35");
-        navn.add("Pilestredet 52");
-
+        AlleAsyncTask task = new AlleAsyncTask();
+        task.execute(new String[]{"http://student.cs.hioa.no/~s331153/husjsonout.php"});
     }
 
     public void handleNewLocation(Location location) {
-       Log.d(TAG, location.toString());
+      /* Log.d(TAG, location.toString());
 
-     double currentLatitude = location.getLatitude();
+       double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
@@ -93,7 +97,7 @@ public class MapsActivity extends AppCompatActivity implements
                 .position(latLng)
                 .title("Jeg er her!");
         mMap.addMarker(options);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));*/
 
         //Setter startposisjon til pilestredet
         CameraUpdate startPosisjon = CameraUpdateFactory.newLatLngZoom(pilestredet, 15);
@@ -198,11 +202,12 @@ public class MapsActivity extends AppCompatActivity implements
             public boolean onMarkerClick(Marker marker) {
                 //String markerTittel = marker.getTitle();
                 Intent i = new Intent(MapsActivity.this, HusAdministrerer.class);
-                //i.putExtra("koordinater", nyBygning);
+                i.putExtra("koordinater", nyBygning);
                 startActivity(i);
                 return false;
             }
         });
     }
+
 }
 

@@ -1,22 +1,27 @@
 package com.example.s333957s331153mappe3;
 
 public class Hus {
-    public int HusID;
+    public int husID;
+    public String navn;
     public String beskrivelse;
     public String gateAdresse;
-    public String gpsKoordinater;
-    public int antallEtasjer;
+    public String koordinater;
+    public int etasjer;
 
-    public Hus(int HudID, String beskrivelse, String gateAdresse, String gpsKoordinater, int antallEtasjer){
-        this.HusID = HudID;
+    public Hus(String navn, String beskrivelse, String gateAdresse, String koordinater, int etasjer){
+        this.navn = navn;
         this.beskrivelse = beskrivelse;
         this.gateAdresse = gateAdresse;
-        this.antallEtasjer = antallEtasjer;
-        this.gpsKoordinater = gpsKoordinater;
+        this.etasjer = etasjer;
+        this.koordinater = koordinater;
     }
 
     public int getHusID(){
-        return HusID;
+        return husID;
+    }
+
+    public String getNavn(){
+        return navn;
     }
 
     public String getBeskrivelse(){
@@ -27,11 +32,35 @@ public class Hus {
         return gateAdresse;
     }
 
-    public String getGpsKoordinater(){
-        return gpsKoordinater;
+    public String getKoordinater(){
+        return koordinater;
     }
 
-    public int getAntallEtasjer(){
-        return antallEtasjer;
+    public int getEtasjer(){
+        return etasjer;
+    }
+
+    public void setHusID(int husID) {
+        this.husID = husID;
+    }
+
+    public void setNavn(String navn) {
+        this.navn = navn;
+    }
+
+    public void setBeskrivelse(String beskrivelse) {
+        this.beskrivelse = beskrivelse;
+    }
+
+    public void setGateAdresse(String gateAdresse) {
+        this.gateAdresse = gateAdresse;
+    }
+
+    public void setKoordinater(String koordinater) {
+        this.koordinater = koordinater;
+    }
+
+    public void setEtasjer(int etasjer) {
+        this.etasjer = etasjer;
     }
 }
