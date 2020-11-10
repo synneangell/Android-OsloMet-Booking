@@ -93,12 +93,12 @@ public class RomAdministrerer extends AppCompatActivity {
 
                             retur = retur + RomID + HusID + Etasje + Romnr + Kapasitet + Beskrivelse + "\n";
                         }
+                        return retur;
                     } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                        e.printStackTrace();  }
+                    return retur;
                 } catch (Exception e) {
-                    return "Noe gikk galt";
-                }
+                    return "Noe gikk galt"; }
             }
             return retur;
         }

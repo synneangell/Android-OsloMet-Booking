@@ -83,9 +83,9 @@ public class MapsActivity extends AppCompatActivity implements
     }
 
     public void handleNewLocation(Location location) {
-        Log.d(TAG, location.toString());
+       Log.d(TAG, location.toString());
 
-        double currentLatitude = location.getLatitude();
+     double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
@@ -197,7 +197,7 @@ public class MapsActivity extends AppCompatActivity implements
             @Override
             public boolean onMarkerClick(Marker marker) {
                 //String markerTittel = marker.getTitle();
-                Intent i = new Intent(MapsActivity.this, RomAdministrerer.class);
+                Intent i = new Intent(MapsActivity.this, HusAdministrerer.class);
                 //i.putExtra("koordinater", nyBygning);
                 startActivity(i);
                 return false;
