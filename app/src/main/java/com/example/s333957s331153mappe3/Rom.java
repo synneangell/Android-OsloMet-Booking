@@ -8,11 +8,13 @@ public class Rom {
     public int Kapasitet;
     public String Beskrivelse;
 
+
     public Rom() {
 
     }
 
-    public Rom(int HusID, int Etasje, int RomNr, int Kapasitet, String Beskrivelse) {
+    public Rom(int RomID, int HusID, int Etasje, int RomNr, int Kapasitet, String Beskrivelse) {
+        this.RomID = RomID;
         this.HusID = HusID;
         this.Etasje = Etasje;
         this.RomNr = RomNr;
@@ -20,12 +22,12 @@ public class Rom {
         this.Beskrivelse = Beskrivelse;
     }
 
-    public int getHusID() {
-        return HusID;
-    }
-
     public int getRomID() {
         return RomID;
+    }
+
+    public int getHusID() {
+        return HusID;
     }
 
     public int getEtasje() {

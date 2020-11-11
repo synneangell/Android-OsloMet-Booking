@@ -54,7 +54,6 @@ class AlleAsyncTask extends AsyncTask<String, Void,String> {
                             Double latitude = jsonobject.getDouble("Latitude");
                             Double longitude = jsonobject.getDouble("Longitude");
                             int etasjer = jsonobject.getInt("Etasjer");
-                            retur = retur + navn + "\n";
                             Hus etHus = new Hus(navn, beskrivelse, gateadresse, latitude, longitude, etasjer);
                             alleHus.add(etHus);
                         }
@@ -62,20 +61,28 @@ class AlleAsyncTask extends AsyncTask<String, Void,String> {
                     else if (urls[0].equals("http://student.cs.hioa.no/~s331153/romjsonout.php")) {
                             for (int i = 0; i < mat.length(); i++) {
                                 JSONObject jsonobject = mat.getJSONObject(i);
+                                int romID = jsonobject.getInt("RomID");
                                 int husID = jsonobject.getInt("HusID");
-                                int etasje = jsonobject.getInt("Etasje");
+                                int etasjeNr = jsonobject.getInt("EtasjeNr");
                                 int romNr = jsonobject.getInt("RomNr");
                                 int kapasitet = jsonobject.getInt("Kapasitet");
                                 String beskrivelse = jsonobject.getString("Beskrivelse");
-                                retur = retur + romNr + "\n";
-                                Rom etRom = new Rom(husID, etasje, romNr, kapasitet, beskrivelse);
+                                Rom etRom = new Rom(romID, husID, etasjeNr, romNr, kapasitet, beskrivelse);
                                 alleRom.add(etRom);
                             }
                     }
                     else if (urls[0].equals("http://student.cs.hioa.no/~s331153/reservasjonjsonout.php")) {
                         for (int i = 0; i < mat.length(); i++) {
                             JSONObject jsonobject = mat.getJSONObject(i);
-                            //Kode for å legge reservasjoner i liste
+                            int reservasjonID = jsonobject.getInt("ReservasjonID");
+                            int romID = jsonobject.getInt("RomID");
+                            int husID = jsonobject.getInt("HusID");
+                            String navn = jsonobject.getString("Navn");
+                            String dato = jsonobject.getString("Dato");
+                            String tidFra = jsonobject.getString("TidFra");
+                            String tidTil = jsonobject.getString("TidTil");
+                            Reservasjon enReservasjon = new Reservasjon(reservasjonID, romID, husID, navn, dato, tidFra, tidTil);
+                            alleReservasjoner.add(enReservasjon);
                         }
                     }
                     return retur;
