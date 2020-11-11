@@ -62,7 +62,7 @@ public class MapsActivity extends AppCompatActivity implements
         AlleAsyncTask task = new AlleAsyncTask();
         task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
         alleHus = new ArrayList<>(task.getAlleHus());
-        //Log.d("Et hus", alleHus.get(0).navn);
+        Log.d("Allehus size", Integer.toString(alleHus.size()));
         mGoogleApiClient.connect();
     }
 

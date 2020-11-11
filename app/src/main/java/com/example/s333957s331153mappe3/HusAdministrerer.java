@@ -53,13 +53,14 @@ public class HusAdministrerer extends AppCompatActivity {
         etasjer.setAdapter(adapter);
 
         innKoordinater = getIntent().getExtras().getParcelable("koordinater");
-        koordinater.setText("Koordinater: "+innKoordinater.latitude+", "+innKoordinater.longitude);
+        koordinater.setText(innKoordinater.latitude+", "+innKoordinater.longitude);
         geocoder = new Geocoder(this, Locale.getDefault());
         try {
-            adresser = geocoder.getFromLocation(innKoordinater.latitude, innKoordinater.latitude, 1);
+            adresser = geocoder.getFromLocation(innKoordinater.latitude, innKoordinater.longitude, 1);
         } catch (IOException e) {
+            Toast.makeText(this, "Ikke gyldig adresse funnet", Toast.LENGTH_SHORT).show();
             Log.d("TAG", "Fant ikke adresse til koordinater");
-            e.printStackTrace();
+
         }
         adresse = adresser.get(0).getAddressLine(0);
         Log.d("Adresse",adresse);

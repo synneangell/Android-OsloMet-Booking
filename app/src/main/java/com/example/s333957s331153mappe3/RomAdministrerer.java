@@ -35,14 +35,14 @@ public class RomAdministrerer extends AppCompatActivity {
         toolbar.inflateMenu(R.menu.manu_rom);
         setActionBar(toolbar);
         toolbar.setTitle("Legg til rom");
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        //toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow));
+       /* toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RomAdministrerer.this, HusAdministrerer.class);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 
     @Override

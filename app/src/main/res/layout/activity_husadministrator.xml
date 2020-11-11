@@ -55,14 +55,24 @@
         />
 
     <TextView
-        android:id="@+id/adresseBygning"
+        android:id="@+id/adresse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="200dp"
         android:ems="10"
         android:inputType="text"
-        android:hint="Adresse" />
+        android:text="Adresse" />
+
+    <TextView
+        android:id="@+id/adresseBygning"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="225dp"
+        android:ems="10"
+        android:inputType="text"
+         />
 
     <ImageView
         android:id="@+id/imgAdresseBygning"
@@ -75,11 +85,21 @@
         />
 
     <TextView
+        android:id="@+id/txtKoordinater"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="260dp"
+        android:ems="10"
+        android:text="Koordinater"
+        />
+
+    <TextView
         android:id="@+id/koordinater"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="280dp"
         android:ems="10"
          />
 
@@ -88,14 +108,14 @@
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="310dp" />
+        android:layout_marginTop="340dp" />
 
     <ImageView
         android:id="@+id/imgEtasjer"
         app:srcCompat="@drawable/ic_baseline_layers_24"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="320dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="10dp"
         />
@@ -105,7 +125,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="290dp"
+        android:layout_marginTop="320dp"
         android:ems="10"
         android:text="Antall etasjer" />
 
