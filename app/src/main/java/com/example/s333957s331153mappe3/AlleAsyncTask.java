@@ -62,7 +62,14 @@ class AlleAsyncTask extends AsyncTask<String, Void,String> {
                     else if (urls[0].equals("http://student.cs.hioa.no/~s331153/romjsonout.php")) {
                             for (int i = 0; i < mat.length(); i++) {
                                 JSONObject jsonobject = mat.getJSONObject(i);
-                                //Kode for å legge rom i liste
+                                int husID = jsonobject.getInt("HusID");
+                                int etasje = jsonobject.getInt("Etasje");
+                                int romNr = jsonobject.getInt("RomNr");
+                                int kapasitet = jsonobject.getInt("Kapasitet");
+                                String beskrivelse = jsonobject.getString("Beskrivelse");
+                                retur = retur + romNr + "\n";
+                                Rom etRom = new Rom(husID, etasje, romNr, kapasitet, beskrivelse);
+                                alleRom.add(etRom);
                             }
                     }
                     else if (urls[0].equals("http://student.cs.hioa.no/~s331153/reservasjonjsonout.php")) {

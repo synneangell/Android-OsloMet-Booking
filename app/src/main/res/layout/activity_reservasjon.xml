@@ -4,58 +4,35 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:background="@color/gul"/>
+
     <TextView
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="70dp"
         android:text="Reserver rom"
         android:textAlignment="center"
         android:textSize="30dp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/headerBygning"
+        android:id="@+id/Navn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="100dp"
         android:ems="10"
-        android:text="Bygning"
-        />
-
-    <TextView
-        android:id="@+id/valgtBygning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="120dp"
-        android:ems="10"
-        />
-
-    <ImageView
-        android:id="@+id/imgNavnBygning"
-        app:srcCompat="@drawable/ic_baseline_business_24"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="10dp"
-        />
-
-    <TextView
-        android:id="@+id/headerEtasje"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="150dp"
-        android:ems="10"
-        android:text="Etasje"
-        />
+        android:text="Navn" />
 
     <ImageView
-        android:id="@+id/imgEtasjer"
-        app:srcCompat="@drawable/ic_baseline_layers_24"
+        android:id="@+id/imgNavn"
+        app:srcCompat="@drawable/ic_baseline_people_24"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="150dp"
@@ -63,33 +40,33 @@
         android:layout_marginRight="10dp"
         />
 
-    <Spinner
-        android:id="@+id/spinnerEtasjer"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="170dp" />
-
     <TextView
-        android:id="@+id/headerRom"
+        android:id="@+id/txtNavn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="195dp"
-        android:ems="10"
-        android:text="Rom"
-        />
+        android:layout_marginTop="170dp"
+        android:ems="10" />
 
-    <Spinner
-        android:id="@+id/spinnerRom"
-        android:layout_width="80dp"
+    <TextView
+        android:id="@+id/dato"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="210dp" />
+        android:layout_marginTop="200dp"
+        android:ems="10"
+        android:text="Dato" />
+    <TextView
+        android:id="@+id/txtDato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="220dp"
+        android:ems="10" />
 
     <ImageView
-        android:id="@+id/imgRomNr"
-        app:srcCompat="@drawable/ic_baseline_location_on_24"
+        android:id="@+id/imgDato"
+        app:srcCompat="@drawable/ic_baseline_date_range_24"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="200dp"
@@ -98,54 +75,28 @@
         />
 
     <TextView
-        android:id="@+id/headerKapasitet"
+        android:id="@+id/tid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="250dp"
-        android:text="Kapasitet" />
+        android:ems="10"
+        android:text="Tid" />
 
     <TextView
-        android:id="@+id/kapasitet"
+        android:id="@+id/txtTid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="270dp"
         android:ems="10" />
 
-    <TextView
-        android:id="@+id/headerBeskrivelse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="300dp"
-        android:ems="10"
-        android:text="Beskrivelse" />
-    <TextView
-        android:id="@+id/beskrivelse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="320dp"
-        android:ems="10" />
-
     <ImageView
-        android:id="@+id/imgKapasitet"
-        app:srcCompat="@drawable/ic_baseline_group_24"
+        android:id="@+id/imgTid"
+        app:srcCompat="@drawable/ic_baseline_access_time_24"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="250dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="10dp"
-        />
-
-    <ImageView
-        android:id="@+id/imgBeskrivelseBygning"
-        app:srcCompat="@drawable/ic_baseline_comment_24"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="300dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="10dp"
         />
