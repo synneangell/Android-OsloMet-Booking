@@ -22,7 +22,7 @@
         android:layout_marginLeft="70dp"
         android:layout_marginTop="100dp"
         android:inputType="text"
-        android:text="Navn på bygning" />
+        android:hint="Navn på bygning" />
 
     <ImageView
         android:id="@+id/imgNavnBygning"
@@ -42,7 +42,7 @@
         android:layout_marginTop="150dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Beskrivelse" />
+        android:hint="Beskrivelse" />
 
     <ImageView
         android:id="@+id/imgBeskrivelseBygning"
@@ -62,7 +62,7 @@
         android:layout_marginTop="200dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Adresse" />
+        android:hint="Adresse" />
 
     <ImageView
         android:id="@+id/imgAdresseBygning"

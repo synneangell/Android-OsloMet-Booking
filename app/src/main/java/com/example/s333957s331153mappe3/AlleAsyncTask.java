@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -97,7 +96,6 @@ class AlleAsyncTask extends AsyncTask<String, Void,String> {
     @Override
     protected void onPostExecute(String ss) {
         //txtKoordinater.setText(ss);
-        //Må her legge husene inn i kartet?
     }
 
     public List<Hus> getAlleHus() {

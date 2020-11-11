@@ -37,7 +37,7 @@ public class MapsActivity extends AppCompatActivity implements
     private GoogleMap mMap;
     LatLng pilestredet = new LatLng(59.923889, 10.731474);
     LatLng nyBygning;
-    List<Hus> alleHus = new ArrayList<>();
+    List<Hus> alleHus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +61,8 @@ public class MapsActivity extends AppCompatActivity implements
 
         AlleAsyncTask task = new AlleAsyncTask();
         task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
-        alleHus = task.getAlleHus();
-        Log.d("Alle hus size:", Integer.toString(alleHus.size()));
-
+        alleHus = new ArrayList<>(task.getAlleHus());
+        Log.d("Et hus", alleHus.get(0).navn);
         mGoogleApiClient.connect();
     }
 
@@ -133,8 +132,6 @@ public class MapsActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         //setUpMapIfNeeded();
-        AlleAsyncTask task = new AlleAsyncTask();
-        alleHus = task.getAlleHus();
         for(Hus etHus : alleHus){
             Double latitude = etHus.getLatitude();
             Double longitude = etHus.getLongitude();
@@ -149,8 +146,6 @@ public class MapsActivity extends AppCompatActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        AlleAsyncTask task = new AlleAsyncTask();
-        alleHus = task.getAlleHus();
         for(Hus etHus : alleHus){
             Double latitude = etHus.getLatitude();
             Double longitude = etHus.getLongitude();
