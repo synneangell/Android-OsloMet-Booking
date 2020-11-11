@@ -47,6 +47,11 @@ public class MapsActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        tb = findViewById(R.id.toolbarMaps);
+        tb.setLogo(R.mipmap.ic_launcher_round);
+        tb.inflateMenu(R.menu.manu_rom);
+        setActionBar(tb);
+        tb.setTitle("Kart");
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -64,13 +69,7 @@ public class MapsActivity extends AppCompatActivity implements
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
         AlleAsyncTask task = new AlleAsyncTask();
-        try {
-            task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php").get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
         alleHus = task.getAlleHus();
         Log.d("Alle hus size:", Integer.toString(alleHus.size()));
 

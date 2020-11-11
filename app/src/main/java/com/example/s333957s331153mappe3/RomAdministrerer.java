@@ -31,18 +31,18 @@ public class RomAdministrerer extends AppCompatActivity {
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, items);
         etasjer.setAdapter(adapter);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+/*        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.manu_rom);
         setActionBar(toolbar);
         toolbar.setTitle("Legg til rom");
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow));
+        //toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RomAdministrerer.this, HusAdministrerer.class);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 
     @Override
