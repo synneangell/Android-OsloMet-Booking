@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="gul">#F9D648</color>
+    <color name="hvit">#F0F0F0</color>
+    <color name="grå">#83EDEDED</color>
 </resources>

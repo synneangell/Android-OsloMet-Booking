@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:background="@color/hvit"
+    tools:context=".HusOversikt">
+
+    <Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gul"
+        android:clickable="true"/>
+
+    <TextView
+        android:id="@+id/husInfo"
+        android:layout_width="400dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="#040000"
+        android:textSize="20sp"
+        />
+    <TextView
+        android:id="@+id/rom"
+        android:text="@string/rom"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        android:layout_marginLeft="60dp"
+        android:textColor="#040000"
+        android:textSize="20sp"
+        />
+
+    <TextView
+        android:id="@+id/etasje"
+        android:text="@string/velgEtasje"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="265dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="280dp"
+        android:textColor="#040000"
+        android:textSize="20sp"
+        />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/etasjer"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="265dp"/>
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="330dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rom" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            app:backgroundTint="@color/gul"
+            app:srcCompat="@drawable/ic_baseline_add_24"/>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="300dp"
+            app:srcCompat="@drawable/ic_baseline_meeting_room_24" />
+
+    </FrameLayout>
+
+</RelativeLayout>

@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">s333957s331153Mappe3</string>
+    <string name="app_name">OsloMet-Booking</string>
     <string name="title_activity_maps">Map</string>
     <string name="lagre">Lagre</string>
+    <string name="rom">Rom</string>
+    <string name="velgEtasje">Velg etasje</string>
+    <string name="opprettRom">Opprett rom</string>
 </resources>

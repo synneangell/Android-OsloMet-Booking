@@ -51,19 +51,19 @@ public class RomAdministrerer extends AppCompatActivity {
         return true;
     }
 
-/*    @Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
-            //case R.id.lagre:
-                //lagre();
-                //break;
+            case R.id.lagre:
+                lagreRom();
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
-    }*/
+    }
 
-    public void lagreRom(View v){
+    public void lagreRom(){
         AlleAsyncTask task = new AlleAsyncTask();
         String urlString = ("http://student.cs.hioa.no/~s331153/romjsonin.php/?" +
                 "HusID=" + 1 +
