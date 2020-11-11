@@ -140,5 +140,14 @@
         android:onClick="lagre"
         />
 
+    <TextView
+        android:id="@+id/test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="450dp"
+        android:ems="10"
+        />
+
 
 </RelativeLayout>

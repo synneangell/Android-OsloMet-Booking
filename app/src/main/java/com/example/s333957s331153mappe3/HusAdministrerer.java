@@ -25,17 +25,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class HusAdministrerer extends AppCompatActivity {
     Spinner etasjer;
-    TextView koordinater, gateadresse;
+    TextView koordinater, gateadresse, test;
     EditText navn, beskrivelse;
     LatLng innKoordinater;
     Geocoder geocoder;
     List<Address> adresser;
     String adresse;
+    List<Hus> alleHus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class HusAdministrerer extends AppCompatActivity {
         setContentView(R.layout.activity_husadministrator);
 
         koordinater = (TextView) findViewById(R.id.koordinater);
+        test = (TextView) findViewById(R.id.test);
         navn = (EditText) findViewById(R.id.navnBygning);
         beskrivelse = (EditText) findViewById(R.id.beskrivelseBygning);
         gateadresse = (TextView) findViewById(R.id.adresseBygning);
@@ -67,6 +70,9 @@ public class HusAdministrerer extends AppCompatActivity {
         gateadresse.setText(adresse);
 
 
+        HusAsyncTask task = new HusAsyncTask();
+        task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
+
     }
 
     public void lagre (View v){
@@ -88,5 +94,65 @@ public class HusAdministrerer extends AppCompatActivity {
 
     }
 
+    private class HusAsyncTask extends AsyncTask<String, Void,String> {
+        JSONObject jsonObject;
+        List<Hus> alleHus = new ArrayList<>();
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String retur = "";
+            String s = "";
+            String output = "";
+            for (String url : urls) {
+
+                try {
+                    URL urlen = new URL(urls[0]);
+                    HttpURLConnection conn = (HttpURLConnection)
+                            urlen.openConnection(); conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Accept", "application/json");
+
+                    if (conn.getResponseCode() != 200) {
+                        throw new RuntimeException("Failed : HTTP error code : "+ conn.getResponseCode());
+                    }
+                    BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+                    System.out.println("Output from Server .... \n");
+                    while ((s = br.readLine()) != null) {
+                        output = output + s;
+                    }
+                    conn.disconnect();
+
+                    try {
+                        JSONArray mat = new JSONArray(output);
+                        for (int i = 0; i < mat.length(); i++) {
+                            JSONObject jsonobject = mat.getJSONObject(i);
+                            int husID = jsonobject.getInt("HusID");
+                            String navn = jsonobject.getString("Navn");
+                            String beskrivelse = jsonobject.getString("Beskrivelse");
+                            String gateadresse = jsonobject.getString("Gateadresse");
+                            Double latitude = jsonobject.getDouble("Latitude");
+                            Double longitude = jsonobject.getDouble("Longitude");
+                            int etasjer = jsonobject.getInt("Etasjer");
+                            Hus etHus = new Hus(navn, beskrivelse, gateadresse, latitude, longitude, etasjer);
+                            alleHus.add(etHus);
+                        }
+                        return retur;
+                    } catch (JSONException e) {
+                        e.printStackTrace(); }
+                    return retur;
+                } catch (Exception e) {
+                    return "Noe gikk feil"; }
+            }
+            return retur;
+        }
+        @Override
+        protected void onPostExecute(String ss) {
+            test.setText(alleHus.get(0).beskrivelse);
+
+        }
 
     }
+
+    }
+
+
+

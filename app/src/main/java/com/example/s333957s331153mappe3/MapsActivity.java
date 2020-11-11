@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -26,7 +27,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -66,10 +75,8 @@ public class MapsActivity extends AppCompatActivity implements
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
-        AlleAsyncTask task = new AlleAsyncTask();
+        HentHusAsyncTask task = new HentHusAsyncTask();
         task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
-        alleHus = new ArrayList<>(task.getAlleHus());
-        Log.d("Allehus size", Integer.toString(alleHus.size()));
         mGoogleApiClient.connect();
     }
 
@@ -126,28 +133,12 @@ public class MapsActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         //setUpMapIfNeeded();
-        for(Hus etHus : alleHus){
-            Double latitude = etHus.getLatitude();
-            Double longitude = etHus.getLongitude();
-            LatLng latLng = new LatLng(latitude, longitude);
-            //float zoomSize = 15.0f;
-            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getNavn()));
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
-        }
         mGoogleApiClient.connect();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        for(Hus etHus : alleHus){
-            Double latitude = etHus.getLatitude();
-            Double longitude = etHus.getLongitude();
-            LatLng latLng = new LatLng(latitude, longitude);
-            float zoomSize = 15.0f;
-            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getNavn()));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
-        }
         if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
             mGoogleApiClient.disconnect();
@@ -219,6 +210,64 @@ public class MapsActivity extends AppCompatActivity implements
                 }
             }
         });
+    }
+
+    private class HentHusAsyncTask extends AsyncTask<String, Void,String> {
+        JSONObject jsonObject;
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String retur = "";
+            String s = "";
+            String output = "";
+            for (String url : urls) {
+
+                try {
+                    URL urlen = new URL(urls[0]);
+                    HttpURLConnection conn = (HttpURLConnection)
+                            urlen.openConnection(); conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Accept", "application/json");
+
+                    if (conn.getResponseCode() != 200) {
+                        throw new RuntimeException("Failed : HTTP error code : "+ conn.getResponseCode());
+                    }
+                    BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+                    System.out.println("Output from Server .... \n");
+                    while ((s = br.readLine()) != null) {
+                        output = output + s;
+                    }
+                    conn.disconnect();
+
+                    try {
+                        JSONArray mat = new JSONArray(output);
+                        for (int i = 0; i < mat.length(); i++) {
+                            JSONObject jsonobject = mat.getJSONObject(i);
+                            int husID = jsonobject.getInt("HusID");
+                            String navn = jsonobject.getString("Navn");
+                            String beskrivelse = jsonobject.getString("Beskrivelse");
+                            String gateadresse = jsonobject.getString("Gateadresse");
+                            Double latitude = jsonobject.getDouble("Latitude");
+                            Double longitude = jsonobject.getDouble("Longitude");
+                            int etasjer = jsonobject.getInt("Etasjer");
+                            Hus etHus = new Hus(navn, beskrivelse, gateadresse, latitude, longitude, etasjer);
+                            alleHus.add(etHus);
+                        }
+                        return retur;
+                    } catch (JSONException e) {
+                        e.printStackTrace(); }
+                    return retur;
+                } catch (Exception e) {
+                    return "Noe gikk feil"; }
+            }
+            return retur;
+        }
+        @Override
+        protected void onPostExecute(String ss) {
+            Toast.makeText(MapsActivity.this, alleHus.get(0).beskrivelse, Toast.LENGTH_LONG );
+
+        }
+
+
     }
 
 }
