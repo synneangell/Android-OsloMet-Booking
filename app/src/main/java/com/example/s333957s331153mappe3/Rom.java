@@ -13,8 +13,9 @@ public class Rom {
 
     }
 
-    public Rom(int RomID, int Etasje, int RomNr, int Kapasitet, String Beskrivelse) {
+    public Rom(int RomID, int HusID, int Etasje, int RomNr, int Kapasitet, String Beskrivelse) {
         this.RomID = RomID;
+        this.HusID = HusID;
         this.Etasje = Etasje;
         this.RomNr = RomNr;
         this.Kapasitet = Kapasitet;

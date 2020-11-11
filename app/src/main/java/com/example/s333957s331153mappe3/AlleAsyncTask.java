@@ -61,13 +61,28 @@ class AlleAsyncTask extends AsyncTask<String, Void,String> {
                     else if (urls[0].equals("http://student.cs.hioa.no/~s331153/romjsonout.php")) {
                             for (int i = 0; i < mat.length(); i++) {
                                 JSONObject jsonobject = mat.getJSONObject(i);
-                                //Kode for å legge rom i liste
+                                int romID = jsonobject.getInt("RomID");
+                                int husID = jsonobject.getInt("HusID");
+                                int etasjeNr = jsonobject.getInt("EtasjeNr");
+                                int romNr = jsonobject.getInt("RomNr");
+                                int kapasitet = jsonobject.getInt("Kapasitet");
+                                String beskrivelse = jsonobject.getString("Beskrivelse");
+                                Rom etRom = new Rom(romID, husID, etasjeNr, romNr, kapasitet, beskrivelse);
+                                alleRom.add(etRom);
                             }
                     }
                     else if (urls[0].equals("http://student.cs.hioa.no/~s331153/reservasjonjsonout.php")) {
                         for (int i = 0; i < mat.length(); i++) {
                             JSONObject jsonobject = mat.getJSONObject(i);
-                            //Kode for å legge reservasjoner i liste
+                            int reservasjonID = jsonobject.getInt("ReservasjonID");
+                            int romID = jsonobject.getInt("RomID");
+                            int husID = jsonobject.getInt("HusID");
+                            String navn = jsonobject.getString("Navn");
+                            String dato = jsonobject.getString("Dato");
+                            String tidFra = jsonobject.getString("TidFra");
+                            String tidTil = jsonobject.getString("TidTil");
+                            Reservasjon enReservasjon = new Reservasjon(reservasjonID, romID, husID, navn, dato, tidFra, tidTil);
+                            alleReservasjoner.add(enReservasjon);
                         }
                     }
                     return retur;
