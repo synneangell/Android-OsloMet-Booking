@@ -108,7 +108,7 @@ public class HusOversikt extends AppCompatActivity {
                 opprettReservasjon.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view){
-                        //Her må det også bli sendt med valgt hus og rom
+                        //Her skal det komme inn kode for å slette rom
                         dialog.dismiss();
                     }
                 });
@@ -116,7 +116,7 @@ public class HusOversikt extends AppCompatActivity {
                 slettRom.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view){
-                        //Her skal det komme inn kode for å slette rom
+                        //Her må det også bli sendt med valgt hus og rom
                         Intent intent = new Intent(HusOversikt.this, ReservasjonAdministrerer.class);
                         startActivity(intent);
                         dialog.dismiss();
@@ -125,51 +125,65 @@ public class HusOversikt extends AppCompatActivity {
             }
         });
 
-        AlleAsyncTask task = new AlleAsyncTask();
+/*        AlleAsyncTask task = new AlleAsyncTask();
         task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
         alleHus = task.getAlleHus();
-        husInfo.setText("Antall registrerte hus er : "+Integer.toString(alleHus.size()));
+        husInfo.setText("Antall registrerte hus er : "+Integer.toString(alleHus.size()));*/
     }
 
-/*    @Override
-    protected String doInBackground(String... urls) {
-        String retur = "";
-        String s = "";
-        String output = "";
-        for (String url : urls) {
-            try {
-                URL urlen = new URL(urls[0]);
-                HttpURLConnection conn = (HttpURLConnection)
-                        urlen.openConnection();
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Accept", "application/json");
-                if (conn.getResponseCode() != 200) {
-                    throw new RuntimeException("Failed : HTTP error code : + conn.getResponseCode()");
-                }
-                BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-                System.out.println("Output from Server .... \n");
-                while ((s = br.readLine()) != null) {
-                    output = output + s;
-                }
-                conn.disconnect();
-                try {
-                    JSONArray mat = new JSONArray(output);
-                    for (int i = 0; i < mat.length(); i++) {
-                        JSONObject jsonobject = mat.getJSONObject(i);
-                        String Beskrivelse = jsonobject.getString("Beskrivelse");
-                        retur = retur + Beskrivelse + "\n";
-                    }
-                    return retur;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                return retur;
-            } catch (Exception e) {
-                return "Noe gikk feil";
-            }
-        }
-        return retur;
-    }*/
+    private class HusAsyncTask extends AsyncTask<String, Void,String> {
+        List<Hus> alleHus = new ArrayList<>();
 
+        @Override
+        protected String doInBackground(String... urls) {
+            String retur = "";
+            String s = "";
+            String output = "";
+            for (String url : urls) {
+
+                try {
+                    URL urlen = new URL(urls[0]);
+                    HttpURLConnection conn = (HttpURLConnection)
+                            urlen.openConnection(); conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Accept", "application/json");
+
+                    if (conn.getResponseCode() != 200) {
+                        throw new RuntimeException("Failed : HTTP error code : "+ conn.getResponseCode());
+                    }
+                    BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+                    System.out.println("Output from Server .... \n");
+                    while ((s = br.readLine()) != null) {
+                        output = output + s;
+                    }
+                    conn.disconnect();
+
+                    try {
+                        JSONArray mat = new JSONArray(output);
+                        for (int i = 0; i < mat.length(); i++) {
+                            JSONObject jsonobject = mat.getJSONObject(i);
+                            int husID = jsonobject.getInt("HusID");
+                            String navn = jsonobject.getString("Navn");
+                            String beskrivelse = jsonobject.getString("Beskrivelse");
+                            String gateadresse = jsonobject.getString("Gateadresse");
+                            Double latitude = jsonobject.getDouble("Latitude");
+                            Double longitude = jsonobject.getDouble("Longitude");
+                            int etasjer = jsonobject.getInt("Etasjer");
+                            Hus etHus = new Hus(navn, beskrivelse, gateadresse, latitude, longitude, etasjer);
+                            alleHus.add(etHus);
+                        }
+                        return retur;
+                    } catch (JSONException e) {
+                        e.printStackTrace(); }
+                    return retur;
+                } catch (Exception e) {
+                    return "Noe gikk feil"; }
+            }
+            return retur;
+        }
+        @Override
+        protected void onPostExecute(String ss) {
+            husInfo.setText(alleHus.get(0).beskrivelse);
+        }
+    }
 }
 
