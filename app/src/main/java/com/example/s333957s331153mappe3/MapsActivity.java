@@ -62,7 +62,7 @@ public class MapsActivity extends AppCompatActivity implements
         AlleAsyncTask task = new AlleAsyncTask();
         task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
         alleHus = new ArrayList<>(task.getAlleHus());
-        Log.d("Et hus", alleHus.get(0).navn);
+        //Log.d("Et hus", alleHus.get(0).navn);
         mGoogleApiClient.connect();
     }
 
@@ -199,11 +199,17 @@ public class MapsActivity extends AppCompatActivity implements
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                //String markerTittel = marker.getTitle();
-                Intent i = new Intent(MapsActivity.this, HusAdministrerer.class);
-                i.putExtra("koordinater", nyBygning);
-                startActivity(i);
-                return false;
+                String markerTittel = marker.getTitle();
+                if(markerTittel.equals("Ny bygning?")) {
+                    Intent i = new Intent(MapsActivity.this, HusAdministrerer.class);
+                    i.putExtra("koordinater", nyBygning);
+                    startActivity(i);
+                    return false;
+                }
+                else {
+
+                    return false;
+                }
             }
         });
     }
