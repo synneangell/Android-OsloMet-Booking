@@ -5,4 +5,7 @@
     <string name="rom">Rom</string>
     <string name="velgEtasje">Velg etasje</string>
     <string name="opprettRom">Opprett rom</string>
+    <string name="opprettReservasjon">Opprett reservasjon</string>
+    <string name="slettRom">Slett rommet</string>
+    <string name="avbryt">Avbryt</string>
 </resources>
