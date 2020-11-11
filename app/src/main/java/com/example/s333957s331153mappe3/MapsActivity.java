@@ -5,9 +5,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -23,8 +26,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MapsActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -38,6 +43,9 @@ public class MapsActivity extends AppCompatActivity implements
     LatLng pilestredet = new LatLng(59.923889, 10.731474);
     LatLng nyBygning;
     List<Hus> alleHus;
+    Geocoder geocoder;
+    List<Address> adresser;
+    String adresse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,11 +195,24 @@ public class MapsActivity extends AppCompatActivity implements
                 markerOptions.position(latLng);
 
                 nyBygning = new LatLng(latLng.latitude, latLng.longitude);
-                markerOptions.title("Ny bygning?");
+                geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
+                try {
+                    adresser = geocoder.getFromLocation(nyBygning.latitude, nyBygning.longitude, 1);
+                } catch (IOException e) {
+                    Toast.makeText(MapsActivity.this, "Ikke gyldig adresse funnet", Toast.LENGTH_SHORT).show();
+                    Log.d("TAG", "Fant ikke adresse til koordinater");
 
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                }
+                if(adresser == null){
+                    Toast.makeText(MapsActivity.this, "Ikke gyldig adresse funnet", Toast.LENGTH_LONG);
+                    Log.d("TAG", "Fant ikke adresse til koordinater");
+                }
+                else {
+                    markerOptions.title("Ny bygning?");
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                    mMap.addMarker(markerOptions);
+                }
 
-                mMap.addMarker(markerOptions);
             }
         });
 
