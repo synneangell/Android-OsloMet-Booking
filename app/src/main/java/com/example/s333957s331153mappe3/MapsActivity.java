@@ -45,7 +45,6 @@ public class MapsActivity extends AppCompatActivity implements
     List<Hus> alleHus;
     Geocoder geocoder;
     List<Address> adresser;
-    String adresse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,19 +74,6 @@ public class MapsActivity extends AppCompatActivity implements
     }
 
     public void handleNewLocation(Location location) {
-      /* Log.d(TAG, location.toString());
-
-       double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-
-        MarkerOptions options = new MarkerOptions()
-                .position(latLng)
-                .title("Jeg er her!");
-        mMap.addMarker(options);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));*/
-
-        //Setter startposisjon til pilestredet
         CameraUpdate startPosisjon = CameraUpdateFactory.newLatLngZoom(pilestredet, 15);
         mMap.animateCamera(startPosisjon);
     }
