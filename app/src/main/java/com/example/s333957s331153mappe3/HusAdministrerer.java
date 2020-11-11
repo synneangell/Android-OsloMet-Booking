@@ -46,7 +46,6 @@ public class HusAdministrerer extends AppCompatActivity {
 
         innKoordinater = getIntent().getExtras().getParcelable("koordinater");
         koordinater.setText(innKoordinater.toString());
-
     }
 
     public void lagre (View v){

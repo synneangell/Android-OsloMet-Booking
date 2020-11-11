@@ -109,12 +109,14 @@
         />
 
     <ImageView
-        android:id="@+id/imgLagre"
+        android:id="@+id/imgLagreRom"
         app:srcCompat="@drawable/ic_baseline_save_alt_24"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="350dp"
         android:layout_marginLeft="350dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="10dp"
+        android:onClick="lagreRom"
+        />
 
 </RelativeLayout>

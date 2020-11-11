@@ -51,22 +51,23 @@ public class RomAdministrerer extends AppCompatActivity {
         return true;
     }
 
-    @Override
+/*    @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
-            case R.id.imgLagre:
-                lagre();
-                break;
+            //case R.id.lagre:
+                //lagre();
+                //break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
-    }
+    }*/
 
-    public void lagre(){
+    public void lagreRom(View v){
         AlleAsyncTask task = new AlleAsyncTask();
         String urlString = ("http://student.cs.hioa.no/~s331153/romjsonin.php/?" +
-                "Etasje=" +  etasjer.getSelectedItem() +
+                "HusID=" + 1 +
+                "&Etasje=" +  etasjer.getSelectedItem() +
                 "&RomNr=" + romNr.getText().toString() +
                 "&Kapasitet=" + kapasitet.getText().toString() +
                 "&Beskrivelse=" + beskrivelse.getText().toString()).replaceAll(" ", "%20");

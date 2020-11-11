@@ -205,7 +205,7 @@ public class MapsActivity extends AppCompatActivity implements
             @Override
             public boolean onMarkerClick(Marker marker) {
                 //String markerTittel = marker.getTitle();
-                Intent i = new Intent(MapsActivity.this, ReservasjonAdministrerer.class);
+                Intent i = new Intent(MapsActivity.this, HusAdministrerer.class);
                 i.putExtra("koordinater", nyBygning);
                 startActivity(i);
                 return false;
