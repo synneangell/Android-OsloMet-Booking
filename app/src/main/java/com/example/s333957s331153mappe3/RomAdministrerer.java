@@ -76,3 +76,4 @@ public class RomAdministrerer extends AppCompatActivity {
         Intent intent = new Intent(this, HusAdministrerer.class);
         startActivity(intent);
     }
+}

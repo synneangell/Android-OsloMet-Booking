@@ -34,5 +34,7 @@
             android:parentActivityName=".MapsActivity"/>
         <activity android:name=".RomAdministrerer"
             android:parentActivityName=".MapsActivity"/>
+        <activity android:name=".ReservasjonAdministrerer"
+            android:parentActivityName=".MapsActivity"/>
     </application>
 </manifest>
