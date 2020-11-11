@@ -1,115 +1,78 @@
 package com.example.s333957s331153mappe3;
-import android.os.AsyncTask;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Toolbar;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RomAdministrerer extends AppCompatActivity {
-    Spinner etasje;
+    Spinner etasjer;
     EditText romNr, kapasitet, beskrivelse;
-    TextView test;
-    List<Rom> rom;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_romadministrator);
-        etasje = (Spinner) findViewById(R.id.spinnerEtasjer);
+        etasjer = (Spinner) findViewById(R.id.spinnerEtasjer);
         romNr = (EditText) findViewById(R.id.romNr);
         kapasitet = (EditText) findViewById(R.id.kapasitet);
         beskrivelse = (EditText) findViewById(R.id.beskrivelseRom);
-        test = (TextView) findViewById(R.id.test);
 
-        rom = new ArrayList<>();
-        RomGetJSON task = new RomGetJSON();
-        task.execute(new String[]{"http://student.cs.hioa.no/~s333975/Romjsonout.php"});
-        //rom = task.getRom();
-        //test.setText(rom.size());
-        //test.setText(task.jsonObject.toString());
-    }
+        Integer[] items = new Integer[]{1,2,3,4,5,6,7,8,9,10};
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, items);
+        etasjer.setAdapter(adapter);
 
-    public void regRom(View v){
-
-    }
-
-    private class RomGetJSON extends AsyncTask<String, Void, String> {
-        JSONObject jsonObject;
-        List <Rom> rom = new ArrayList<>();
-
-        @Override
-        protected String doInBackground(String... urls) {
-            String retur = "";
-            String s = "";
-            String output = "";
-            for (String url : urls) {
-                try {
-                    URL urlen = new URL(urls[0]);
-                    HttpURLConnection conn = (HttpURLConnection)
-                            urlen.openConnection();
-                    conn.setRequestMethod("GET");
-                    conn.setRequestProperty("Accept", "application/json");
-                    if (conn.getResponseCode() != 200) {
-                        throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
-                    }
-
-                    BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-                    System.out.println("Output from server .... \n");
-                    while ((s = br.readLine()) != null) {
-                        output = output + s;
-                    }
-                    conn.disconnect();
-                    try {
-                        JSONArray rommene = new JSONArray(output);
-                        for (int i = 0; i < rommene.length(); i++) {
-                            JSONObject jsonobject = rommene.getJSONObject(i);
-                            int RomID = jsonobject.getInt("RomID");
-                            int HusID = jsonobject.getInt("HusID");
-                            int Etasje = jsonobject.getInt("Etasje");
-                            int Romnr = jsonobject.getInt("RomNr");
-                            int Kapasitet = jsonobject.getInt("Kapasitet");
-                            String Beskrivelse = jsonobject.getString("Beskrivelse");
-                            Rom etRom = new Rom();
-                            etRom.setRomID(RomID);
-                            etRom.setHusID(HusID);
-                            etRom.setEtasje(Etasje);
-                            etRom.setRomNr(Romnr);
-                            etRom.setKapasitet(Kapasitet);
-                            etRom.setBeskrivelse(Beskrivelse);
-                            rom.add(etRom);
-
-                            retur = retur + RomID + HusID + Etasje + Romnr + Kapasitet + Beskrivelse + "\n";
-                        }
-                        return retur;
-                    } catch (JSONException e) {
-                        e.printStackTrace();  }
-                    return retur;
-                } catch (Exception e) {
-                    return "Noe gikk galt"; }
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.inflateMenu(R.menu.manu_rom);
+        setActionBar(toolbar);
+        toolbar.setTitle("Legg til rom");
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RomAdministrerer.this, HusAdministrerer.class);
+                startActivity(intent);
             }
-            return retur;
-        }
-
-        @Override
-        protected void onPostExecute(String ss) {
-            test.setText(ss);
-        }
-
-        public List<Rom> getRom() {
-            return rom;
-        }
+        });
     }
-}
+
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu){
+        getMenuInflater().inflate(R.menu.manu_rom, menu);
+        return true;
+    }
+
+/*    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            //case R.id.lagre:
+                //lagre();
+                //break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }*/
+
+    public void lagreRom(View v){
+        AlleAsyncTask task = new AlleAsyncTask();
+        String urlString = ("http://student.cs.hioa.no/~s331153/romjsonin.php/?" +
+                "HusID=" + 1 +
+                "&Etasje=" +  etasjer.getSelectedItem() +
+                "&RomNr=" + romNr.getText().toString() +
+                "&Kapasitet=" + kapasitet.getText().toString() +
+                "&Beskrivelse=" + beskrivelse.getText().toString()).replaceAll(" ", "%20");
+        task.execute(urlString);
+        Toast.makeText(this, "Rom opprettet!", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, HusAdministrerer.class);
+        startActivity(intent);
+    }
