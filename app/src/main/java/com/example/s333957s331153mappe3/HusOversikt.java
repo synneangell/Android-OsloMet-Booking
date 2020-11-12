@@ -184,12 +184,21 @@ public class HusOversikt extends AppCompatActivity {
                             "Adresse: " + alleHus.get(0).gateAdresse + "\n" +
                             "Etasjer: " + alleHus.get(0).etasjer);
 
+/*            Integer[] husEtasjer = new Integer[]{};
+
             int etasjeHus = alleHus.get(0).etasjer;
             for(int i = 1; i <= etasjeHus; i++){
-                Integer[] husEtasjer = new Integer[i];
+                husEtasjer = new Integer[i];
+            }*/
+
+            Integer[] husEtasjer = new Integer[alleHus.get(0).etasjer];
+            int etasjeNr = 1;
+            for(int i = 0; i < husEtasjer.length; i++){
+                husEtasjer[i] = etasjeNr;
+                etasjeNr++;
             }
 
-/*            ArrayAdapter<Integer> adapter2 = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer){
+            ArrayAdapter<Integer> adapter2 = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer){
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View view = super.getView(position, convertView, parent);
@@ -198,7 +207,7 @@ public class HusOversikt extends AppCompatActivity {
                     return view;
                 }
             };
-            etasjer.setAdapter(adapter2);*/
+            etasjer.setAdapter(adapter2);
         }
     }
 }
