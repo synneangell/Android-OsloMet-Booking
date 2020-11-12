@@ -1,9 +1,12 @@
 package com.example.s333957s331153mappe3;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -33,6 +36,8 @@ public class HusOversikt extends AppCompatActivity {
     FloatingActionButton fab;
     List<Rom> alleRom;
     List<Hus> alleHus;
+    String stringAlleHus;
+    SharedPreferences sp;
 
 
     @Override
@@ -48,10 +53,13 @@ public class HusOversikt extends AppCompatActivity {
         setActionBar(tb);
         tb.setTitle("Hus");
 
-        HusJSON task = new HusJSON();
+        sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContextOfApplication());
+        stringAlleHus = sp.getString("alleHus", "Får ikke hentet data");
+        Log.d("Alle hus i husoversikt", stringAlleHus);
+
+      /*  HusJSON task = new HusJSON();
         task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
 
-        alleHus = task.getAlleHus();
 
         Integer[] husEtasjer = new Integer[alleHus.get(0).etasjer];
         int etasjeNr = 1;
