@@ -54,6 +54,8 @@ public class MapsActivity extends AppCompatActivity implements
     List<Hus> alleHus;
     Geocoder geocoder;
     List<Address> adresser;
+    private List<Marker> husMarkers = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,14 +77,24 @@ public class MapsActivity extends AppCompatActivity implements
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
-        HentHusAsyncTask task = new HentHusAsyncTask();
-        task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
         mGoogleApiClient.connect();
+
     }
 
     public void handleNewLocation(Location location) {
         CameraUpdate startPosisjon = CameraUpdateFactory.newLatLngZoom(pilestredet, 15);
         mMap.animateCamera(startPosisjon);
+
+        /*
+        for(Hus etHus : alleHus){
+            Log.d("Alle hus", etHus.navn);
+            Double latitude = etHus.getLatitude();
+            Double longitude = etHus.getLongitude();
+            LatLng latLng = new LatLng(latitude, longitude);
+            float zoomSize = 15.0f;
+            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getNavn()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
+        }*/
     }
 
 
@@ -154,15 +166,8 @@ public class MapsActivity extends AppCompatActivity implements
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        for(Hus etHus : alleHus){
-            Log.d("Alle hus", etHus.navn);
-            Double latitude = etHus.getLatitude();
-            Double longitude = etHus.getLongitude();
-            LatLng latLng = new LatLng(latitude, longitude);
-            float zoomSize = 15.0f;
-            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getNavn()));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
-        }
+        HentHusAsyncTask task = new HentHusAsyncTask();
+        task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
@@ -263,7 +268,13 @@ public class MapsActivity extends AppCompatActivity implements
         }
         @Override
         protected void onPostExecute(String ss) {
-            Toast.makeText(MapsActivity.this, alleHus.get(0).beskrivelse, Toast.LENGTH_LONG );
+            //Toast.makeText(MapsActivity.this, alleHus.get(0).beskrivelse, Toast.LENGTH_LONG );
+            for (int i = 0 ; i < alleHus.size(); i++ ){
+                Hus etHus = alleHus.get(i);
+                LatLng pos = new LatLng(etHus.latitude,etHus.longitude);
+                Marker m = mMap.addMarker(new MarkerOptions().position(pos).title(etHus.navn));
+                husMarkers.add(m);
+            }
 
         }
 
