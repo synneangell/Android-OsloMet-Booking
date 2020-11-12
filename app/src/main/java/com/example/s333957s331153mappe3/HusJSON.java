@@ -1,10 +1,9 @@
 package com.example.s333957s331153mappe3;
-import android.graphics.Color;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HusJSON extends AsyncTask<String, Void,String> {
-    List<Hus> alleHus = new ArrayList<>();
+    SharedPreferences sp;
 
     @Override
     protected String doInBackground(String... urls) {
@@ -40,6 +39,7 @@ public class HusJSON extends AsyncTask<String, Void,String> {
                 System.out.println("Output from Server .... \n");
                 while ((s = br.readLine()) != null) {
                     output = output + s;
+                    Log.d("output",output);
                 }
                 conn.disconnect();
 
@@ -54,8 +54,8 @@ public class HusJSON extends AsyncTask<String, Void,String> {
                         Double latitude = jsonobject.getDouble("Latitude");
                         Double longitude = jsonobject.getDouble("Longitude");
                         int etasjer = jsonobject.getInt("Etasjer");
-                        Hus etHus = new Hus(navn, beskrivelse, gateadresse, latitude, longitude, etasjer);
-                        alleHus.add(etHus);
+                        retur = retur + husID + ";"+ navn + ";"+beskrivelse + ";"+gateadresse + ";"+latitude + ";" + longitude + ";" +etasjer + ";";
+
                     }
                     return retur;
                 } catch (JSONException e) {
@@ -69,15 +69,13 @@ public class HusJSON extends AsyncTask<String, Void,String> {
         return retur;
     }
 
-
-    public List<Hus> getAlleHus() {
-        return alleHus;
-    }
-
-
-
     @Override
-    protected void onPostExecute(String ss) {
+    protected void onPostExecute(String s) {
+        Context applicationContext = MapsActivity.getContextOfApplication();
+        sp = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("alleHus",s);
+        editor.apply();
 
     }
 }
