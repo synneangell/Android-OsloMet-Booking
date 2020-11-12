@@ -23,7 +23,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnRom"
+            android:id="@+id/btnReservasjon"
             android:layout_width="0dp"
             android:layout_margin="3dp"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             android:text="@string/opprettReservasjon"/>
 
         <Button
-            android:id="@+id/btnReservasjon"
+            android:id="@+id/btnSlett"
             android:layout_width="0dp"
             android:layout_margin="3dp"
             android:layout_weight="1"

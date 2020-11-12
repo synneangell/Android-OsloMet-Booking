@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,6 +29,7 @@ public class HusAdministrerer extends AppCompatActivity {
     TextView koordinater;
     EditText navn, beskrivelse, gateadresse;
     LatLng innKoordinater;
+    Toolbar tb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,11 @@ public class HusAdministrerer extends AppCompatActivity {
         beskrivelse = (EditText) findViewById(R.id.beskrivelseBygning);
         gateadresse = (EditText) findViewById(R.id.adresseBygning);
         etasjer = (Spinner) findViewById(R.id.spinnerEtasjer);
+
+        tb = findViewById(R.id.toolbarHus);
+        tb.setLogo(R.mipmap.ic_launcher_round);
+        tb.inflateMenu(R.menu.manu_rom);
+        setActionBar(tb);
 
         Integer[] items = new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
         ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,android.R.layout.simple_spinner_item, items);

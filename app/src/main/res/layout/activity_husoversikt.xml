@@ -32,7 +32,7 @@
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="300dp"
-        android:layout_marginLeft="60dp"
+        android:layout_marginLeft="50dp"
         android:textColor="#040000"
         android:textSize="20sp"
         />

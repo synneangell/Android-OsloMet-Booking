@@ -4,21 +4,28 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ReservasjonAdministrerer extends AppCompatActivity {
     EditText navn, dato, startTid, sluttTid;
+    Toolbar tb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservasjon);
 
-        navn = (EditText) findViewById(R.id.txtNavn);
-        dato = (EditText) findViewById(R.id.txtDato);
-        startTid = (EditText) findViewById(R.id.txtStartTid);
-        sluttTid = (EditText) findViewById(R.id.txtSluttTid);
+        navn = findViewById(R.id.txtNavn);
+        dato = findViewById(R.id.txtDato);
+        startTid = findViewById(R.id.txtStartTid);
+        sluttTid = findViewById(R.id.txtSluttTid);
+
+        tb = findViewById(R.id.toolbarReservasjon);
+        tb.setLogo(R.mipmap.ic_launcher_round);
+        tb.inflateMenu(R.menu.manu_rom);
+        setActionBar(tb);
     }
 
     public void lagreRes (View v){
