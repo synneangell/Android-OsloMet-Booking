@@ -1,6 +1,7 @@
 package com.example.s333957s331153mappe3;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,8 +31,8 @@ public class HusOversikt extends AppCompatActivity {
     Toolbar tb;
     Spinner etasjer;
     TextView husInfo;
+    SharedPreferences sp;
     FloatingActionButton fab;
-    List<Rom> alleRom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +50,6 @@ public class HusOversikt extends AppCompatActivity {
         HusAsyncTask task = new HusAsyncTask();
         task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
 
-        Integer[] items = new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,android.R.layout.simple_spinner_item, items){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = view.findViewById(android.R.id.text1);
-                textView.setTextColor(Color.BLACK);
-                return view;
-            }
-        };
-        //etasjer.setAdapter(adapter);
-
         String[] rom = new String[]{"Rom 1", "Rom 2", "Rom 3", "Rom 4", "Rom 5", "Rom 6", "Rom 7", "Rom 8"};
         ArrayAdapter<String> romAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, rom){
             @Override
@@ -73,12 +62,6 @@ public class HusOversikt extends AppCompatActivity {
         };
         lv.setAdapter(romAdapter);
 
-        /* AlleAsyncTask romGetJSON = new AlleAsyncTask();
-        romGetJSON.execute("http://student.cs.hioa.no/~s331153/romjsonout.php");
-        alleRom = romGetJSON.getAlleRom();
-        ArrayAdapter adapter2 = new ArrayAdapter(this, R.layout.activity_husoversikt, alleRom);
-        lv.setAdapter(adapter2);*/
-
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +70,6 @@ public class HusOversikt extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
 
        lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -160,7 +142,7 @@ public class HusOversikt extends AppCompatActivity {
                             Double latitude = jsonobject.getDouble("Latitude");
                             Double longitude = jsonobject.getDouble("Longitude");
                             int etasjer = jsonobject.getInt("Etasjer");
-                            Hus etHus = new Hus(navn, beskrivelse, gateadresse, latitude, longitude, etasjer);
+                            Hus etHus = new Hus(husID, navn, beskrivelse, gateadresse, latitude, longitude, etasjer);
                             alleHus.add(etHus);
                         }
                         return retur;
@@ -178,25 +160,24 @@ public class HusOversikt extends AppCompatActivity {
         @Override
         protected void onPostExecute(String ss) {
             husInfo.setText(
-                    "Hus ID: " + alleHus.get(0).husID + "\n" +
-                            "Navn: " + alleHus.get(0).navn + "\n" +
-                            "Beskrivelse: " + alleHus.get(0).beskrivelse + "\n" +
-                            "Adresse: " + alleHus.get(0).gateAdresse + "\n" +
-                            "Etasjer: " + alleHus.get(0).etasjer);
+                    "Hus ID: " + alleHus.get(2).husID + "\n" +
+                            "Navn: " + alleHus.get(2).navn + "\n" +
+                            "Beskrivelse: " + alleHus.get(2).beskrivelse + "\n" +
+                            "Adresse: " + alleHus.get(2).gateAdresse + "\n" +
+                            "Etasjer: " + alleHus.get(2).etasjer);
 
-/*            Integer[] husEtasjer = new Integer[]{};
-
-            int etasjeHus = alleHus.get(0).etasjer;
-            for(int i = 1; i <= etasjeHus; i++){
-                husEtasjer = new Integer[i];
-            }*/
-
-            Integer[] husEtasjer = new Integer[alleHus.get(0).etasjer];
+            Integer[] husEtasjer = new Integer[alleHus.get(2).etasjer];
             int etasjeNr = 1;
             for(int i = 0; i < husEtasjer.length; i++){
                 husEtasjer[i] = etasjeNr;
                 etasjeNr++;
             }
+
+            getSharedPreferences("HusOversikt", MODE_PRIVATE)
+                    .edit()
+                    .putInt("HusID", alleHus.get(2).husID)
+                    .putInt("Etasjer", alleHus.get(2).etasjer)
+                    .apply();
 
             ArrayAdapter<Integer> adapter2 = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer){
                 @Override

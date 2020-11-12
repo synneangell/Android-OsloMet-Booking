@@ -9,7 +9,8 @@ public class Hus {
     public Double longitude;
     public int etasjer;
 
-    public Hus(String navn, String beskrivelse, String gateAdresse, Double latitude, Double longitude, int etasjer){
+    public Hus(int husID, String navn, String beskrivelse, String gateAdresse, Double latitude, Double longitude, int etasjer){
+        this.husID = husID;
         this.navn = navn;
         this.beskrivelse = beskrivelse;
         this.gateAdresse = gateAdresse;

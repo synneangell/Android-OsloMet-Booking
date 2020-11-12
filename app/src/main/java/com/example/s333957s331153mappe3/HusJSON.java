@@ -48,7 +48,7 @@ public class HusJSON extends AsyncTask<String, Void,String> {
                         Double latitude = jsonobject.getDouble("Latitude");
                         Double longitude = jsonobject.getDouble("Longitude");
                         int etasjer = jsonobject.getInt("Etasjer");
-                        Hus etHus = new Hus(navn, beskrivelse, gateadresse, latitude, longitude, etasjer);
+                        Hus etHus = new Hus(husID, navn, beskrivelse, gateadresse, latitude, longitude, etasjer);
                         alleHus.add(etHus);
                     }
                     return retur;

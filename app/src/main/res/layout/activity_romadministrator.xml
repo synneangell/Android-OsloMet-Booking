@@ -21,7 +21,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="350dp"
         android:layout_marginRight="10dp"
-        android:onClick="lagreRes"/>
+        android:onClick="lagreRom"/>
 
     <TextView
         android:id="@+id/marker"
@@ -79,6 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="220dp"
+        android:textColor="@color/svart"
         android:ems="10" />
 
     <ImageView
@@ -107,6 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
+        android:textColor="@color/svart"
         android:layout_marginTop="290dp"
         android:ems="10" />
 
@@ -146,6 +148,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
+        android:textColor="@color/svart"
         android:layout_marginTop="360dp"
         android:ems="10" />
 
