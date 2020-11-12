@@ -32,6 +32,8 @@ public class HusOversikt extends AppCompatActivity {
     TextView husInfo;
     FloatingActionButton fab;
     List<Rom> alleRom;
+    List<Hus> alleHus;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +48,19 @@ public class HusOversikt extends AppCompatActivity {
         setActionBar(tb);
         tb.setTitle("Hus");
 
-        HusAsyncTask task = new HusAsyncTask();
+        HusJSON task = new HusJSON();
         task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
 
-        Integer[] items = new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,android.R.layout.simple_spinner_item, items){
+        alleHus = task.getAlleHus();
+
+        Integer[] husEtasjer = new Integer[alleHus.get(0).etasjer];
+        int etasjeNr = 1;
+        for(int i = 0; i < husEtasjer.length; i++){
+            husEtasjer[i] = etasjeNr;
+            etasjeNr++;
+        }
+
+        ArrayAdapter<Integer> adapter2 = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -59,7 +69,8 @@ public class HusOversikt extends AppCompatActivity {
                 return view;
             }
         };
-        //etasjer.setAdapter(adapter);
+        etasjer.setAdapter(adapter2);
+
 
         String[] rom = new String[]{"Rom 1", "Rom 2", "Rom 3", "Rom 4", "Rom 5", "Rom 6", "Rom 7", "Rom 8"};
         ArrayAdapter<String> romAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, rom){

@@ -1,5 +1,11 @@
 package com.example.s333957s331153mappe3;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,5 +67,17 @@ public class HusJSON extends AsyncTask<String, Void,String> {
             }
         }
         return retur;
+    }
+
+
+    public List<Hus> getAlleHus() {
+        return alleHus;
+    }
+
+
+
+    @Override
+    protected void onPostExecute(String ss) {
+
     }
 }
