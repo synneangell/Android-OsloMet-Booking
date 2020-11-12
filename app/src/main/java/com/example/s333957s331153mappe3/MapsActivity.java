@@ -2,14 +2,17 @@ package com.example.s333957s331153mappe3;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -55,6 +58,9 @@ public class MapsActivity extends AppCompatActivity implements
     Geocoder geocoder;
     List<Address> adresser;
     private List<Marker> husMarkers = new ArrayList<>();
+    public static Context contextOfApplication;
+    SharedPreferences sp;
+    String husInfo;
 
 
     @Override
@@ -79,6 +85,37 @@ public class MapsActivity extends AppCompatActivity implements
 
         mGoogleApiClient.connect();
 
+        HusJSON task = new HusJSON();
+        task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
+        contextOfApplication = this.getApplicationContext();
+        sp = PreferenceManager.getDefaultSharedPreferences(this);
+        husInfo = sp.getString("alleHus", "Tomt");
+        Log.d("I maps", husInfo);
+
+        alleHus = new ArrayList<>();
+
+        String[] tempArray;
+        String semikolon = ";";
+        tempArray = husInfo.split(semikolon);
+
+        for (int i = 0; i < tempArray.length; i+=7){
+            Hus etHus = new Hus();
+            etHus.husID = Integer.parseInt(tempArray[i]);
+            etHus.navn = tempArray[i+1];
+            etHus.beskrivelse = tempArray[i+2];
+            etHus.gateAdresse = tempArray[i+3];
+            etHus.latitude = Double.parseDouble(tempArray[i+4]);
+            etHus.longitude = Double.parseDouble(tempArray[i+5]);
+            etHus.etasjer = Integer.parseInt(tempArray[i+6]);
+            alleHus.add(etHus);
+        }
+
+        Log.d("Allehus size ",Integer.toString(alleHus.size()));
+
+}
+
+    public static Context getContextOfApplication(){
+        return contextOfApplication;
     }
 
     public void handleNewLocation(Location location) {
@@ -166,8 +203,14 @@ public class MapsActivity extends AppCompatActivity implements
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        HentHusAsyncTask task = new HentHusAsyncTask();
-        task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
+        for(Hus etHus : alleHus){
+            Double latitude = etHus.getLatitude();
+            Double longitude = etHus.getLongitude();
+            LatLng latLng = new LatLng(latitude, longitude);
+            float zoomSize = 15.0f;
+            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getHusID()+","+etHus.getNavn()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
+        }
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
@@ -210,75 +253,22 @@ public class MapsActivity extends AppCompatActivity implements
                     return false;
                 }
                 else {
-
+                    String[] tempArray;
+                    String komma = ",";
+                    tempArray = markerTittel.split(komma);
+                    int husID = Integer.parseInt(tempArray[0]);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("alleHus", husInfo);
+                    editor.putInt("husID",husID);
+                    editor.apply();
+                    Intent i = new Intent(MapsActivity.this, HusOversikt.class);
+                    startActivity(i);
                     return false;
                 }
             }
         });
     }
 
-    private class HentHusAsyncTask extends AsyncTask<String, Void,String> {
-        JSONObject jsonObject;
-
-        @Override
-        protected String doInBackground(String... urls) {
-            String retur = "";
-            String s = "";
-            String output = "";
-            for (String url : urls) {
-
-                try {
-                    URL urlen = new URL(urls[0]);
-                    HttpURLConnection conn = (HttpURLConnection)
-                            urlen.openConnection(); conn.setRequestMethod("GET");
-                    conn.setRequestProperty("Accept", "application/json");
-
-                    if (conn.getResponseCode() != 200) {
-                        throw new RuntimeException("Failed : HTTP error code : "+ conn.getResponseCode());
-                    }
-                    BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-                    System.out.println("Output from Server .... \n");
-                    while ((s = br.readLine()) != null) {
-                        output = output + s;
-                    }
-                    conn.disconnect();
-
-                    try {
-                        JSONArray mat = new JSONArray(output);
-                        for (int i = 0; i < mat.length(); i++) {
-                            JSONObject jsonobject = mat.getJSONObject(i);
-                            int husID = jsonobject.getInt("HusID");
-                            String navn = jsonobject.getString("Navn");
-                            String beskrivelse = jsonobject.getString("Beskrivelse");
-                            String gateadresse = jsonobject.getString("Gateadresse");
-                            Double latitude = jsonobject.getDouble("Latitude");
-                            Double longitude = jsonobject.getDouble("Longitude");
-                            int etasjer = jsonobject.getInt("Etasjer");
-                            Hus etHus = new Hus(navn, beskrivelse, gateadresse, latitude, longitude, etasjer);
-                            alleHus.add(etHus);
-                        }
-                        return retur;
-                    } catch (JSONException e) {
-                        e.printStackTrace(); }
-                    return retur;
-                } catch (Exception e) {
-                    return "Noe gikk feil"; }
-            }
-            return retur;
-        }
-        @Override
-        protected void onPostExecute(String ss) {
-            //Toast.makeText(MapsActivity.this, alleHus.get(0).beskrivelse, Toast.LENGTH_LONG );
-            for (int i = 0 ; i < alleHus.size(); i++ ){
-                Hus etHus = alleHus.get(i);
-                LatLng pos = new LatLng(etHus.latitude,etHus.longitude);
-                Marker m = mMap.addMarker(new MarkerOptions().position(pos).title(etHus.navn));
-                husMarkers.add(m);
-            }
-
-        }
-
 
     }
 
-}

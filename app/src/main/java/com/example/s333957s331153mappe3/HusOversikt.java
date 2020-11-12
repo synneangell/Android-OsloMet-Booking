@@ -1,9 +1,12 @@
 package com.example.s333957s331153mappe3;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,14 +18,7 @@ import android.widget.TextView;
 import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class HusOversikt extends AppCompatActivity {
@@ -31,7 +27,11 @@ public class HusOversikt extends AppCompatActivity {
     Spinner etasjer;
     TextView husInfo;
     FloatingActionButton fab;
+    List<Hus> alleHus;
     List<Rom> alleRom;
+    public static Context contextOfApplication;
+    SharedPreferences sp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +46,47 @@ public class HusOversikt extends AppCompatActivity {
         setActionBar(tb);
         tb.setTitle("Hus");
 
-        HusAsyncTask task = new HusAsyncTask();
+        HusJSON task = new HusJSON();
         task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
+        sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContextOfApplication());
 
-        Integer[] items = new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,android.R.layout.simple_spinner_item, items){
+        //int husIDValgt = sp.getInt("husID", 0);
+        String allHusInfo = sp.getString("alleHus","Tomt");
+        String allRomInfo = sp.getString("alleRom","Tomt");
+/*
+        String[] tempArray;
+        String semikolon = ";";
+        tempArray = allHusInfo.split(semikolon);
+
+        for (int i = 0; i < tempArray.length; i+=7){
+            Hus etHus = new Hus();
+            etHus.husID = Integer.parseInt(tempArray[i]);
+            etHus.navn = tempArray[i+1];
+            etHus.beskrivelse = tempArray[i+2];
+            etHus.gateAdresse = tempArray[i+3];
+            etHus.latitude = Double.parseDouble(tempArray[i+4]);
+            etHus.longitude = Double.parseDouble(tempArray[i+5]);
+            etHus.etasjer = Integer.parseInt(tempArray[i+6]);
+            alleHus.add(etHus);
+        }
+
+        Log.d("Hus ID", Integer.toString(husIDValgt));
+
+        String husInfoString = "HusID: "+alleHus.get(husIDValgt).husID +
+        "/n Navn: "+alleHus.get(husIDValgt).navn +
+        "/n Beskrivelse: "+alleHus.get(husIDValgt).beskrivelse +
+        "/n Gateadresse: "+alleHus.get(husIDValgt).gateAdresse;
+
+        husInfo.setText(husInfoString);
+
+        Integer[] husEtasjer = new Integer[alleHus.get(husIDValgt).etasjer];
+        int etasjeNr = 1;
+        for(int i = 0; i < husEtasjer.length; i++){
+            husEtasjer[i] = etasjeNr;
+            etasjeNr++;
+        }
+
+        ArrayAdapter<Integer> etasjeAdapter = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -59,7 +95,8 @@ public class HusOversikt extends AppCompatActivity {
                 return view;
             }
         };
-        //etasjer.setAdapter(adapter);
+        etasjer.setAdapter(etasjeAdapter);*/
+
 
         String[] rom = new String[]{"Rom 1", "Rom 2", "Rom 3", "Rom 4", "Rom 5", "Rom 6", "Rom 7", "Rom 8"};
         ArrayAdapter<String> romAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, rom){
@@ -122,93 +159,11 @@ public class HusOversikt extends AppCompatActivity {
         });
     }
 
-    private class HusAsyncTask extends AsyncTask<String, Void,String> {
-        List<Hus> alleHus = new ArrayList<>();
-
-        @Override
-        protected String doInBackground(String... urls) {
-            String retur = "";
-            String s = "";
-            String output = "";
-            for (String url : urls) {
-
-                try {
-                    URL urlen = new URL(urls[0]);
-                    HttpURLConnection conn = (HttpURLConnection)
-                            urlen.openConnection();
-                    conn.setRequestMethod("GET");
-                    conn.setRequestProperty("Accept", "application/json");
-
-                    if (conn.getResponseCode() != 200) {
-                        throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
-                    }
-                    BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-                    System.out.println("Output from Server .... \n");
-                    while ((s = br.readLine()) != null) {
-                        output = output + s;
-                    }
-                    conn.disconnect();
-
-                    try {
-                        JSONArray mat = new JSONArray(output);
-                        for (int i = 0; i < mat.length(); i++) {
-                            JSONObject jsonobject = mat.getJSONObject(i);
-                            int husID = jsonobject.getInt("HusID");
-                            String navn = jsonobject.getString("Navn");
-                            String beskrivelse = jsonobject.getString("Beskrivelse");
-                            String gateadresse = jsonobject.getString("Gateadresse");
-                            Double latitude = jsonobject.getDouble("Latitude");
-                            Double longitude = jsonobject.getDouble("Longitude");
-                            int etasjer = jsonobject.getInt("Etasjer");
-                            Hus etHus = new Hus(navn, beskrivelse, gateadresse, latitude, longitude, etasjer);
-                            alleHus.add(etHus);
-                        }
-                        return retur;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    return retur;
-                } catch (Exception e) {
-                    return "Noe gikk feil";
-                }
-            }
-            return retur;
-        }
-
-        @Override
-        protected void onPostExecute(String ss) {
-            husInfo.setText(
-                    "Hus ID: " + alleHus.get(0).husID + "\n" +
-                            "Navn: " + alleHus.get(0).navn + "\n" +
-                            "Beskrivelse: " + alleHus.get(0).beskrivelse + "\n" +
-                            "Adresse: " + alleHus.get(0).gateAdresse + "\n" +
-                            "Etasjer: " + alleHus.get(0).etasjer);
-
-/*            Integer[] husEtasjer = new Integer[]{};
-
-            int etasjeHus = alleHus.get(0).etasjer;
-            for(int i = 1; i <= etasjeHus; i++){
-                husEtasjer = new Integer[i];
-            }*/
-
-            Integer[] husEtasjer = new Integer[alleHus.get(0).etasjer];
-            int etasjeNr = 1;
-            for(int i = 0; i < husEtasjer.length; i++){
-                husEtasjer[i] = etasjeNr;
-                etasjeNr++;
-            }
-
-            ArrayAdapter<Integer> adapter2 = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer){
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
-                    View view = super.getView(position, convertView, parent);
-                    TextView textView = view.findViewById(android.R.id.text1);
-                    textView.setTextColor(Color.BLACK);
-                    return view;
-                }
-            };
-            etasjer.setAdapter(adapter2);
-        }
+    public static Context getContextOfApplication(){
+        return contextOfApplication;
     }
+
+
+
 }
 
