@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,10 +14,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 public class HusJSON extends AsyncTask<String, Void,String> {
+
+    JSONObject jsonObject;
     SharedPreferences sp;
 
     @Override
@@ -39,7 +41,7 @@ public class HusJSON extends AsyncTask<String, Void,String> {
                 System.out.println("Output from Server .... \n");
                 while ((s = br.readLine()) != null) {
                     output = output + s;
-                    Log.d("output",output);
+                    Log.d("output", output);
                 }
                 conn.disconnect();
 
@@ -54,28 +56,34 @@ public class HusJSON extends AsyncTask<String, Void,String> {
                         Double latitude = jsonobject.getDouble("Latitude");
                         Double longitude = jsonobject.getDouble("Longitude");
                         int etasjer = jsonobject.getInt("Etasjer");
-                        retur = retur + husID + ";"+ navn + ";"+beskrivelse + ";"+gateadresse + ";"+latitude + ";" + longitude + ";" +etasjer + ";";
+                        retur = retur + husID + ";" + navn + ";" + beskrivelse + ";" + gateadresse + ";" + latitude + ";" + longitude + ";" + etasjer + ";";
 
                     }
                     return retur;
+
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Log.d("Catch", e.getMessage());
+                    return "Noe gikk feil i husJSON JSONException";
+
                 }
-                return retur;
             } catch (Exception e) {
-                return "Noe gikk feil";
+                Log.d("Catch", e.getMessage());
+                return "Noe gikk feil i husJSON";
             }
         }
         return retur;
+
     }
 
     @Override
-    protected void onPostExecute(String s) {
+    protected void onPostExecute(String ss) {
         Context applicationContext = MapsActivity.getContextOfApplication();
         sp = PreferenceManager.getDefaultSharedPreferences(applicationContext);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString("alleHus",s);
+        editor.putString("alleHus", ss);
         editor.apply();
 
     }
 }
+

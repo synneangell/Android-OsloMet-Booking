@@ -61,16 +61,16 @@ public class RomAdministrerer extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.lagre:
-                lagreRom();
+                //lagreRom();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
     }
-
+/*
     public void lagreRom(){
-        AlleAsyncTask task = new AlleAsyncTask();
+       AlleAsyncTask task = new AlleAsyncTask();
         String urlString = ("http://student.cs.hioa.no/~s331153/romjsonin.php/?" +
                 "Etasje=" +  etasjer.getSelectedItem() +
                 "&RomNr=" + romNr.getText().toString() +
@@ -80,5 +80,5 @@ public class RomAdministrerer extends AppCompatActivity {
         Toast.makeText(this, "Rom opprettet!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, HusAdministrerer.class);
         startActivity(intent);
-    }
+    }*/
 }

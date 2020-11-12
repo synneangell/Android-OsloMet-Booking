@@ -14,7 +14,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-class AlleAsyncTask extends AsyncTask<String, Void,String> {
+class AlleAsyncTask  {
+    /*
     JSONObject jsonObject;
     List<Hus> alleHus = new ArrayList<>();
     List<Rom> alleRom = new ArrayList<>();
@@ -114,6 +115,6 @@ class AlleAsyncTask extends AsyncTask<String, Void,String> {
     }
 
 
-
+*/
 
 }

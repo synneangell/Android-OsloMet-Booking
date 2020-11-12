@@ -27,7 +27,7 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
     }
-
+/*
     public void lagreRes (View v){
         AlleAsyncTask task = new AlleAsyncTask();
         String urlString = ("http://student.cs.hioa.no/~s331153/reservasjonjsonin.php/?" +
@@ -39,5 +39,5 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
         Toast.makeText(this, "Reservasjon opprettet!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
-    }
+    }*/
 }

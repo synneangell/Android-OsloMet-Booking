@@ -57,7 +57,7 @@ public class HusAdministrerer extends AppCompatActivity {
 
     public void lagre (View v){
 
-        AlleAsyncTask task = new AlleAsyncTask();
+/*        AlleAsyncTask task = new AlleAsyncTask();
         //Må ha en if-setning som validerer alle feltene som sendes med her!!
         String urlString = ("http://student.cs.hioa.no/~s331153/husjsonin.php/?" +
                 "Navn=" + navn.getText().toString() +
@@ -71,7 +71,7 @@ public class HusAdministrerer extends AppCompatActivity {
         Toast.makeText(this, "Bygning opprettet!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
-
+*/
     }
 
 

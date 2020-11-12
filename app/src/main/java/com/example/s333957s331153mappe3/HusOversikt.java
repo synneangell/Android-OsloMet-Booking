@@ -29,7 +29,6 @@ public class HusOversikt extends AppCompatActivity {
     FloatingActionButton fab;
     List<Hus> alleHus;
     List<Rom> alleRom;
-    public static Context contextOfApplication;
     SharedPreferences sp;
 
 
@@ -46,13 +45,13 @@ public class HusOversikt extends AppCompatActivity {
         setActionBar(tb);
         tb.setTitle("Hus");
 
-        HusJSON task = new HusJSON();
-        task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
-        sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContextOfApplication());
+        //HusJSON task = new HusJSON();
+        //task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
+        //sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContextOfApplication());
 
         //int husIDValgt = sp.getInt("husID", 0);
-        String allHusInfo = sp.getString("alleHus","Tomt");
-        String allRomInfo = sp.getString("alleRom","Tomt");
+        //String allHusInfo = sp.getString("alleHus","Tomt");
+        //String allRomInfo = sp.getString("alleRom","Tomt");
 /*
         String[] tempArray;
         String semikolon = ";";
@@ -152,11 +151,5 @@ public class HusOversikt extends AppCompatActivity {
             }
         });
     }
-
-    public static Context getContextOfApplication(){
-        return contextOfApplication;
-    }
-
-
 
 }

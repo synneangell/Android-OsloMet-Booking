@@ -13,12 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Reservasjonjson extends AppCompatActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getJSON task = new getJSON();
-        task.execute(new String[]{"http://student.cs.hioa.no/~s331153/reservasjonjsonout.php"});
-    }
+
 
     private class getJSON extends AsyncTask<String, Void,String> {
         List<Reservasjon> alleReservasjoner = new ArrayList<>();
@@ -67,7 +62,7 @@ public class Reservasjonjson extends AppCompatActivity {
                     }
                     return retur;
                 } catch (Exception e) {
-                    return "Noe gikk feil";
+                    return "Noe gikk feil i reservasjonJSON";
                 }
             }
             return retur;

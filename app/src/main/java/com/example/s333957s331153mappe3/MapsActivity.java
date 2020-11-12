@@ -86,9 +86,9 @@ public class MapsActivity extends AppCompatActivity implements
         mGoogleApiClient.connect();
 
         HusJSON task = new HusJSON();
-        task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
+        task.execute(new String[]{"http://student.cs.hioa.no/~s331153/husjsonout.php"});
         contextOfApplication = this.getApplicationContext();
-        sp = PreferenceManager.getDefaultSharedPreferences(this);
+        sp = PreferenceManager.getDefaultSharedPreferences(getContextOfApplication());
         husInfo = sp.getString("alleHus", "Tomt");
         Log.d("I maps", husInfo);
 
@@ -203,14 +203,14 @@ public class MapsActivity extends AppCompatActivity implements
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        for(Hus etHus : alleHus){
+/*        for(Hus etHus : alleHus){
             Double latitude = etHus.getLatitude();
             Double longitude = etHus.getLongitude();
             LatLng latLng = new LatLng(latitude, longitude);
             float zoomSize = 15.0f;
             mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getHusID()+","+etHus.getNavn()));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
-        }
+        }*/
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
@@ -253,14 +253,14 @@ public class MapsActivity extends AppCompatActivity implements
                     return false;
                 }
                 else {
-                    String[] tempArray;
-                    String komma = ",";
-                    tempArray = markerTittel.split(komma);
-                    int husID = Integer.parseInt(tempArray[0]);
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("alleHus", husInfo);
-                    editor.putInt("husID",husID);
-                    editor.apply();
+                    //String[] tempArray;
+                    //String komma = ",";
+                    //tempArray = markerTittel.split(komma);
+                    //int husID = Integer.parseInt(tempArray[0]);
+                    //SharedPreferences.Editor editor = sp.edit();
+                    //editor.putString("alleHus", husInfo);
+                    //editor.putInt("husID",husID);
+                    //editor.apply();
                     Intent i = new Intent(MapsActivity.this, HusOversikt.class);
                     startActivity(i);
                     return false;

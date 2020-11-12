@@ -60,7 +60,7 @@ public class RomJSON extends AsyncTask<String, Void, String> {
                 }
                 return retur;
             } catch (Exception e) {
-                return "Noe gikk feil";
+                return "RomJSON feil";
             }
         }
         return retur;
@@ -68,11 +68,11 @@ public class RomJSON extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        Context applicationContext = HusOversikt.getContextOfApplication();
-        sp = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("alleRom", s);
-        editor.apply();
+        //Context applicationContext = HusOversikt.getContextOfApplication();
+        //sp = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        //SharedPreferences.Editor editor = sp.edit();
+        //editor.putString("alleRom", s);
+        //editor.apply();
 
     }
 }
