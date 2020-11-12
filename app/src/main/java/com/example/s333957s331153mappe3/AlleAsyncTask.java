@@ -1,6 +1,7 @@
 package com.example.s333957s331153mappe3;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -110,6 +111,8 @@ class AlleAsyncTask extends AsyncTask<String, Void,String> {
     public List<Reservasjon> getAlleReservasjoner() {
         return alleReservasjoner;
     }
+
+
 
 
 }

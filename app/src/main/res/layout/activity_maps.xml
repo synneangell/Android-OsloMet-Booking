@@ -15,6 +15,14 @@
         android:layout_height="match_parent"
         tools:context="com.example.s333957s331153mappe3.MapsActivity" />
 
+    <Toolbar
+        android:id="@+id/toolbarMaps"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gul"
+        android:clickable="true"
+        tools:ignore="MissingConstraints" />
+
     <!--
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

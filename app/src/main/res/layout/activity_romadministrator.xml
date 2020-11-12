@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/hvit"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbarRom"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:background="@color/gul"/>
+
+    <ImageView
+        android:id="@+id/imgLagreRes"
+        app:srcCompat="@drawable/ic_baseline_save_alt_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="350dp"
+        android:layout_marginRight="10dp"
+        android:onClick="lagreRes"/>
 
     <TextView
         android:id="@+id/marker"
@@ -17,19 +29,21 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
         android:text="Legg til rom"
+        android:textColor="@color/svart"
         android:textAlignment="center"
         android:textSize="30dp"
         android:textStyle="bold" />
 
+    <!-- ETASJE -->
     <TextView
         android:id="@+id/etasje"
         android:layout_width="wrap_content"
+        android:textColor="@color/svart"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="150dp"
         android:ems="10"
-        android:text="Velg etasje"
-        />
+        android:text="Velg etasje"/>
 
     <ImageView
         android:id="@+id/imgEtasjer"
@@ -38,85 +52,101 @@
         android:layout_height="40dp"
         android:layout_marginTop="150dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="10dp"
-        />
+        android:layout_marginRight="10dp"/>
 
     <Spinner
         android:id="@+id/spinnerEtasjer"
-        android:layout_width="80dp"
+        android:layout_width="76dp"
+        android:textColor="@color/svart"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="170dp" />
+
+    <!-- RomNr -->
+    <TextView
+        android:id="@+id/txtRomNr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:textColor="@color/svart"
+        android:layout_marginTop="200dp"
+        android:ems="10"
+        android:text="Romnr" />
 
     <EditText
         android:id="@+id/romNr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="200dp"
-        android:inputType="text"
-        android:hint="Romnummer" />
+        android:layout_marginTop="220dp"
+        android:ems="10" />
 
     <ImageView
         android:id="@+id/imgRomNr"
         app:srcCompat="@drawable/ic_baseline_location_on_24"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="210dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="10dp"
         />
+
+    <!-- Kapasitet -->
+    <TextView
+        android:id="@+id/txtKapasitet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:textColor="@color/svart"
+        android:layout_marginTop="270dp"
+        android:ems="10"
+        android:text="Kapasitet" />
 
     <EditText
         android:id="@+id/kapasitet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="250dp"
-        android:inputType="number"
-        android:hint="Kapasitet" />
+        android:layout_marginTop="290dp"
+        android:ems="10" />
 
     <ImageView
         android:id="@+id/imgKapasitet"
-        app:srcCompat="@drawable/ic_baseline_group_24"
+        app:srcCompat="@drawable/ic_baseline_people_24"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="280dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="10dp"
         />
+
+    <!-- Beskrivelse -->
+    <ImageView
+        android:id="@+id/imgBeskrivelse"
+        app:srcCompat="@drawable/ic_baseline_comment_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="350dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        />
+
+    <TextView
+        android:id="@+id/txtBeskrivelse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:textColor="@color/svart"
+        android:layout_marginTop="340dp"
+        android:ems="10"
+        android:text="Beskrivelse" />
 
     <EditText
         android:id="@+id/beskrivelseRom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="300dp"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="Beskrivelse" />
-
-    <ImageView
-        android:id="@+id/imgBeskrivelseRom"
-        app:srcCompat="@drawable/ic_baseline_comment_24"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="300dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="10dp"
-        />
-
-    <ImageView
-        android:id="@+id/imgLagreRom"
-        app:srcCompat="@drawable/ic_baseline_save_alt_24"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="350dp"
-        android:layout_marginLeft="350dp"
-        android:layout_marginRight="10dp"
-        android:onClick="lagreRom"
-        />
+        android:layout_marginTop="360dp"
+        android:ems="10" />
 
 </RelativeLayout>

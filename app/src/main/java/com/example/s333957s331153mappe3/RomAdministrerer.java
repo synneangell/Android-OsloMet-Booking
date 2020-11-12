@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class RomAdministrerer extends AppCompatActivity {
     Spinner etasjer;
     EditText romNr, kapasitet, beskrivelse;
+    Toolbar tb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +28,21 @@ public class RomAdministrerer extends AppCompatActivity {
         kapasitet = (EditText) findViewById(R.id.kapasitet);
         beskrivelse = (EditText) findViewById(R.id.beskrivelseRom);
 
+        tb = findViewById(R.id.toolbarRom);
+        tb.setLogo(R.mipmap.ic_launcher_round);
+        tb.inflateMenu(R.menu.manu_rom);
+        setActionBar(tb);
+
         Integer[] items = new Integer[]{1,2,3,4,5,6,7,8,9,10};
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, items);
         etasjer.setAdapter(adapter);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+/*        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.manu_rom);
         setActionBar(toolbar);
         toolbar.setTitle("Legg til rom");
         //toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow));
-       /* toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RomAdministrerer.this, HusAdministrerer.class);
@@ -51,23 +57,22 @@ public class RomAdministrerer extends AppCompatActivity {
         return true;
     }
 
-/*    @Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
-            //case R.id.lagre:
-                //lagre();
-                //break;
+            case R.id.lagre:
+                lagreRom();
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
-    }*/
+    }
 
-    public void lagreRom(View v){
+    public void lagreRom(){
         AlleAsyncTask task = new AlleAsyncTask();
         String urlString = ("http://student.cs.hioa.no/~s331153/romjsonin.php/?" +
-                "HusID=" + 1 +
-                "&Etasje=" +  etasjer.getSelectedItem() +
+                "Etasje=" +  etasjer.getSelectedItem() +
                 "&RomNr=" + romNr.getText().toString() +
                 "&Kapasitet=" + kapasitet.getText().toString() +
                 "&Beskrivelse=" + beskrivelse.getText().toString()).replaceAll(" ", "%20");

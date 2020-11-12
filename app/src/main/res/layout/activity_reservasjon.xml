@@ -2,7 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/hvit"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Toolbar
+        android:id="@+id/toolbarReservasjon"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gul"
+        android:clickable="true"/>
 
     <ImageView
         android:id="@+id/imgLagreRes"
@@ -12,8 +20,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="350dp"
         android:layout_marginRight="10dp"
-        android:onClick="lagreRes"
-        />
+        android:onClick="lagreRes"/>
 
     <TextView
         android:id="@+id/header"
@@ -22,6 +29,7 @@
         android:layout_marginTop="70dp"
         android:text="Reserver rom"
         android:textAlignment="center"
+        android:textColor="@color/svart"
         android:textSize="30dp"
         android:textStyle="bold" />
 
@@ -30,6 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:textColor="@color/svart"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="150dp"
         android:text="Navn" />
@@ -57,6 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
+        android:textColor="@color/svart"
         android:layout_marginTop="220dp"
         android:ems="10"
         android:text="Dato" />
@@ -84,6 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
+        android:textColor="@color/svart"
         android:layout_marginTop="290dp"
         android:ems="10"
         android:text="Starttid" />
@@ -101,6 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
+        android:textColor="@color/svart"
         android:layout_marginTop="350dp"
         android:ems="10"
         android:text="Slutttid" />
