@@ -192,8 +192,10 @@ public class HusOversikt extends AppCompatActivity {
             }*/
 
             Integer[] husEtasjer = new Integer[alleHus.get(0).etasjer];
+            int etasjeNr = 1;
             for(int i = 0; i < husEtasjer.length; i++){
-                husEtasjer[i] = i;
+                husEtasjer[i] = etasjeNr;
+                etasjeNr++;
             }
 
             ArrayAdapter<Integer> adapter2 = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer){
