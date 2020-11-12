@@ -5,12 +5,13 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -31,12 +32,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+import java.util.Locale;
 
 public class MapsActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -49,19 +51,16 @@ public class MapsActivity extends AppCompatActivity implements
     private GoogleMap mMap;
     LatLng pilestredet = new LatLng(59.923889, 10.731474);
     LatLng nyBygning;
-    List<Hus> alleHus = new ArrayList<>();
-    Toolbar tb;
+    List<Hus> alleHus;
+    Geocoder geocoder;
+    List<Address> adresser;
+    private List<Marker> husMarkers = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-        tb = findViewById(R.id.toolbarMaps);
-        tb.setLogo(R.mipmap.ic_launcher_round);
-        tb.inflateMenu(R.menu.manu_rom);
-        setActionBar(tb);
-        tb.setTitle("Kart");
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -78,27 +77,24 @@ public class MapsActivity extends AppCompatActivity implements
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
-        HentHusAsyncTask task = new HentHusAsyncTask();
-        task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
         mGoogleApiClient.connect();
+
     }
 
     public void handleNewLocation(Location location) {
-      /* Log.d(TAG, location.toString());
-
-       double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-
-        MarkerOptions options = new MarkerOptions()
-                .position(latLng)
-                .title("Jeg er her!");
-        mMap.addMarker(options);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));*/
-
-        //Setter startposisjon til pilestredet
         CameraUpdate startPosisjon = CameraUpdateFactory.newLatLngZoom(pilestredet, 15);
         mMap.animateCamera(startPosisjon);
+
+        /*
+        for(Hus etHus : alleHus){
+            Log.d("Alle hus", etHus.navn);
+            Double latitude = etHus.getLatitude();
+            Double longitude = etHus.getLongitude();
+            LatLng latLng = new LatLng(latitude, longitude);
+            float zoomSize = 15.0f;
+            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getNavn()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
+        }*/
     }
 
 
@@ -149,32 +145,12 @@ public class MapsActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         //setUpMapIfNeeded();
-        AlleAsyncTask task = new AlleAsyncTask();
-        alleHus = task.getAlleHus();
-        for(Hus etHus : alleHus){
-            Double latitude = etHus.getLatitude();
-            Double longitude = etHus.getLongitude();
-            LatLng latLng = new LatLng(latitude, longitude);
-            //float zoomSize = 15.0f;
-            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getNavn()));
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
-        }
         mGoogleApiClient.connect();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        AlleAsyncTask task = new AlleAsyncTask();
-        alleHus = task.getAlleHus();
-        for(Hus etHus : alleHus){
-            Double latitude = etHus.getLatitude();
-            Double longitude = etHus.getLongitude();
-            LatLng latLng = new LatLng(latitude, longitude);
-            float zoomSize = 15.0f;
-            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getNavn()));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
-        }
         if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
             mGoogleApiClient.disconnect();
@@ -190,15 +166,8 @@ public class MapsActivity extends AppCompatActivity implements
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        for(Hus etHus : alleHus){
-            Log.d("Alle hus", etHus.navn);
-            Double latitude = etHus.getLatitude();
-            Double longitude = etHus.getLongitude();
-            LatLng latLng = new LatLng(latitude, longitude);
-            float zoomSize = 15.0f;
-            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getNavn()));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
-        }
+        HentHusAsyncTask task = new HentHusAsyncTask();
+        task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
@@ -208,11 +177,24 @@ public class MapsActivity extends AppCompatActivity implements
                 markerOptions.position(latLng);
 
                 nyBygning = new LatLng(latLng.latitude, latLng.longitude);
-                markerOptions.title("Ny bygning?");
+                geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
+                try {
+                    adresser = geocoder.getFromLocation(nyBygning.latitude, nyBygning.longitude, 1);
+                } catch (IOException e) {
+                    Toast.makeText(MapsActivity.this, "Ikke gyldig adresse funnet", Toast.LENGTH_SHORT).show();
+                    Log.d("TAG", "Fant ikke adresse til koordinater");
 
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                }
+                if(adresser == null){
+                    Toast.makeText(MapsActivity.this, "Ikke gyldig adresse funnet", Toast.LENGTH_LONG);
+                    Log.d("TAG", "Fant ikke adresse til koordinater");
+                }
+                else {
+                    markerOptions.title("Ny bygning?");
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                    mMap.addMarker(markerOptions);
+                }
 
-                mMap.addMarker(markerOptions);
             }
         });
 
@@ -221,24 +203,22 @@ public class MapsActivity extends AppCompatActivity implements
             @Override
             public boolean onMarkerClick(Marker marker) {
                 String markerTittel = marker.getTitle();
-                //if(markerTittel.equals("Ny bygning")){
-                    Intent i = new Intent(MapsActivity.this, HusOversikt.class);
+                if(markerTittel.equals("Ny bygning?")) {
+                    Intent i = new Intent(MapsActivity.this, HusAdministrerer.class);
                     i.putExtra("koordinater", nyBygning);
                     startActivity(i);
                     return false;
-                } /*else {
-                    Intent i = new Intent(MapsActivity.this, HusOversikt.class);
-                    startActivity(i);
-                    return true;
-                }*/
-                //return true;
-            //}
-        });
+                }
+                else {
 
+                    return false;
+                }
+            }
+        });
     }
 
     private class HentHusAsyncTask extends AsyncTask<String, Void,String> {
-        List<Hus> alleHus = new ArrayList<>();
+        JSONObject jsonObject;
 
         @Override
         protected String doInBackground(String... urls) {
@@ -288,10 +268,17 @@ public class MapsActivity extends AppCompatActivity implements
         }
         @Override
         protected void onPostExecute(String ss) {
-            Toast.makeText(MapsActivity.this, alleHus.get(0).beskrivelse, Toast.LENGTH_LONG );
+            //Toast.makeText(MapsActivity.this, alleHus.get(0).beskrivelse, Toast.LENGTH_LONG );
+            for (int i = 0 ; i < alleHus.size(); i++ ){
+                Hus etHus = alleHus.get(i);
+                LatLng pos = new LatLng(etHus.latitude,etHus.longitude);
+                Marker m = mMap.addMarker(new MarkerOptions().position(pos).title(etHus.navn));
+                husMarkers.add(m);
+            }
 
         }
+
+
     }
 
 }
-
