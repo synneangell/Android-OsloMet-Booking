@@ -1,6 +1,5 @@
 package com.example.s333957s331153mappe3;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -14,15 +13,11 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toolbar;
-
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -37,7 +32,6 @@ public class HusOversikt extends AppCompatActivity {
     TextView husInfo;
     FloatingActionButton fab;
     List<Rom> alleRom;
-    List<Hus> alleHus = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +46,9 @@ public class HusOversikt extends AppCompatActivity {
         setActionBar(tb);
         tb.setTitle("Hus");
 
+        HusAsyncTask task = new HusAsyncTask();
+        task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
+
         Integer[] items = new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
         ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,android.R.layout.simple_spinner_item, items){
             @Override
@@ -62,7 +59,7 @@ public class HusOversikt extends AppCompatActivity {
                 return view;
             }
         };
-        etasjer.setAdapter(adapter);
+        //etasjer.setAdapter(adapter);
 
         String[] rom = new String[]{"Rom 1", "Rom 2", "Rom 3", "Rom 4", "Rom 5", "Rom 6", "Rom 7", "Rom 8"};
         ArrayAdapter<String> romAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, rom){
@@ -76,7 +73,7 @@ public class HusOversikt extends AppCompatActivity {
         };
         lv.setAdapter(romAdapter);
 
-        /*        AlleAsyncTask romGetJSON = new AlleAsyncTask();
+        /* AlleAsyncTask romGetJSON = new AlleAsyncTask();
         romGetJSON.execute("http://student.cs.hioa.no/~s331153/romjsonout.php");
         alleRom = romGetJSON.getAlleRom();
         ArrayAdapter adapter2 = new ArrayAdapter(this, R.layout.activity_husoversikt, alleRom);
@@ -100,12 +97,11 @@ public class HusOversikt extends AppCompatActivity {
                 dialog.setCancelable(true);
                 dialog.show();
 
-                Button slettRom, opprettReservasjon, avbryt;
-                slettRom = dialog.findViewById(R.id.btnRom);
+                Button slettRom, opprettReservasjon;
+                slettRom = dialog.findViewById(R.id.btnSlett);
                 opprettReservasjon = dialog.findViewById(R.id.btnReservasjon);
-                //avbryt = findViewById(R.id.avbryt);
 
-                opprettReservasjon.setOnClickListener(new View.OnClickListener(){
+                slettRom.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view){
                         //Her skal det komme inn kode for å slette rom
@@ -113,7 +109,7 @@ public class HusOversikt extends AppCompatActivity {
                     }
                 });
 
-                slettRom.setOnClickListener(new View.OnClickListener(){
+                opprettReservasjon.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view){
                         //Her må det også bli sendt med valgt hus og rom
@@ -124,11 +120,6 @@ public class HusOversikt extends AppCompatActivity {
                 });
             }
         });
-
-/*        AlleAsyncTask task = new AlleAsyncTask();
-        task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
-        alleHus = task.getAlleHus();
-        husInfo.setText("Antall registrerte hus er : "+Integer.toString(alleHus.size()));*/
     }
 
     private class HusAsyncTask extends AsyncTask<String, Void,String> {
@@ -144,11 +135,12 @@ public class HusOversikt extends AppCompatActivity {
                 try {
                     URL urlen = new URL(urls[0]);
                     HttpURLConnection conn = (HttpURLConnection)
-                            urlen.openConnection(); conn.setRequestMethod("GET");
+                            urlen.openConnection();
+                    conn.setRequestMethod("GET");
                     conn.setRequestProperty("Accept", "application/json");
 
                     if (conn.getResponseCode() != 200) {
-                        throw new RuntimeException("Failed : HTTP error code : "+ conn.getResponseCode());
+                        throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
                     }
                     BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
                     System.out.println("Output from Server .... \n");
@@ -173,16 +165,40 @@ public class HusOversikt extends AppCompatActivity {
                         }
                         return retur;
                     } catch (JSONException e) {
-                        e.printStackTrace(); }
+                        e.printStackTrace();
+                    }
                     return retur;
                 } catch (Exception e) {
-                    return "Noe gikk feil"; }
+                    return "Noe gikk feil";
+                }
             }
             return retur;
         }
+
         @Override
         protected void onPostExecute(String ss) {
-            husInfo.setText(alleHus.get(0).beskrivelse);
+            husInfo.setText(
+                    "Hus ID: " + alleHus.get(0).husID + "\n" +
+                            "Navn: " + alleHus.get(0).navn + "\n" +
+                            "Beskrivelse: " + alleHus.get(0).beskrivelse + "\n" +
+                            "Adresse: " + alleHus.get(0).gateAdresse + "\n" +
+                            "Etasjer: " + alleHus.get(0).etasjer);
+
+            int etasjeHus = alleHus.get(0).etasjer;
+            for(int i = 1; i <= etasjeHus; i++){
+                Integer[] husEtasjer = new Integer[i];
+            }
+
+/*            ArrayAdapter<Integer> adapter2 = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer){
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    View view = super.getView(position, convertView, parent);
+                    TextView textView = view.findViewById(android.R.id.text1);
+                    textView.setTextColor(Color.BLACK);
+                    return view;
+                }
+            };
+            etasjer.setAdapter(adapter2);*/
         }
     }
 }
