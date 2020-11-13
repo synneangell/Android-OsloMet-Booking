@@ -39,6 +39,9 @@ public class HusOversikt extends AppCompatActivity {
     String stringAlleHus;
     int husIDValgt;
     SharedPreferences sp;
+    Integer[] husEtasjer;
+    String husInfoString;
+    Hus valgtHus;
 
 
     @Override
@@ -60,19 +63,42 @@ public class HusOversikt extends AppCompatActivity {
         Log.d("Alle hus i husoversikt", stringAlleHus);
         Log.d("HusID valgt", Integer.toString(husIDValgt));
 
+        alleHus = new ArrayList<>();
 
-      /*  HusJSON task = new HusJSON();
-        task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
+        String[] tempArray;
+        String semikolon = ";";
+        tempArray = stringAlleHus.split(semikolon);
+        for (int i = 0; i < tempArray.length; i+=7){
+            Hus etHus = new Hus();
+            etHus.husID = Integer.parseInt(tempArray[i]);
+            etHus.navn = tempArray[i+1];
+            etHus.beskrivelse = tempArray[i+2];
+            etHus.gateAdresse = tempArray[i+3];
+            etHus.latitude = Double.parseDouble(tempArray[i+4]);
+            etHus.longitude = Double.parseDouble(tempArray[i+5]);
+            etHus.etasjer = Integer.parseInt(tempArray[i+6]);
+            alleHus.add(etHus);
+        }
 
+        for(Hus etHus : alleHus){
+            if(etHus.husID == husIDValgt){
+                valgtHus = etHus;
+            }
+        }
 
-        Integer[] husEtasjer = new Integer[alleHus.get(0).etasjer];
+        husInfoString = "HusID: "+valgtHus.husID +
+                "\nNavn: "+valgtHus.navn +
+                "\nBeskrivelse: "+valgtHus.beskrivelse +
+                "\nGateadresse: "+valgtHus.gateAdresse;
+        husInfo.setText(husInfoString);
+
+        husEtasjer = new Integer[valgtHus.etasjer];
         int etasjeNr = 1;
         for(int i = 0; i < husEtasjer.length; i++){
             husEtasjer[i] = etasjeNr;
             etasjeNr++;
         }
-
-        ArrayAdapter<Integer> adapter2 = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer){
+        ArrayAdapter<Integer> etasjeAdapter = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -81,26 +107,7 @@ public class HusOversikt extends AppCompatActivity {
                 return view;
             }
         };
-        etasjer.setAdapter(adapter2);
-
-
-        String[] rom = new String[]{"Rom 1", "Rom 2", "Rom 3", "Rom 4", "Rom 5", "Rom 6", "Rom 7", "Rom 8"};
-        ArrayAdapter<String> romAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, rom){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = view.findViewById(android.R.id.text1);
-                textView.setTextColor(Color.BLACK);
-                return view;
-            }
-        };
-        lv.setAdapter(romAdapter);
-
-        /* AlleAsyncTask romGetJSON = new AlleAsyncTask();
-        romGetJSON.execute("http://student.cs.hioa.no/~s331153/romjsonout.php");
-        alleRom = romGetJSON.getAlleRom();
-        ArrayAdapter adapter2 = new ArrayAdapter(this, R.layout.activity_husoversikt, alleRom);
-        lv.setAdapter(adapter2);*/
+        etasjer.setAdapter(etasjeAdapter);
 
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
