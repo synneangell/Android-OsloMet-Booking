@@ -114,23 +114,6 @@ public class HusOversikt extends AppCompatActivity {
             }
         };
         etasjer.setAdapter(etasjeAdapter);
-    /*    etasjer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int arg2, long arg3) {
-                // TODO Auto-generated method stub
-                String s = spinner.getItemAtPosition(arg2).toString();
-                list.add(s);
-                listadapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-
-            }
-        });*/
 
         RomJSON task = new RomJSON();
         task.execute("http://student.cs.hioa.no/~s331153/romjsonout.php");
@@ -155,16 +138,33 @@ public class HusOversikt extends AppCompatActivity {
 
         Log.d("Alle rom size", Integer.toString(alleRom.size()));
 
-        ArrayAdapter<String> romAdapter = new ArrayAdapter<String>(HusOversikt.this, android.R.layout.simple_spinner_item, visRomListView()){
+        etasjer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = view.findViewById(android.R.id.text1);
-                textView.setTextColor(Color.BLACK);
-                return view;
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                // TODO Auto-generated method stub
+                String valgtEtasjeSpinner = etasjer.getItemAtPosition(arg2).toString();
+                ArrayAdapter<String> romAdapter = new ArrayAdapter<String>(HusOversikt.this, android.R.layout.simple_spinner_item, visRomListView(valgtEtasjeSpinner)){
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        View view = super.getView(position, convertView, parent);
+                        TextView textView = view.findViewById(android.R.id.text1);
+                        textView.setTextColor(Color.BLACK);
+                        return view;
+                    }
+                };
+                lv.setAdapter(romAdapter);
             }
-        };
-        lv.setAdapter(romAdapter);
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+
 
 
         fab = findViewById(R.id.fab);
@@ -210,13 +210,14 @@ public class HusOversikt extends AppCompatActivity {
         });
     }
 
-    public List<String> visRomListView(){
+    public List<String> visRomListView(String valgtEtasjeSpinner){
         List<String> alleRomLV = new ArrayList<>();
-        valgtEtasje = etasjer.getSelectedItem().toString();
+
+        //valgtEtasje = etasjer.getSelectedItem().toString();
 
         for(Rom etRom : alleRom){
             if(etRom.getHusID() == husIDValgt){
-                if(Integer.toString(etRom.getEtasje()).equals(valgtEtasje)){
+                if(Integer.toString(etRom.getEtasje()).equals(valgtEtasjeSpinner)){
                     alleRomLV.add("\nRomnr: "+etRom.getRomNr()+"\nBeskrivelse: "+etRom.getBeskrivelse());
                 }
             }
