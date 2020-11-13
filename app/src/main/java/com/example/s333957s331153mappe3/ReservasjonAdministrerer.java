@@ -24,7 +24,6 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
 
         tb = findViewById(R.id.toolbarReservasjon);
         tb.setLogo(R.mipmap.ic_launcher_round);
-        tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
     }
 

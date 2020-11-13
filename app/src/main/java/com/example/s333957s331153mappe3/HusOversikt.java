@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,6 +28,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.s333957s331153mappe3.MapsActivity.getContextOfApplication;
+
 public class HusOversikt extends AppCompatActivity {
     ListView lv;
     Toolbar tb;
@@ -33,6 +37,9 @@ public class HusOversikt extends AppCompatActivity {
     TextView husInfo;
     SharedPreferences sp;
     FloatingActionButton fab;
+    String stringAlleHus;
+    List<Hus> alleHus;
+    String HusInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,21 +54,6 @@ public class HusOversikt extends AppCompatActivity {
         setActionBar(tb);
         tb.setTitle("Hus");
 
-        HusAsyncTask task = new HusAsyncTask();
-        task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
-
-        String[] rom = new String[]{"Rom 1", "Rom 2", "Rom 3", "Rom 4", "Rom 5", "Rom 6", "Rom 7", "Rom 8"};
-        ArrayAdapter<String> romAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, rom){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = view.findViewById(android.R.id.text1);
-                textView.setTextColor(Color.BLACK);
-                return view;
-            }
-        };
-        lv.setAdapter(romAdapter);
-
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +62,10 @@ public class HusOversikt extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        sp = PreferenceManager.getDefaultSharedPreferences(getContextOfApplication());
+        stringAlleHus = sp.getString("alleHus", "Får ikke hentet data");
+        Log.d("Alle hus i husoversikt", stringAlleHus);
 
        lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -102,6 +98,35 @@ public class HusOversikt extends AppCompatActivity {
                 });
             }
         });
+
+        HusJSON task = new HusJSON();
+        task.execute(new String[]{"http://student.cs.hioa.no/~s331153/husjsonout.php"});
+        MapsActivity.contextOfApplication = this.getApplicationContext();
+        sp = PreferenceManager.getDefaultSharedPreferences(getContextOfApplication());
+        HusInfo = sp.getString("alleHus", "Tomt");
+
+        alleHus = new ArrayList<>();
+
+        String[] tempArray;
+        String semikolon = ";";
+        tempArray = HusInfo.split(semikolon);
+
+        for (int i = 0; i < tempArray.length; i+=7){
+            Hus etHus = new Hus();
+            etHus.husID = Integer.parseInt(tempArray[i]);
+            etHus.navn = tempArray[i+1];
+            etHus.beskrivelse = tempArray[i+2];
+            etHus.gateAdresse = tempArray[i+3];
+            etHus.latitude = Double.parseDouble(tempArray[i+4]);
+            etHus.longitude = Double.parseDouble(tempArray[i+5]);
+            etHus.etasjer = Integer.parseInt(tempArray[i+6]);
+            alleHus.add(etHus);
+        }
+
+        husInfo.setText(alleHus.size());
+
+        Log.d("Allehus size ",Integer.toString(alleHus.size()));
+
     }
 
     private class HusAsyncTask extends AsyncTask<String, Void,String> {
@@ -159,12 +184,12 @@ public class HusOversikt extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String ss) {
-            husInfo.setText(
+/*            husInfo.setText(
                     "Hus ID: " + alleHus.get(2).husID + "\n" +
                             "Navn: " + alleHus.get(2).navn + "\n" +
                             "Beskrivelse: " + alleHus.get(2).beskrivelse + "\n" +
                             "Adresse: " + alleHus.get(2).gateAdresse + "\n" +
-                            "Etasjer: " + alleHus.get(2).etasjer);
+                            "Etasjer: " + alleHus.get(2).etasjer);*/
 
             Integer[] husEtasjer = new Integer[alleHus.get(2).etasjer];
             int etasjeNr = 1;
