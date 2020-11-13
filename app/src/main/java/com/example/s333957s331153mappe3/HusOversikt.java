@@ -1,5 +1,6 @@
 package com.example.s333957s331153mappe3;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -41,7 +42,9 @@ public class HusOversikt extends AppCompatActivity {
     SharedPreferences sp;
     Integer[] husEtasjer;
     String husInfoString;
+    String stringAlleRom;
     Hus valgtHus;
+    public static Context contextOfApplication;
 
 
     @Override
@@ -56,6 +59,8 @@ public class HusOversikt extends AppCompatActivity {
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
         tb.setTitle("Hus");
+
+        contextOfApplication = getApplicationContext();
 
         sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContextOfApplication());
         stringAlleHus = sp.getString("alleHus", "Får ikke hentet data");
@@ -109,6 +114,14 @@ public class HusOversikt extends AppCompatActivity {
         };
         etasjer.setAdapter(etasjeAdapter);
 
+
+        RomJSON task = new RomJSON();
+        task.execute("http://student.cs.hioa.no/~s331153/romjsonout.php");
+        sp = PreferenceManager.getDefaultSharedPreferences(this);
+        stringAlleRom = sp.getString("alleRom", "Får ikke hentet rom");
+        Log.d("Alle rom i husoversikt", stringAlleRom);
+
+
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,93 +165,9 @@ public class HusOversikt extends AppCompatActivity {
         });
     }
 
-    private class HusAsyncTask extends AsyncTask<String, Void,String> {
-        List<Hus> alleHus = new ArrayList<>();
-
-        @Override
-        protected String doInBackground(String... urls) {
-            String retur = "";
-            String s = "";
-            String output = "";
-            for (String url : urls) {
-
-                try {
-                    URL urlen = new URL(urls[0]);
-                    HttpURLConnection conn = (HttpURLConnection)
-                            urlen.openConnection();
-                    conn.setRequestMethod("GET");
-                    conn.setRequestProperty("Accept", "application/json");
-
-                    if (conn.getResponseCode() != 200) {
-                        throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
-                    }
-                    BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-                    System.out.println("Output from Server .... \n");
-                    while ((s = br.readLine()) != null) {
-                        output = output + s;
-                    }
-                    conn.disconnect();
-
-                    try {
-                        JSONArray mat = new JSONArray(output);
-                        for (int i = 0; i < mat.length(); i++) {
-                            JSONObject jsonobject = mat.getJSONObject(i);
-                            int husID = jsonobject.getInt("HusID");
-                            String navn = jsonobject.getString("Navn");
-                            String beskrivelse = jsonobject.getString("Beskrivelse");
-                            String gateadresse = jsonobject.getString("Gateadresse");
-                            Double latitude = jsonobject.getDouble("Latitude");
-                            Double longitude = jsonobject.getDouble("Longitude");
-                            int etasjer = jsonobject.getInt("Etasjer");
-                            Hus etHus = new Hus(navn, beskrivelse, gateadresse, latitude, longitude, etasjer);
-                            alleHus.add(etHus);
-                        }
-                        return retur;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    return retur;
-                } catch (Exception e) {
-                    return "Noe gikk feil";
-                }
-            }
-            return retur;
-        }
-
-        @Override
-        protected void onPostExecute(String ss) {
-            husInfo.setText(
-                    "Hus ID: " + alleHus.get(0).husID + "\n" +
-                            "Navn: " + alleHus.get(0).navn + "\n" +
-                            "Beskrivelse: " + alleHus.get(0).beskrivelse + "\n" +
-                            "Adresse: " + alleHus.get(0).gateAdresse + "\n" +
-                            "Etasjer: " + alleHus.get(0).etasjer);
-
-/*            Integer[] husEtasjer = new Integer[]{};
-
-            int etasjeHus = alleHus.get(0).etasjer;
-            for(int i = 1; i <= etasjeHus; i++){
-                husEtasjer = new Integer[i];
-            }*/
-
-            Integer[] husEtasjer = new Integer[alleHus.get(0).etasjer];
-            int etasjeNr = 1;
-            for(int i = 0; i < husEtasjer.length; i++){
-                husEtasjer[i] = etasjeNr;
-                etasjeNr++;
-            }
-
-            ArrayAdapter<Integer> adapter2 = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer){
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
-                    View view = super.getView(position, convertView, parent);
-                    TextView textView = view.findViewById(android.R.id.text1);
-                    textView.setTextColor(Color.BLACK);
-                    return view;
-                }
-            };
-            etasjer.setAdapter(adapter2);
-        }
+    public static Context getContextOfApplication(){
+        return contextOfApplication;
     }
+
 }
 

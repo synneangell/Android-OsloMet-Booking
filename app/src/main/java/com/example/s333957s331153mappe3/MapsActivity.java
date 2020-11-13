@@ -90,7 +90,6 @@ public class MapsActivity extends AppCompatActivity implements
 
         contextOfApplication = getApplicationContext();
 
-        //sp = getApplicationContext().getSharedPreferences("MapsActivity", Context.MODE_PRIVATE);
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         stringAlleHus = sp.getString("alleHus", "Får ikke hentet data");
         Log.d("Alle hus i mapsactivity", stringAlleHus);

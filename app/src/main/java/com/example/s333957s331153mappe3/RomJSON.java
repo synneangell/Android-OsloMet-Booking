@@ -1,7 +1,11 @@
 package com.example.s333957s331153mappe3;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,16 +20,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RomJSON extends AppCompatActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        RomJSON.getJSON task = new RomJSON.getJSON();
-        task.execute(new String[]{"http://student.cs.hioa.no/~s331153/romjsonout.php"});
-    }
-
-    private class getJSON extends AsyncTask<String, Void,String> {
-        List<Rom> alleRom = new ArrayList<>();
+public class RomJSON extends AsyncTask<String, Void,String> {
+    SharedPreferences sp;
 
         @Override
         protected String doInBackground(String... urls) {
@@ -61,8 +57,7 @@ public class RomJSON extends AppCompatActivity {
                             int romNr = jsonobject.getInt("RomNr");
                             int kapasitet = jsonobject.getInt("Kapasitet");
                             String beskrivelse = jsonobject.getString("Beskrivelse");
-                            Rom etRom = new Rom(romID, husID, etasjeNr, romNr, kapasitet, beskrivelse);
-                            alleRom.add(etRom);
+                            retur = retur + romID+";" + husID+";" + etasjeNr+";" + romNr+";" + kapasitet+";" + beskrivelse+";";
                         }
                         return retur;
                     } catch (JSONException e) {
@@ -75,5 +70,13 @@ public class RomJSON extends AppCompatActivity {
             }
             return retur;
         }
+
+    @Override
+    protected void onPostExecute(String ss) {
+        Context applicationContext = HusOversikt.getContextOfApplication();
+        sp = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("alleRom",ss);
+        editor.apply();
     }
 }
