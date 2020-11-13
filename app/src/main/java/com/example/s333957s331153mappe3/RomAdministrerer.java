@@ -1,13 +1,17 @@
 package com.example.s333957s331153mappe3;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -37,6 +41,10 @@ public class RomAdministrerer extends AppCompatActivity {
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, items);
         etasjer.setAdapter(adapter);
 
+
+    }
+
+
 /*        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.manu_rom);
         setActionBar(toolbar);
@@ -49,7 +57,7 @@ public class RomAdministrerer extends AppCompatActivity {
                 startActivity(intent);
             }
         });*/
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu (Menu menu){
