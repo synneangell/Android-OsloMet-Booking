@@ -252,21 +252,29 @@ public class MapsActivity extends AppCompatActivity implements
             @Override
             public boolean onMarkerClick(Marker marker) {
                 String markerTittel = marker.getTitle();
-                //if(markerTittel.equals("Ny bygning")){
-                    Intent i = new Intent(MapsActivity.this, HusOversikt.class);
+                if(markerTittel.equals("Ny bygning?")) {
+                    Intent i = new Intent(MapsActivity.this, HusAdministrerer.class);
                     i.putExtra("koordinater", nyBygning);
                     startActivity(i);
                     return false;
-                } /*else {
+                }
+                else {
+                    String[] tempArray;
+                    String komma = ",";
+                    tempArray = markerTittel.split(komma);
+                    int husID = Integer.parseInt(tempArray[0]);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("alleHus", stringAlleHus);
+                    editor.putInt("husID",husID);
+                    editor.apply();
                     Intent i = new Intent(MapsActivity.this, HusOversikt.class);
                     startActivity(i);
-                    return true;
-                }*/
-                //return true;
-            //}
+                    return false;
+                }
+            }
         });
-
     }
+
 
 }
 

@@ -37,6 +37,7 @@ public class HusOversikt extends AppCompatActivity {
     List<Rom> alleRom;
     List<Hus> alleHus;
     String stringAlleHus;
+    int husIDValgt;
     SharedPreferences sp;
 
 
@@ -55,7 +56,10 @@ public class HusOversikt extends AppCompatActivity {
 
         sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContextOfApplication());
         stringAlleHus = sp.getString("alleHus", "Får ikke hentet data");
+        husIDValgt = sp.getInt("husID", 0);
         Log.d("Alle hus i husoversikt", stringAlleHus);
+        Log.d("HusID valgt", Integer.toString(husIDValgt));
+
 
       /*  HusJSON task = new HusJSON();
         task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
