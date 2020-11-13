@@ -121,6 +121,34 @@ public class HusOversikt extends AppCompatActivity {
         stringAlleRom = sp.getString("alleRom", "Får ikke hentet rom");
         Log.d("Alle rom i husoversikt", stringAlleRom);
 
+        alleRom = new ArrayList<>();
+
+        String[] tempArray2;
+        tempArray2 = stringAlleRom.split(semikolon);
+        for (int i = 0; i < tempArray2.length; i+=6){
+            Rom etRom = new Rom();
+            etRom.setRomID(Integer.parseInt(tempArray2[i]));
+            etRom.setHusID(Integer.parseInt(tempArray2[i]+1));
+            etRom.setEtasje(Integer.parseInt(tempArray2[i])+2);
+            etRom.setRomNr(Integer.parseInt(tempArray2[i])+3);
+            etRom.setKapasitet(Integer.parseInt(tempArray2[i]+4));
+            etRom.setBeskrivelse(tempArray2[i+5]);
+            alleRom.add(etRom);
+        }
+
+        Log.d("Alle rom size", Integer.toString(alleRom.size()));
+
+        ArrayAdapter<String> romAdapter = new ArrayAdapter<String>(HusOversikt.this, android.R.layout.simple_spinner_item, visRomListView()){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView textView = view.findViewById(android.R.id.text1);
+                textView.setTextColor(Color.BLACK);
+                return view;
+            }
+        };
+        lv.setAdapter(romAdapter);
+
 
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -163,6 +191,14 @@ public class HusOversikt extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    public List<String> visRomListView(){
+        List<String> alleRomLV = new ArrayList<>();
+        for(Rom etRom : alleRom){
+            alleRomLV.add("\nRomnr: "+etRom.getRomNr()+"\nBeskrivelse: "+etRom.getBeskrivelse());
+        }
+        return alleRomLV;
     }
 
     public static Context getContextOfApplication(){
