@@ -43,6 +43,7 @@ public class HusOversikt extends AppCompatActivity {
     Integer[] husEtasjer;
     String husInfoString;
     String stringAlleRom;
+    String valgtEtasje;
     Hus valgtHus;
     public static Context contextOfApplication;
 
@@ -113,7 +114,23 @@ public class HusOversikt extends AppCompatActivity {
             }
         };
         etasjer.setAdapter(etasjeAdapter);
+    /*    etasjer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                // TODO Auto-generated method stub
+                String s = spinner.getItemAtPosition(arg2).toString();
+                list.add(s);
+                listadapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });*/
 
         RomJSON task = new RomJSON();
         task.execute("http://student.cs.hioa.no/~s331153/romjsonout.php");
@@ -129,7 +146,7 @@ public class HusOversikt extends AppCompatActivity {
             Rom etRom = new Rom();
             etRom.setRomID(Integer.parseInt(tempArray2[i]));
             etRom.setHusID(Integer.parseInt(tempArray2[i+1]));
-            etRom.setEtasje(Integer.parseInt(tempArray2[i]+2));
+            etRom.setEtasje(Integer.parseInt(tempArray2[i+2]));
             etRom.setRomNr(Integer.parseInt(tempArray2[i+3]));
             etRom.setKapasitet(Integer.parseInt(tempArray2[i+4]));
             etRom.setBeskrivelse(tempArray2[i+5]);
@@ -195,13 +212,19 @@ public class HusOversikt extends AppCompatActivity {
 
     public List<String> visRomListView(){
         List<String> alleRomLV = new ArrayList<>();
+        valgtEtasje = etasjer.getSelectedItem().toString();
+
         for(Rom etRom : alleRom){
             if(etRom.getHusID() == husIDValgt){
-                alleRomLV.add("\nRomnr: "+etRom.getRomNr()+"\nBeskrivelse: "+etRom.getBeskrivelse());
+                if(Integer.toString(etRom.getEtasje()).equals(valgtEtasje)){
+                    alleRomLV.add("\nRomnr: "+etRom.getRomNr()+"\nBeskrivelse: "+etRom.getBeskrivelse());
+                }
             }
         }
         return alleRomLV;
     }
+
+
 
     public static Context getContextOfApplication(){
         return contextOfApplication;
