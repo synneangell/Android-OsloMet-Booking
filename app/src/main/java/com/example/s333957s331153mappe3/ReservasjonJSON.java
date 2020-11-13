@@ -1,7 +1,8 @@
 package com.example.s333957s331153mappe3;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
+import android.preference.PreferenceManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,16 +13,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Reservasjonjson extends AppCompatActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getJSON task = new getJSON();
-        task.execute(new String[]{"http://student.cs.hioa.no/~s331153/reservasjonjsonout.php"});
-    }
-
-    private class getJSON extends AsyncTask<String, Void,String> {
+    public class ReservasjonJSON extends AsyncTask<String, Void,String> {
         List<Reservasjon> alleReservasjoner = new ArrayList<>();
+        SharedPreferences sp;
 
         @Override
         protected String doInBackground(String... urls) {
@@ -72,5 +66,13 @@ public class Reservasjonjson extends AppCompatActivity {
             }
             return retur;
         }
+
+    @Override
+    protected void onPostExecute(String ss) {
+        Context applicationContext = HusOversikt.getContextOfApplication();
+        sp = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("alleReservasjoner",ss);
+        editor.apply();
     }
 }

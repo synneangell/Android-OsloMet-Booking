@@ -38,5 +38,7 @@
             android:parentActivityName=".MapsActivity"/>
         <activity android:name=".HusOversikt"
             android:parentActivityName=".MapsActivity"/>
+        <activity android:name=".ReservasjonListe"
+            android:parentActivityName=".MapsActivity"/>
     </application>
 </manifest>

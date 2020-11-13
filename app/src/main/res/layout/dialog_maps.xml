@@ -33,6 +33,17 @@
             android:background="@drawable/knapp"
             android:text="@string/slettBygning"
             android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnSeReservasjon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/knapp"
+            android:text="@string/seReservasjoner"
+            android:textColor="#000000" />
+
     </LinearLayout>
 
 </RelativeLayout>

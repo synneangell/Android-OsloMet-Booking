@@ -1,5 +1,6 @@
 package com.example.s333957s331153mappe3;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +18,8 @@ import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.s333957s331153mappe3.MapsActivity.contextOfApplication;
 
 public class ReservasjonListe extends AppCompatActivity {
     ListView lv;
@@ -36,12 +39,13 @@ public class ReservasjonListe extends AppCompatActivity {
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
 
+        sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContextOfApplication());
         husIDValgt = sp.getInt("husID", 0);
 
-        Reservasjonjson task = new Reservasjonjson();
+        ReservasjonJSON task = new ReservasjonJSON();
         task.execute("http://student.cs.hioa.no/~s331153/reservasjonjsonout.php");
         sp = PreferenceManager.getDefaultSharedPreferences(this);
-        stringAlleReservasjoner = sp.getString("alleReservasjoner", "Får ikke hentet rom");
+        stringAlleReservasjoner = sp.getString("alleReservasjoner", "Får ikke hentet reservasjon");
 
         alleReservasjoner = new ArrayList<>();
 
@@ -102,4 +106,9 @@ public class ReservasjonListe extends AppCompatActivity {
             }
         return alleReservasjonerLV;
     }
+
+    public static Context getContextOfApplication(){
+        return contextOfApplication;
+    }
+
 }

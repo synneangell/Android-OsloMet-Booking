@@ -265,14 +265,24 @@ public class MapsActivity extends AppCompatActivity implements
                     dialog.setCancelable(true);
                     dialog.show();
 
-                    Button slettBygning, seOversikt;
+                    Button slettBygning, seOversikt, seReservasjoner;
                     slettBygning = dialog.findViewById(R.id.btnSlettHus);
                     seOversikt = dialog.findViewById(R.id.btnHusOversikt);
+                    seReservasjoner = dialog.findViewById(R.id.btnSeReservasjon);
 
                     slettBygning.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             //Kode for å slette bygning
+                            dialog.dismiss();
+                        }
+                    });
+
+                    seReservasjoner.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent i = new Intent(MapsActivity.this, ReservasjonListe.class);
+                            startActivity(i);
                             dialog.dismiss();
                         }
                     });
