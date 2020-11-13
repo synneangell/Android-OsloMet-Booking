@@ -52,7 +52,7 @@ public class MapsActivity extends AppCompatActivity implements
     private GoogleMap mMap;
     LatLng pilestredet = new LatLng(59.923889, 10.731474);
     LatLng nyBygning;
-    List<Hus> alleHus = new ArrayList<>();
+    List<Hus> alleHus;
     String stringAlleHus;
     Toolbar tb;
     public static Context contextOfApplication;
@@ -84,7 +84,6 @@ public class MapsActivity extends AppCompatActivity implements
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
-        mGoogleApiClient.connect();
 
         HusJSON task = new HusJSON();
         task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
@@ -94,10 +93,9 @@ public class MapsActivity extends AppCompatActivity implements
         //sp = getApplicationContext().getSharedPreferences("MapsActivity", Context.MODE_PRIVATE);
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         stringAlleHus = sp.getString("alleHus", "Får ikke hentet data");
-        Log.d("Oncreate i mapsactivity", "");
         Log.d("Alle hus i mapsactivity", stringAlleHus);
 
-
+        mGoogleApiClient.connect();
 
     }
 
@@ -188,16 +186,6 @@ public class MapsActivity extends AppCompatActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        AlleAsyncTask task = new AlleAsyncTask();
-        alleHus = task.getAlleHus();
-        for(Hus etHus : alleHus){
-            Double latitude = etHus.getLatitude();
-            Double longitude = etHus.getLongitude();
-            LatLng latLng = new LatLng(latitude, longitude);
-            float zoomSize = 15.0f;
-            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getNavn()));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
-        }
         if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
             mGoogleApiClient.disconnect();
@@ -213,13 +201,33 @@ public class MapsActivity extends AppCompatActivity implements
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        alleHus = new ArrayList<>();
+
+        String[] tempArray;
+        String semikolon = ";";
+        tempArray = stringAlleHus.split(semikolon);
+
+        for (int i = 0; i < tempArray.length; i+=7){
+            Hus etHus = new Hus();
+            etHus.husID = Integer.parseInt(tempArray[i]);
+            etHus.navn = tempArray[i+1];
+            etHus.beskrivelse = tempArray[i+2];
+            etHus.gateAdresse = tempArray[i+3];
+            etHus.latitude = Double.parseDouble(tempArray[i+4]);
+            etHus.longitude = Double.parseDouble(tempArray[i+5]);
+            etHus.etasjer = Integer.parseInt(tempArray[i+6]);
+            alleHus.add(etHus);
+        }
+
+        Log.d("Allehus size ",Integer.toString(alleHus.size()));
+
         for(Hus etHus : alleHus){
-            Log.d("Alle hus", etHus.navn);
+            Log.d("Et hus sitt navn", etHus.navn);
             Double latitude = etHus.getLatitude();
             Double longitude = etHus.getLongitude();
             LatLng latLng = new LatLng(latitude, longitude);
             float zoomSize = 15.0f;
-            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getNavn()));
+            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getHusID() + ", "+etHus.getNavn()));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
         }
 
