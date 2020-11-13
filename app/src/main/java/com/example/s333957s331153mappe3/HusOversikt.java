@@ -128,10 +128,10 @@ public class HusOversikt extends AppCompatActivity {
         for (int i = 0; i < tempArray2.length; i+=6){
             Rom etRom = new Rom();
             etRom.setRomID(Integer.parseInt(tempArray2[i]));
-            etRom.setHusID(Integer.parseInt(tempArray2[i]+1));
-            etRom.setEtasje(Integer.parseInt(tempArray2[i])+2);
-            etRom.setRomNr(Integer.parseInt(tempArray2[i])+3);
-            etRom.setKapasitet(Integer.parseInt(tempArray2[i]+4));
+            etRom.setHusID(Integer.parseInt(tempArray2[i+1]));
+            etRom.setEtasje(Integer.parseInt(tempArray2[i]+2));
+            etRom.setRomNr(Integer.parseInt(tempArray2[i+3]));
+            etRom.setKapasitet(Integer.parseInt(tempArray2[i+4]));
             etRom.setBeskrivelse(tempArray2[i+5]);
             alleRom.add(etRom);
         }
@@ -196,7 +196,9 @@ public class HusOversikt extends AppCompatActivity {
     public List<String> visRomListView(){
         List<String> alleRomLV = new ArrayList<>();
         for(Rom etRom : alleRom){
-            alleRomLV.add("\nRomnr: "+etRom.getRomNr()+"\nBeskrivelse: "+etRom.getBeskrivelse());
+            if(etRom.getHusID() == husIDValgt){
+                alleRomLV.add("\nRomnr: "+etRom.getRomNr()+"\nBeskrivelse: "+etRom.getBeskrivelse());
+            }
         }
         return alleRomLV;
     }
