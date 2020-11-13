@@ -2,6 +2,7 @@ package com.example.s333957s331153mappe3;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -12,6 +13,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -250,30 +253,50 @@ public class MapsActivity extends AppCompatActivity implements
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                String markerTittel = marker.getTitle();
-                if(markerTittel.equals("Ny bygning?")) {
+                final String markerTittel = marker.getTitle();
+                if (markerTittel.equals("Ny bygning?")) {
                     Intent i = new Intent(MapsActivity.this, HusAdministrerer.class);
                     i.putExtra("koordinater", nyBygning);
                     startActivity(i);
                     return false;
-                }
-                else {
-                    String[] tempArray;
-                    String komma = ",";
-                    tempArray = markerTittel.split(komma);
-                    int husID = Integer.parseInt(tempArray[0]);
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("alleHus", stringAlleHus);
-                    editor.putInt("husID",husID);
-                    editor.apply();
-                    Intent i = new Intent(MapsActivity.this, HusOversikt.class);
-                    startActivity(i);
+                } else {
+                    final Dialog dialog = new Dialog(MapsActivity.this);
+                    dialog.setContentView(R.layout.dialog_maps);
+                    dialog.setCancelable(true);
+                    dialog.show();
+
+                    Button slettBygning, seOversikt;
+                    slettBygning = dialog.findViewById(R.id.btnSlettHus);
+                    seOversikt = dialog.findViewById(R.id.btnHusOversikt);
+
+                    slettBygning.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //Kode for å slette bygning
+                            dialog.dismiss();
+                        }
+                    });
+
+                    seOversikt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String[] tempArray;
+                            String komma = ",";
+                            tempArray = markerTittel.split(komma);
+                            int husID = Integer.parseInt(tempArray[0]);
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString("alleHus", stringAlleHus);
+                            editor.putInt("husID", husID);
+                            editor.apply();
+                            Intent i = new Intent(MapsActivity.this, HusOversikt.class);
+                            startActivity(i);
+                            dialog.dismiss();
+                        }
+                    });
                     return false;
                 }
             }
         });
     }
-
-
 }
 

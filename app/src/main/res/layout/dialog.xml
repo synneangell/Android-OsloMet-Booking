@@ -4,43 +4,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="20dp"
-        android:layout_centerHorizontal="true"
-        android:text="Velg noe"/>-->
-
     <LinearLayout
         android:id="@+id/test2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="10dp"
+        android:layout_width="216dp"
+        android:layout_height="256dp"
         android:layout_marginLeft="10dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/btnReservasjon"
-            android:layout_width="0dp"
+            android:layout_width="200dp"
+            android:layout_height="1dp"
             android:layout_margin="3dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="#000000"
             android:background="@drawable/knapp"
-            android:text="@string/opprettReservasjon"/>
+            android:text="@string/opprettReservasjon"
+            android:textColor="#000000" />
 
         <Button
             android:id="@+id/btnSlett"
-            android:layout_width="0dp"
+            android:layout_width="200dp"
+            android:layout_height="1dp"
             android:layout_margin="3dp"
             android:layout_weight="1"
-            android:textColor="#000000"
             android:background="@drawable/knapp"
             android:text="@string/slettRom"
-            android:layout_height="wrap_content"/>
+            android:textColor="#000000" />
+
+        <Button
+            android:id="@+id/btnSeReservasjon"
+            android:layout_width="200dp"
+            android:layout_height="1dp"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/knapp"
+            android:text="@string/seReservasjoner"
+            android:textColor="#000000" />
+
     </LinearLayout>
 
 </RelativeLayout>

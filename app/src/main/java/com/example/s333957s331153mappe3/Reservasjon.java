@@ -20,6 +20,8 @@ public class Reservasjon {
         this.tidTil = tidTil;
     }
 
+    public Reservasjon(){}
+
     public int getReservasjonsID() {
         return reservasjonsID;
     }

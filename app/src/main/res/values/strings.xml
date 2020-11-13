@@ -8,4 +8,10 @@
     <string name="opprettReservasjon">Reserver</string>
     <string name="slettRom">Slett rommet</string>
     <string name="avbryt">Avbryt</string>
+    <string name="slettBygning">Slett bygning</string>
+    <string name="husOversikt">Se oversikt</string>
+    <string name="seReservasjoner">Reservasjoner</string>
+    <string name="slettReservasjon">Er du sikker på at du vil slette reservasjonen?</string>
+    <string name="ja">Ja</string>
+    <string name="nei">Nei</string>
 </resources>
