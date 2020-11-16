@@ -51,8 +51,7 @@ public class HusOversikt extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_husoversikt);
-    }
-       /* lv = findViewById(R.id.lv);
+        lv = findViewById(R.id.lv);
         husInfo = findViewById(R.id.husInfo);
         etasjer = findViewById(R.id.etasjer);
         tb = findViewById(R.id.toolbarHusOversikt);
@@ -66,43 +65,46 @@ public class HusOversikt extends AppCompatActivity {
         husIDValgt = sp.getInt("husID", 0);
         Log.d("Alle hus i husoversikt", stringAlleHus);
 
+        stringAlleRom = sp.getString("alleRom", "Får ikke hentet rom");
+        Log.d("Alle rom i husoversikt", stringAlleRom);
 
+        /*
         alleHus = new ArrayList<>();
 
         String[] tempArray;
         String semikolon = ";";
         tempArray = stringAlleHus.split(semikolon);
-        for (int i = 0; i < tempArray.length; i+=7){
+        for (int i = 0; i < tempArray.length; i += 7) {
             Hus etHus = new Hus();
             etHus.husID = Integer.parseInt(tempArray[i]);
-            etHus.navn = tempArray[i+1];
-            etHus.beskrivelse = tempArray[i+2];
-            etHus.gateAdresse = tempArray[i+3];
-            etHus.latitude = Double.parseDouble(tempArray[i+4]);
-            etHus.longitude = Double.parseDouble(tempArray[i+5]);
-            etHus.etasjer = Integer.parseInt(tempArray[i+6]);
+            etHus.navn = tempArray[i + 1];
+            etHus.beskrivelse = tempArray[i + 2];
+            etHus.gateAdresse = tempArray[i + 3];
+            etHus.latitude = Double.parseDouble(tempArray[i + 4]);
+            etHus.longitude = Double.parseDouble(tempArray[i + 5]);
+            etHus.etasjer = Integer.parseInt(tempArray[i + 6]);
             alleHus.add(etHus);
         }
 
-        for(Hus etHus : alleHus){
-            if(etHus.husID == husIDValgt){
+        for (Hus etHus : alleHus) {
+            if (etHus.husID == husIDValgt) {
                 valgtHus = etHus;
             }
         }
 
-        husInfoString = "HusID: "+valgtHus.husID +
-                "\nNavn: "+valgtHus.navn +
-                "\nBeskrivelse: "+valgtHus.beskrivelse +
-                "\nGateadresse: "+valgtHus.gateAdresse;
+        husInfoString = "HusID: " + valgtHus.husID +
+                "\nNavn: " + valgtHus.navn +
+                "\nBeskrivelse: " + valgtHus.beskrivelse +
+                "\nGateadresse: " + valgtHus.gateAdresse;
         husInfo.setText(husInfoString);
 
         husEtasjer = new Integer[valgtHus.etasjer];
         int etasjeNr = 1;
-        for(int i = 0; i < husEtasjer.length; i++){
+        for (int i = 0; i < husEtasjer.length; i++) {
             husEtasjer[i] = etasjeNr;
             etasjeNr++;
         }
-        ArrayAdapter<Integer> etasjeAdapter = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer){
+        ArrayAdapter<Integer> etasjeAdapter = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -114,33 +116,32 @@ public class HusOversikt extends AppCompatActivity {
         etasjer.setAdapter(etasjeAdapter);
 
         stringAlleRom = sp.getString("alleRom", "Får ikke hentet rom");
-
         Log.d("Alle rom i husoversikt", stringAlleRom);
 
         alleRom = new ArrayList<>();
 
         String[] tempArray2;
         tempArray2 = stringAlleRom.split(semikolon);
-        for (int i = 0; i < tempArray2.length; i+=6){
+        for (int i = 0; i < tempArray2.length; i += 6) {
             Rom etRom = new Rom();
             etRom.setRomID(Integer.parseInt(tempArray2[i]));
-            etRom.setHusID(Integer.parseInt(tempArray2[i+1]));
-            etRom.setEtasje(Integer.parseInt(tempArray2[i+2]));
-            etRom.setRomNr(Integer.parseInt(tempArray2[i+3]));
-            etRom.setKapasitet(Integer.parseInt(tempArray2[i+4]));
-            etRom.setBeskrivelse(tempArray2[i+5]);
+            etRom.setHusID(Integer.parseInt(tempArray2[i + 1]));
+            etRom.setEtasje(Integer.parseInt(tempArray2[i + 2]));
+            etRom.setRomNr(Integer.parseInt(tempArray2[i + 3]));
+            etRom.setKapasitet(Integer.parseInt(tempArray2[i + 4]));
+            etRom.setBeskrivelse(tempArray2[i + 5]);
             alleRom.add(etRom);
         }
 
-        Log.d("Alle rom size", Integer.toString(alleRom.size()));
+        Log.d("Alle rom size", Integer.toString(alleRom.size()));  */
 
-        etasjer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+   /*     etasjer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
                 String valgtEtasjeSpinner = etasjer.getItemAtPosition(arg2).toString();
-                ArrayAdapter<String> romAdapter = new ArrayAdapter<String>(HusOversikt.this, android.R.layout.simple_spinner_item, visRomListView(valgtEtasjeSpinner)){
+                ArrayAdapter<String> romAdapter = new ArrayAdapter<String>(HusOversikt.this, android.R.layout.simple_spinner_item, visRomListView(valgtEtasjeSpinner)) {
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View view = super.getView(position, convertView, parent);
@@ -165,7 +166,13 @@ public class HusOversikt extends AppCompatActivity {
                 Intent i = new Intent(HusOversikt.this, RomAdministrerer.class);
                 startActivity(i);
             }
-        });
+        });*/
+    }
+    public static Context getContextOfApplication(){
+        return contextOfApplication;
+    }
+/*
+
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -217,7 +224,7 @@ public class HusOversikt extends AppCompatActivity {
             }
         }
         return alleRomLV;
-    }
+    }*/
 
 /*
     @Override
