@@ -47,7 +47,6 @@ public class HusOversikt extends AppCompatActivity {
     Hus valgtHus;
     public static Context contextOfApplication;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,55 +55,58 @@ public class HusOversikt extends AppCompatActivity {
         husInfo = findViewById(R.id.husInfo);
         etasjer = findViewById(R.id.etasjer);
         tb = findViewById(R.id.toolbarHusOversikt);
-        tb.setLogo(R.mipmap.ic_launcher_round);
-        tb.inflateMenu(R.menu.manu_rom);
-        setActionBar(tb);
-        tb.setTitle("Hus");
 
         contextOfApplication = getApplicationContext();
 
+        RomJSON task = new RomJSON();
+        task.execute(new String[]{"http://student.cs.hioa.no/~s331153/romjsonout.php"});
         sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContextOfApplication());
         stringAlleHus = sp.getString("alleHus", "Får ikke hentet data");
         husIDValgt = sp.getInt("husID", 0);
         Log.d("Alle hus i husoversikt", stringAlleHus);
-        Log.d("HusID valgt", Integer.toString(husIDValgt));
+
+        stringAlleRom = sp.getString("alleRom", "Får ikke hentet rom");
+        Log.d("Alle rom i husoversikt", stringAlleRom);
+
 
         alleHus = new ArrayList<>();
 
         String[] tempArray;
         String semikolon = ";";
         tempArray = stringAlleHus.split(semikolon);
-        for (int i = 0; i < tempArray.length; i+=7){
+        for (int i = 0; i < tempArray.length; i += 7) {
             Hus etHus = new Hus();
             etHus.husID = Integer.parseInt(tempArray[i]);
-            etHus.navn = tempArray[i+1];
-            etHus.beskrivelse = tempArray[i+2];
-            etHus.gateAdresse = tempArray[i+3];
-            etHus.latitude = Double.parseDouble(tempArray[i+4]);
-            etHus.longitude = Double.parseDouble(tempArray[i+5]);
-            etHus.etasjer = Integer.parseInt(tempArray[i+6]);
+            etHus.navn = tempArray[i + 1];
+            etHus.beskrivelse = tempArray[i + 2];
+            etHus.gateAdresse = tempArray[i + 3];
+            etHus.latitude = Double.parseDouble(tempArray[i + 4]);
+            etHus.longitude = Double.parseDouble(tempArray[i + 5]);
+            etHus.etasjer = Integer.parseInt(tempArray[i + 6]);
             alleHus.add(etHus);
         }
 
-        for(Hus etHus : alleHus){
-            if(etHus.husID == husIDValgt){
+        for (Hus etHus : alleHus) {
+            if (etHus.husID == husIDValgt) {
                 valgtHus = etHus;
             }
         }
 
-        husInfoString = "HusID: "+valgtHus.husID +
-                "\nNavn: "+valgtHus.navn +
-                "\nBeskrivelse: "+valgtHus.beskrivelse +
-                "\nGateadresse: "+valgtHus.gateAdresse;
+        husInfoString = "HusID: " + valgtHus.husID +
+                "\nNavn: " + valgtHus.navn +
+                "\nBeskrivelse: " + valgtHus.beskrivelse +
+                "\nGateadresse: " + valgtHus.gateAdresse;
         husInfo.setText(husInfoString);
 
         husEtasjer = new Integer[valgtHus.etasjer];
         int etasjeNr = 1;
-        for(int i = 0; i < husEtasjer.length; i++){
+        for (int i = 0; i < husEtasjer.length; i++) {
             husEtasjer[i] = etasjeNr;
             etasjeNr++;
         }
-        ArrayAdapter<Integer> etasjeAdapter = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer){
+
+
+        ArrayAdapter<Integer> etasjeAdapter = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -115,24 +117,19 @@ public class HusOversikt extends AppCompatActivity {
         };
         etasjer.setAdapter(etasjeAdapter);
 
-        RomJSON task = new RomJSON();
-        task.execute("http://student.cs.hioa.no/~s331153/romjsonout.php");
-        sp = PreferenceManager.getDefaultSharedPreferences(this);
-        stringAlleRom = sp.getString("alleRom", "Får ikke hentet rom");
-        Log.d("Alle rom i husoversikt", stringAlleRom);
 
         alleRom = new ArrayList<>();
 
         String[] tempArray2;
         tempArray2 = stringAlleRom.split(semikolon);
-        for (int i = 0; i < tempArray2.length; i+=6){
+        for (int i = 0; i < tempArray2.length; i += 6) {
             Rom etRom = new Rom();
             etRom.setRomID(Integer.parseInt(tempArray2[i]));
-            etRom.setHusID(Integer.parseInt(tempArray2[i+1]));
-            etRom.setEtasje(Integer.parseInt(tempArray2[i+2]));
-            etRom.setRomNr(Integer.parseInt(tempArray2[i+3]));
-            etRom.setKapasitet(Integer.parseInt(tempArray2[i+4]));
-            etRom.setBeskrivelse(tempArray2[i+5]);
+            etRom.setHusID(Integer.parseInt(tempArray2[i + 1]));
+            etRom.setEtasje(Integer.parseInt(tempArray2[i + 2]));
+            etRom.setRomNr(Integer.parseInt(tempArray2[i + 3]));
+            etRom.setKapasitet(Integer.parseInt(tempArray2[i + 4]));
+            etRom.setBeskrivelse(tempArray2[i + 5]);
             alleRom.add(etRom);
         }
 
@@ -143,9 +140,8 @@ public class HusOversikt extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
-                // TODO Auto-generated method stub
                 String valgtEtasjeSpinner = etasjer.getItemAtPosition(arg2).toString();
-                ArrayAdapter<String> romAdapter = new ArrayAdapter<String>(HusOversikt.this, android.R.layout.simple_spinner_item, visRomListView(valgtEtasjeSpinner)){
+                ArrayAdapter<String> romAdapter = new ArrayAdapter<String>(HusOversikt.this, android.R.layout.simple_spinner_item, visRomListView(valgtEtasjeSpinner)) {
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View view = super.getView(position, convertView, parent);
@@ -158,14 +154,10 @@ public class HusOversikt extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
-
-
-
 
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -176,8 +168,7 @@ public class HusOversikt extends AppCompatActivity {
             }
         });
 
-
-       lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long j){
                 final Dialog dialog = new Dialog(HusOversikt.this);
@@ -208,28 +199,25 @@ public class HusOversikt extends AppCompatActivity {
                 });
             }
         });
+
     }
 
-    public List<String> visRomListView(String valgtEtasjeSpinner){
+    public static Context getContextOfApplication() {
+        return contextOfApplication;
+    }
+
+    public List<String> visRomListView(String valgtEtasjeSpinner) {
         List<String> alleRomLV = new ArrayList<>();
 
         //valgtEtasje = etasjer.getSelectedItem().toString();
 
-        for(Rom etRom : alleRom){
-            if(etRom.getHusID() == husIDValgt){
-                if(Integer.toString(etRom.getEtasje()).equals(valgtEtasjeSpinner)){
-                    alleRomLV.add("\nRomnr: "+etRom.getRomNr()+"\nBeskrivelse: "+etRom.getBeskrivelse());
+        for (Rom etRom : alleRom) {
+            if (etRom.getHusID() == husIDValgt) {
+                if (Integer.toString(etRom.getEtasje()).equals(valgtEtasjeSpinner)) {
+                    alleRomLV.add("\nRomnr: " + etRom.getRomNr() + "\nBeskrivelse: " + etRom.getBeskrivelse());
                 }
             }
         }
         return alleRomLV;
     }
-
-
-
-    public static Context getContextOfApplication(){
-        return contextOfApplication;
-    }
-
 }
-

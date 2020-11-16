@@ -40,45 +40,10 @@ public class RomAdministrerer extends AppCompatActivity {
         Integer[] items = new Integer[]{1,2,3,4,5,6,7,8,9,10};
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, items);
         etasjer.setAdapter(adapter);
-
-
     }
 
-
-/*        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.inflateMenu(R.menu.manu_rom);
-        setActionBar(toolbar);
-        toolbar.setTitle("Legg til rom");
-        //toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(RomAdministrerer.this, HusAdministrerer.class);
-                startActivity(intent);
-            }
-        });*/
-
-
-    @Override
-    public boolean onCreateOptionsMenu (Menu menu){
-        getMenuInflater().inflate(R.menu.manu_rom, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            case R.id.lagre:
-                lagreRom();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
-    }
-
-    public void lagreRom(){
-        AlleAsyncTask task = new AlleAsyncTask();
+    public void lagreRom(View v){
+        RomJSON task = new RomJSON();
         String urlString = ("http://student.cs.hioa.no/~s331153/romjsonin.php/?" +
                 "Etasje=" +  etasjer.getSelectedItem() +
                 "&RomNr=" + romNr.getText().toString() +

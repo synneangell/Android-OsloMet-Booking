@@ -1,18 +1,15 @@
 package com.example.s333957s331153mappe3;
+
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -22,6 +19,7 @@ import java.util.List;
 
 public class HusJSON extends AsyncTask<String, Void,String> {
     SharedPreferences sp;
+    List<Hus> alleHus = new ArrayList<>();
 
     @Override
     protected String doInBackground(String... urls) {
@@ -80,5 +78,9 @@ public class HusJSON extends AsyncTask<String, Void,String> {
         editor.putString("alleHus",ss);
         editor.apply();
         Log.d("Test","Inne i onPostExecute");
+    }
+
+    public List<Hus> getAlleHus() {
+        return alleHus;
     }
 }

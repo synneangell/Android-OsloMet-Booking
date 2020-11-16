@@ -1,8 +1,6 @@
 package com.example.s333957s331153mappe3;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -10,19 +8,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.maps.model.LatLng;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class HusAdministrerer extends AppCompatActivity {
     Spinner etasjer;
@@ -57,7 +44,7 @@ public class HusAdministrerer extends AppCompatActivity {
 
     public void lagre (View v){
 
-        AlleAsyncTask task = new AlleAsyncTask();
+        HusJSON task = new HusJSON();
         //Må ha en if-setning som validerer alle feltene som sendes med her!!
         String urlString = ("http://student.cs.hioa.no/~s331153/husjsonin.php/?" +
                 "Navn=" + navn.getText().toString() +
