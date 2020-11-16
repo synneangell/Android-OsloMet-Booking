@@ -5,11 +5,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -21,8 +24,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MapsActivity extends AppCompatActivity implements
  OnMapReadyCallback {
@@ -35,6 +40,9 @@ public class MapsActivity extends AppCompatActivity implements
     Toolbar tb;
     public static Context context;
     SharedPreferences sp;
+    Geocoder geocoder;
+    List<Address> adresser;
+    private List<Marker> husMarkers = new ArrayList<>();
 
 
     @Override
@@ -58,6 +66,25 @@ public class MapsActivity extends AppCompatActivity implements
         return context;
     }
 
+    /* Ikke riktig! Men må finne en måte å få lagt til ny bygning i kartet!
+
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        intent = getIntent();
+        if(intent.hasExtra("name")){
+            Hus nyttHus = new Hus();
+            nyttHus.navn = intent.getStringExtra("navn");
+            nyttHus.beskrivelse = intent.getStringExtra("beskrivelse");
+            nyttHus.gateAdresse = intent.getStringExtra("gateadresse");
+            nyttHus.latitude = intent.getDoubleExtra("latitude", 0);
+            nyttHus.longitude = intent.getDoubleExtra("longitude", 0);
+            nyttHus.etasjer = intent.getIntExtra("etasjer", 0);
+            LatLng nyttHusLatLng = new LatLng(nyttHus.latitude, nyttHus.longitude);
+            husMarkers.add(mMap.addMarker(new MarkerOptions().position(nyttHusLatLng).title(nyttHus.getHusID() + ", "+nyttHus.getNavn())));
+
+        }
+    }*/
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -93,6 +120,7 @@ public class MapsActivity extends AppCompatActivity implements
             alleHus.add(etHus);
         }
 
+
         Log.d("Allehus size ",Integer.toString(alleHus.size()));
 
         for(Hus etHus : alleHus){
@@ -101,7 +129,7 @@ public class MapsActivity extends AppCompatActivity implements
             Double longitude = etHus.getLongitude();
             LatLng latLng = new LatLng(latitude, longitude);
             float zoomSize = 15.0f;
-            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getHusID() + ", "+etHus.getNavn()));
+            husMarkers.add(mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getHusID() + ", "+etHus.getNavn())));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
         }
 
@@ -113,11 +141,23 @@ public class MapsActivity extends AppCompatActivity implements
                 markerOptions.position(latLng);
 
                 nyBygning = new LatLng(latLng.latitude, latLng.longitude);
-                markerOptions.title("Ny bygning?");
+                geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
+                try {
+                    adresser = geocoder.getFromLocation(nyBygning.latitude, nyBygning.longitude, 1);
+                } catch (IOException e) {
+                    Toast.makeText(MapsActivity.this, "Ikke gyldig adresse funnet", Toast.LENGTH_SHORT).show();
+                    Log.d("TAG", "Fant ikke adresse til koordinater");
 
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-
-                mMap.addMarker(markerOptions);
+                }
+                if(adresser == null){
+                    Toast.makeText(MapsActivity.this, "Ikke gyldig adresse funnet", Toast.LENGTH_LONG);
+                    Log.d("TAG", "Fant ikke adresse til koordinater");
+                }
+                else {
+                    markerOptions.title("Ny bygning?");
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                    mMap.addMarker(markerOptions);
+                }
             }
         });
 
@@ -146,7 +186,14 @@ public class MapsActivity extends AppCompatActivity implements
                         @Override
                         public void onClick(View view) {
                             //Kode for å slette bygning
-                            dialog.dismiss();
+                        /*    String[] tempArray;
+                            String komma = ",";
+                            tempArray = markerTittel.split(komma);
+                            int husID = Integer.parseInt(tempArray[0]);
+                            SlettHusJSON task = new SlettHusJSON();
+                            String url = "http://student.cs.hioa.no/~s331153/sletthusjson.php/?HusID=" + Integer.toString(husID);
+                            task.execute(url);
+                            dialog.dismiss();*/
                         }
                     });
 
