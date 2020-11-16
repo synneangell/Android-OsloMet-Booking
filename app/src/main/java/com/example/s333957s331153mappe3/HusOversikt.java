@@ -68,7 +68,7 @@ public class HusOversikt extends AppCompatActivity {
         stringAlleRom = sp.getString("alleRom", "Får ikke hentet rom");
         Log.d("Alle rom i husoversikt", stringAlleRom);
 
-        /*
+
         alleHus = new ArrayList<>();
 
         String[] tempArray;
@@ -104,6 +104,8 @@ public class HusOversikt extends AppCompatActivity {
             husEtasjer[i] = etasjeNr;
             etasjeNr++;
         }
+
+
         ArrayAdapter<Integer> etasjeAdapter = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -115,8 +117,6 @@ public class HusOversikt extends AppCompatActivity {
         };
         etasjer.setAdapter(etasjeAdapter);
 
-        stringAlleRom = sp.getString("alleRom", "Får ikke hentet rom");
-        Log.d("Alle rom i husoversikt", stringAlleRom);
 
         alleRom = new ArrayList<>();
 
@@ -133,9 +133,9 @@ public class HusOversikt extends AppCompatActivity {
             alleRom.add(etRom);
         }
 
-        Log.d("Alle rom size", Integer.toString(alleRom.size()));  */
+        Log.d("Alle rom size", Integer.toString(alleRom.size()));
 
-   /*     etasjer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        etasjer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -157,7 +157,7 @@ public class HusOversikt extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
-        });
+        });/*
 
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -170,6 +170,21 @@ public class HusOversikt extends AppCompatActivity {
     }
     public static Context getContextOfApplication(){
         return contextOfApplication;
+    }
+
+    public List<String> visRomListView(String valgtEtasjeSpinner){
+        List<String> alleRomLV = new ArrayList<>();
+
+        //valgtEtasje = etasjer.getSelectedItem().toString();
+
+        for(Rom etRom : alleRom){
+            if(etRom.getHusID() == husIDValgt){
+                if(Integer.toString(etRom.getEtasje()).equals(valgtEtasjeSpinner)){
+                    alleRomLV.add("\nRomnr: "+etRom.getRomNr()+"\nBeskrivelse: "+etRom.getBeskrivelse());
+                }
+            }
+        }
+        return alleRomLV;
     }
 /*
 
