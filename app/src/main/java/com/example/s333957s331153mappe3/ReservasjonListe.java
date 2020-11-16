@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.s333957s331153mappe3.MapsActivity.contextOfApplication;
+import static com.example.s333957s331153mappe3.MapsActivity.context;
 
 public class ReservasjonListe extends AppCompatActivity {
     ListView lv;
@@ -39,7 +39,7 @@ public class ReservasjonListe extends AppCompatActivity {
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
 
-        sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContextOfApplication());
+        sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContext());
         husIDValgt = sp.getInt("husID", 0);
 
         ReservasjonJSON task = new ReservasjonJSON();
@@ -108,7 +108,7 @@ public class ReservasjonListe extends AppCompatActivity {
     }
 
     public static Context getContextOfApplication(){
-        return contextOfApplication;
+        return context;
     }
 
 }

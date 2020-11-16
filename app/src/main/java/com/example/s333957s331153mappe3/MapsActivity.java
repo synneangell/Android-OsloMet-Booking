@@ -1,28 +1,17 @@
 package com.example.s333957s331153mappe3;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import android.Manifest;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 import android.widget.Toolbar;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,17 +21,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class MapsActivity extends AppCompatActivity implements
  OnMapReadyCallback {
@@ -53,7 +33,7 @@ public class MapsActivity extends AppCompatActivity implements
     List<Hus> alleHus;
     String stringAlleHus;
     Toolbar tb;
-    public static Context contextOfApplication;
+    public static Context context;
     SharedPreferences sp;
 
 
@@ -74,8 +54,8 @@ public class MapsActivity extends AppCompatActivity implements
 
     }
 
-    public static Context getContextOfApplication(){
-        return contextOfApplication;
+    public static Context getContext(){
+        return context;
     }
 
 
@@ -86,7 +66,7 @@ public class MapsActivity extends AppCompatActivity implements
         CameraUpdate startPosisjon = CameraUpdateFactory.newLatLngZoom(pilestredet, 15);
         mMap.animateCamera(startPosisjon);
 
-        contextOfApplication = getApplicationContext();
+        context = getApplicationContext();
 
         HusJSON task = new HusJSON();
         task.execute(new String[]{"http://student.cs.hioa.no/~s331153/husjsonout.php"});
@@ -95,7 +75,7 @@ public class MapsActivity extends AppCompatActivity implements
         stringAlleHus = sp.getString("alleHus", "Får ikke hentet data");
         Log.d("Alle hus i mapsactivity", stringAlleHus);
 
-       alleHus = new ArrayList<>();
+        alleHus = new ArrayList<>();
 
         String[] tempArray;
         String semikolon = ";";

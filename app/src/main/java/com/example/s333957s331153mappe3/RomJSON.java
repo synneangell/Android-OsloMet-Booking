@@ -3,11 +3,8 @@ package com.example.s333957s331153mappe3;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,8 +14,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RomJSON extends AsyncTask<String, Void,String> {
     SharedPreferences sp;
@@ -73,7 +68,7 @@ public class RomJSON extends AsyncTask<String, Void,String> {
 
     @Override
     protected void onPostExecute(String ss) {
-        Context applicationContext = HusOversikt.getContextOfApplication();
+        Context applicationContext = MapsActivity.getContext();
         sp = PreferenceManager.getDefaultSharedPreferences(applicationContext);
         SharedPreferences.Editor editor = sp.edit();
         Log.d("I onPostExecute romjson", ss );
