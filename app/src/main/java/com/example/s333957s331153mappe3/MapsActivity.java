@@ -85,6 +85,16 @@ public class MapsActivity extends AppCompatActivity implements
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
+        try {
+            Class.forName("android.os.AsyncTask");
+            Log.d("I try", "");
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            Log.d("I catch", "");
+            e.printStackTrace();
+        }
+
+
         HusJSON task = new HusJSON();
         task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
 
@@ -169,16 +179,6 @@ public class MapsActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         //setUpMapIfNeeded();
-        AlleAsyncTask task = new AlleAsyncTask();
-        alleHus = task.getAlleHus();
-        for(Hus etHus : alleHus){
-            Double latitude = etHus.getLatitude();
-            Double longitude = etHus.getLongitude();
-            LatLng latLng = new LatLng(latitude, longitude);
-            //float zoomSize = 15.0f;
-            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getNavn()));
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
-        }
         mGoogleApiClient.connect();
     }
 
@@ -200,7 +200,7 @@ public class MapsActivity extends AppCompatActivity implements
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        alleHus = new ArrayList<>();
+/*        alleHus = new ArrayList<>();
 
         String[] tempArray;
         String semikolon = ";";
@@ -228,7 +228,7 @@ public class MapsActivity extends AppCompatActivity implements
             float zoomSize = 15.0f;
             mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getHusID() + ", "+etHus.getNavn()));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
-        }
+        }*/
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 

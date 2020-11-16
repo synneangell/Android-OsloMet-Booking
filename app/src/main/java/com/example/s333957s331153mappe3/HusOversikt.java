@@ -63,7 +63,7 @@ public class HusOversikt extends AppCompatActivity {
 
         contextOfApplication = getApplicationContext();
 
-        sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContextOfApplication());
+   /*     sp = PreferenceManager.getDefaultSharedPreferences(this);
         stringAlleHus = sp.getString("alleHus", "Får ikke hentet data");
         husIDValgt = sp.getInt("husID", 0);
         Log.d("Alle hus i husoversikt", stringAlleHus);
@@ -134,7 +134,7 @@ public class HusOversikt extends AppCompatActivity {
             etRom.setKapasitet(Integer.parseInt(tempArray2[i+4]));
             etRom.setBeskrivelse(tempArray2[i+5]);
             alleRom.add(etRom);
-        }
+        }*/
 
         Log.d("Alle rom size", Integer.toString(alleRom.size()));
 

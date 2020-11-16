@@ -78,7 +78,7 @@ public class RomAdministrerer extends AppCompatActivity {
     }
 
     public void lagreRom(){
-        AlleAsyncTask task = new AlleAsyncTask();
+        HusJSON task = new HusJSON();
         String urlString = ("http://student.cs.hioa.no/~s331153/romjsonin.php/?" +
                 "Etasje=" +  etasjer.getSelectedItem() +
                 "&RomNr=" + romNr.getText().toString() +
