@@ -41,7 +41,6 @@ import java.util.List;
                     System.out.println("Output from Server .... \n");
                     while ((s = br.readLine()) != null) {
                         output = output + s;
-                        Log.d("Output ", output);
                     }
                     conn.disconnect();
 
@@ -57,8 +56,8 @@ import java.util.List;
                             String tidFra = jsonobject.getString("TidFra");
                             String tidTil = jsonobject.getString("TidTil");
                             Reservasjon enReservasjon = new Reservasjon(reservasjonID, romID, husID, navn, dato, tidFra, tidTil);
-                            retur = retur + reservasjonID + romID + husID + navn + dato + tidFra + tidTil;
-                            alleReservasjoner.add(enReservasjon);
+                            retur = retur + reservasjonID + ";" + romID + ";" + husID + ";" + navn + ";" + dato + ";" + tidFra + ";" + tidTil + ";";
+                            //alleReservasjoner.add(enReservasjon);
 
                         }
                         return retur;
@@ -84,7 +83,6 @@ import java.util.List;
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("alleReservasjoner",ss);
         editor.apply();
-        Log.d("Test","onPostExecute i reservasjon");
 
     }
 }
