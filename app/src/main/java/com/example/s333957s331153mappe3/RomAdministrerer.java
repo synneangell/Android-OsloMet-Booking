@@ -78,7 +78,7 @@ public class RomAdministrerer extends AppCompatActivity {
     }
 
     public void lagreRom(){
-        AlleAsyncTask task = new AlleAsyncTask();
+        /*AlleAsyncTask task = new AlleAsyncTask();
         String urlString = ("http://student.cs.hioa.no/~s331153/romjsonin.php/?" +
                 "Etasje=" +  etasjer.getSelectedItem() +
                 "&RomNr=" + romNr.getText().toString() +
@@ -87,6 +87,6 @@ public class RomAdministrerer extends AppCompatActivity {
         task.execute(urlString);
         Toast.makeText(this, "Rom opprettet!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, HusAdministrerer.class);
-        startActivity(intent);
+        startActivity(intent);*/
     }
 }

@@ -45,13 +45,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MapsActivity extends AppCompatActivity implements
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener, OnMapReadyCallback {
+ OnMapReadyCallback {
 
-    public static final String TAG = MapsActivity.class.getSimpleName();
-    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
     private GoogleMap mMap;
     LatLng pilestredet = new LatLng(59.923889, 10.731474);
     LatLng nyBygning;
@@ -77,28 +72,6 @@ public class MapsActivity extends AppCompatActivity implements
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
-                .setFastestInterval(1 * 1000); // 1 second, in milliseconds
-
-        HusJSON task = new HusJSON();
-        task.execute("http://student.cs.hioa.no/~s331153/husjsonout.php");
-
-        contextOfApplication = getApplicationContext();
-
-        sp = PreferenceManager.getDefaultSharedPreferences(this);
-        stringAlleHus = sp.getString("alleHus", "Får ikke hentet data");
-        Log.d("Alle hus i mapsactivity", stringAlleHus);
-
-        mGoogleApiClient.connect();
-
     }
 
     public static Context getContextOfApplication(){
@@ -106,104 +79,23 @@ public class MapsActivity extends AppCompatActivity implements
     }
 
 
-    public void handleNewLocation(Location location) {
-      /* Log.d(TAG, location.toString());
-
-       double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-
-        MarkerOptions options = new MarkerOptions()
-                .position(latLng)
-                .title("Jeg er her!");
-        mMap.addMarker(options);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));*/
-
-        //Setter startposisjon til pilestredet
-        CameraUpdate startPosisjon = CameraUpdateFactory.newLatLngZoom(pilestredet, 15);
-        mMap.animateCamera(startPosisjon);
-    }
-
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        Log.i(TAG, "Location services connected.");
-
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
-        }
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            return;
-        }
-
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-        if (location == null) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-            handleNewLocation(location);
-
-        } else {
-            handleNewLocation(location);
-        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Log.i(TAG, "Location services suspended. Please reconnect.");
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        if (connectionResult.hasResolution()) {
-            try {
-                // Start an Activity that tries to resolve the error
-                connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
-            } catch (IntentSender.SendIntentException e) {
-                e.printStackTrace();
-            }
-        } else {
-            Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //setUpMapIfNeeded();
-        AlleAsyncTask task = new AlleAsyncTask();
-        alleHus = task.getAlleHus();
-        for(Hus etHus : alleHus){
-            Double latitude = etHus.getLatitude();
-            Double longitude = etHus.getLongitude();
-            LatLng latLng = new LatLng(latitude, longitude);
-            //float zoomSize = 15.0f;
-            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getNavn()));
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
-        }
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mGoogleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-            mGoogleApiClient.disconnect();
-        }
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        handleNewLocation(location);
-    }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        alleHus = new ArrayList<>();
+        CameraUpdate startPosisjon = CameraUpdateFactory.newLatLngZoom(pilestredet, 15);
+        mMap.animateCamera(startPosisjon);
+
+        contextOfApplication = getApplicationContext();
+
+        HusJSON task = new HusJSON();
+        task.execute(new String[]{"http://student.cs.hioa.no/~s331153/husjsonout.php"});
+
+        sp = PreferenceManager.getDefaultSharedPreferences(this);
+        stringAlleHus = sp.getString("alleHus", "Får ikke hentet data");
+        Log.d("Alle hus i mapsactivity", stringAlleHus);
+
+       alleHus = new ArrayList<>();
 
         String[] tempArray;
         String semikolon = ";";

@@ -69,7 +69,7 @@ import java.util.List;
 
     @Override
     protected void onPostExecute(String ss) {
-        Context applicationContext = HusOversikt.getContextOfApplication();
+        Context applicationContext = MapsActivity.getContextOfApplication();
         sp = PreferenceManager.getDefaultSharedPreferences(applicationContext);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("alleReservasjoner",ss);

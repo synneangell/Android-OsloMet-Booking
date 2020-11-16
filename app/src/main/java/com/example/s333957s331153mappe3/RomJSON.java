@@ -73,9 +73,10 @@ public class RomJSON extends AsyncTask<String, Void,String> {
 
     @Override
     protected void onPostExecute(String ss) {
-        Context applicationContext = HusOversikt.getContextOfApplication();
+        Context applicationContext = MapsActivity.getContextOfApplication();
         sp = PreferenceManager.getDefaultSharedPreferences(applicationContext);
         SharedPreferences.Editor editor = sp.edit();
+        Log.d("I onPostExecute romjson", ss );
         editor.putString("alleRom",ss);
         editor.apply();
     }
