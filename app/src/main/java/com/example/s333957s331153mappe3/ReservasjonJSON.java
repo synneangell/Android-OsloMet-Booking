@@ -53,8 +53,8 @@ import java.util.List;
                             int husID = jsonobject.getInt("HusID");
                             String navn = jsonobject.getString("Navn");
                             String dato = jsonobject.getString("Dato");
-                            String tidFra = jsonobject.getString("TidFra");
-                            retur = retur + reservasjonID + ";" + romID + ";" + husID + ";" + navn + ";" + dato + ";" + tidFra + ";";
+                            String tid = jsonobject.getString("Tid");
+                            retur = retur + reservasjonID + ";" + romID + ";" + husID + ";" + navn + ";" + dato + ";" + tid + ";";
                         }
                         return retur;
                     } catch (JSONException e) {

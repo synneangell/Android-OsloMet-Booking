@@ -48,10 +48,11 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="170dp"
+        android:textColor="@color/svart"
         android:ems="10" />
 
     <TextView
-        android:id="@+id/dato"
+        android:id="@+id/txtDato"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
@@ -61,12 +62,24 @@
         android:text="Dato" />
 
     <EditText
-        android:id="@+id/txtDato"
-        android:layout_width="wrap_content"
+        android:id="@+id/dato"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="240dp"
+        android:textColor="@color/svart"
+        android:onClick="visLedigeTider"
         android:ems="10" />
+
+    <Button
+        android:id="@+id/datePicker"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="240dp"
+        android:layout_marginLeft="220dp"
+        android:background="@color/gul"
+        android:textColor="@color/svart"
+        android:text="@string/velgDato" />
 
     <ImageView
         android:id="@+id/imgDato"
@@ -88,13 +101,12 @@
         android:ems="10"
         android:text="Tid" />
 
-    <EditText
-        android:id="@+id/txtTid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <Spinner
+        android:id="@+id/spinnerTid"
+        android:layout_width="165dp"
+        android:layout_height="34dp"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="310dp"
-        android:ems="10" />
+        android:layout_marginTop="310dp" />
 
     <ImageView
         android:id="@+id/imgTid"

@@ -71,7 +71,7 @@ public class ReservasjonListe extends AppCompatActivity {
             enReservasjon.husID = Integer.parseInt(tempArray2[i + 2]);
             enReservasjon.navn = tempArray2[i + 3];
             enReservasjon.dato = tempArray2[i + 4];
-            enReservasjon.tidFra = tempArray2[i + 5];
+            enReservasjon.tid = tempArray2[i + 5];
             alleReservasjoner.add(enReservasjon);
         }
 
@@ -113,7 +113,7 @@ public class ReservasjonListe extends AppCompatActivity {
             if(enReservasjon.getHusID() == husIDValgt){
                 alleReservasjonerLV.add("\nHusID: "+enReservasjon.getHusID()+
                         "\nNavn: "+enReservasjon.getNavn()+"\nDato: "+enReservasjon.getDato()+
-                        "\nTidFra: "+enReservasjon.getTidFra());
+                        "\nTidFra: "+enReservasjon.getTid());
             }
         }
         return alleReservasjonerLV;

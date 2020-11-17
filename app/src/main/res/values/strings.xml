@@ -16,4 +16,5 @@
     <string name="slettReservasjon">Er du sikker på at du vil slette reservasjonen?</string>
     <string name="ja">Ja</string>
     <string name="nei">Nei</string>
+    <string name="velgDato">Velg dato</string>
 </resources>
