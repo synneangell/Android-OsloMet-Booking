@@ -40,9 +40,11 @@
         android:ems="10"
         android:layout_marginLeft="70dp"
         android:textColor="@color/svart"
+
+        android:textColorHint="@color/svart"
         android:layout_marginTop="100dp"
         android:inputType="text"
-        android:text="Navn på bygning" />
+        android:hint="Navn på bygning" />
 
     <ImageView
         android:id="@+id/imgNavnBygning"
@@ -61,9 +63,10 @@
         android:layout_marginLeft="70dp"
         android:layout_marginTop="150dp"
         android:textColor="@color/svart"
+        android:textColorHint="@color/svart"
         android:ems="10"
         android:inputType="text"
-        android:text="Beskrivelse" />
+        android:hint="Beskrivelse" />
 
     <ImageView
         android:id="@+id/imgBeskrivelseBygning"
@@ -75,8 +78,8 @@
         android:layout_marginRight="10dp"
         />
 
-    <EditText
-        android:id="@+id/adresseBygning"
+    <TextView
+        android:id="@+id/txtAdresseBygning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/svart"
@@ -85,6 +88,16 @@
         android:ems="10"
         android:inputType="text"
         android:text="Adresse" />
+
+    <TextView
+        android:id="@+id/adresseBygning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/svart"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="220dp"
+        android:ems="10"
+        android:inputType="text" />
 
     <ImageView
         android:id="@+id/imgAdresseBygning"
@@ -95,16 +108,6 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="10dp"
         />
-
-    <TextView
-        android:id="@+id/koordinater"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/svart"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="250dp"
-        android:ems="10"
-         />
 
     <Spinner
         android:id="@+id/spinnerEtasjer"

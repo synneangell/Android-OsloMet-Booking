@@ -14,12 +14,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 public class HusJSON extends AsyncTask<String, Void,String> {
     SharedPreferences sp;
-    List<Hus> alleHus = new ArrayList<>();
 
     @Override
     protected String doInBackground(String... urls) {
@@ -42,6 +39,7 @@ public class HusJSON extends AsyncTask<String, Void,String> {
                 System.out.println("Output from Server .... \n");
                 while ((s = br.readLine()) != null) {
                     output = output + s;
+                    Log.d("output i husjson", output);
                 }
                 conn.disconnect();
 
@@ -72,15 +70,12 @@ public class HusJSON extends AsyncTask<String, Void,String> {
 
     @Override
     protected void onPostExecute(String ss) {
-        Context applicationContext = MapsActivity.getContextOfApplication();
+        Context applicationContext = MapsActivity.getContext();
         sp = PreferenceManager.getDefaultSharedPreferences(applicationContext);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("alleHus",ss);
         editor.apply();
         Log.d("Test","Inne i onPostExecute");
     }
-
-    public List<Hus> getAlleHus() {
-        return alleHus;
-    }
 }
+

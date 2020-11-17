@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -19,13 +18,7 @@ import android.widget.TextView;
 import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +38,7 @@ public class HusOversikt extends AppCompatActivity {
     String stringAlleRom;
     String valgtEtasje;
     Hus valgtHus;
-    public static Context contextOfApplication;
+    public static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +49,16 @@ public class HusOversikt extends AppCompatActivity {
         etasjer = findViewById(R.id.etasjer);
         tb = findViewById(R.id.toolbarHusOversikt);
 
-        contextOfApplication = getApplicationContext();
+        tb = findViewById(R.id.toolbarHusOversikt);
+        tb.setLogo(R.mipmap.ic_launcher_round);
+        tb.inflateMenu(R.menu.manu_rom);
+        setActionBar(tb);
+
+        context = getApplicationContext();
 
         RomJSON task = new RomJSON();
         task.execute(new String[]{"http://student.cs.hioa.no/~s331153/romjsonout.php"});
-        sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContextOfApplication());
+        sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContext());
         stringAlleHus = sp.getString("alleHus", "Får ikke hentet data");
         husIDValgt = sp.getInt("husID", 0);
         Log.d("Alle hus i husoversikt", stringAlleHus);
@@ -164,6 +162,8 @@ public class HusOversikt extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(HusOversikt.this, RomAdministrerer.class);
+                i.putExtra("HusID", husIDValgt);
+                i.putExtra("Etasjer", valgtHus.etasjer);
                 startActivity(i);
             }
         });
@@ -202,8 +202,8 @@ public class HusOversikt extends AppCompatActivity {
 
     }
 
-    public static Context getContextOfApplication() {
-        return contextOfApplication;
+    public static Context getContext() {
+        return context;
     }
 
     public List<String> visRomListView(String valgtEtasjeSpinner) {
@@ -221,3 +221,8 @@ public class HusOversikt extends AppCompatActivity {
         return alleRomLV;
     }
 }
+
+
+
+
+

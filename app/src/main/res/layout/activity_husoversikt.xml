@@ -23,7 +23,7 @@
         android:layout_height="200dp"
         android:layout_marginTop="55dp"
         android:layout_marginLeft="5dp"
-        android:textColor="#040000"
+        android:textColor="@color/svart"
         android:textSize="20sp"
         />
     <TextView
