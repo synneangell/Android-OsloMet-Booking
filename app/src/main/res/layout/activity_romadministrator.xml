@@ -24,19 +24,6 @@
         android:onClick="lagreRom"/>
 
     <TextView
-        android:id="@+id/marker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:text="Legg til rom"
-        android:textColor="@color/svart"
-        android:textColorHint="@color/svart"
-        android:textAlignment="center"
-        android:textSize="30dp"
-        android:textStyle="bold" />
-
-    <!-- ETASJE -->
-    <TextView
         android:id="@+id/etasje"
         android:layout_width="wrap_content"
         android:textColor="@color/svart"
@@ -63,7 +50,6 @@
         android:layout_marginLeft="70dp"
         android:layout_marginTop="170dp" />
 
-    <!-- RomNr -->
     <TextView
         android:id="@+id/txtRomNr"
         android:layout_width="wrap_content"
@@ -153,6 +139,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
+        android:textColor="@color/svart"
         android:layout_marginTop="360dp"
         android:ems="10" />
 

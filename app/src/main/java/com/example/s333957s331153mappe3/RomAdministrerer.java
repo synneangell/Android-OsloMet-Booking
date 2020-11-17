@@ -3,8 +3,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,7 +11,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class RomAdministrerer extends AppCompatActivity {
@@ -29,15 +26,25 @@ public class RomAdministrerer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_romadministrator);
-        etasjer = (Spinner) findViewById(R.id.spinnerEtasjer);
-        romNr = (EditText) findViewById(R.id.romNr);
-        kapasitet = (EditText) findViewById(R.id.kapasitet);
-        beskrivelse = (EditText) findViewById(R.id.beskrivelseRom);
+        etasjer = findViewById(R.id.spinnerEtasjer);
+        romNr = findViewById(R.id.romNr);
+        kapasitet = findViewById(R.id.kapasitet);
+        beskrivelse = findViewById(R.id.beskrivelseRom);
 
         tb = findViewById(R.id.toolbarRom);
+        tb.setTitle("\tRegistrer nytt rom");
         tb.setLogo(R.mipmap.ic_launcher_round);
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
+
+        tb.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
+        tb.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(RomAdministrerer.this, HusOversikt.class);
+                startActivity(i);
+            }
+        });
 
         context = getContext();
 
@@ -62,49 +69,11 @@ public class RomAdministrerer extends AppCompatActivity {
             }
         };
         etasjer.setAdapter(etasjeAdapter);
-
-
-
-
     }
 
     public static Context getContext(){
         return context;
     }
-
-
-
-/*        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.inflateMenu(R.menu.manu_rom);
-        setActionBar(toolbar);
-        toolbar.setTitle("Legg til rom");
-        //toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.arrow));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(RomAdministrerer.this, HusAdministrerer.class);
-                startActivity(intent);
-            }
-        });*/
-
-
-   /*@Override
-    public boolean onCreateOptionsMenu (Menu menu){
-        getMenuInflater().inflate(R.menu.manu_rom, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            case R.id.lagre:
-                lagreRom();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
-    }*/
 
     public void lagreRom(View v){
         LagreRomJSON task = new LagreRomJSON();

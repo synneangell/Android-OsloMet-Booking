@@ -19,13 +19,23 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
 
         navn = findViewById(R.id.txtNavn);
         dato = findViewById(R.id.txtDato);
-        startTid = findViewById(R.id.txtStartTid);
-        sluttTid = findViewById(R.id.txtSluttTid);
+        startTid = findViewById(R.id.txtTid);
+        sluttTid = findViewById(R.id.txtTid);
 
         tb = findViewById(R.id.toolbarReservasjon);
+        tb.setTitle("\tReserver rom");
         tb.setLogo(R.mipmap.ic_launcher_round);
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
+
+        tb.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
+        tb.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ReservasjonAdministrerer.this, HusOversikt.class);
+                startActivity(i);
+            }
+        });
     }
 
     public void lagreRes (View v){
@@ -33,8 +43,7 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
         String urlString = ("http://student.cs.hioa.no/~s331153/reservasjonjsonin.php/?" +
                 "Navn=" + navn.getText().toString() +
                 "&Dato=" + dato.getText().toString() +
-                "&TidFra=" + startTid.getText().toString() +
-                "&TidTil=" + sluttTid.getText().toString()).replaceAll(" ", "%20");
+                "&TidFra=" + startTid.getText().toString()).replaceAll(" ", "%20");
         task.execute(urlString);
         Toast.makeText(this, "Reservasjon opprettet!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MapsActivity.class);

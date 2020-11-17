@@ -22,17 +22,6 @@
         android:layout_marginRight="10dp"
         android:onClick="lagre" />
 
-    <TextView
-        android:id="@+id/marker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:textColor="@color/svart"
-        android:text="Legg til bygning"
-        android:textAlignment="center"
-        android:textSize="30dp"
-        android:textStyle="bold" />
-
     <EditText
         android:id="@+id/navnBygning"
         android:layout_width="wrap_content"
@@ -114,14 +103,14 @@
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="310dp" />
+        android:layout_marginTop="270dp" />
 
     <ImageView
         android:id="@+id/imgEtasjer"
         app:srcCompat="@drawable/ic_baseline_layers_24"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="250dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="10dp"
         />
@@ -132,7 +121,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
         android:textColor="@color/svart"
-        android:layout_marginTop="290dp"
+        android:layout_marginTop="250dp"
         android:ems="10"
         android:text="Antall etasjer" />
 

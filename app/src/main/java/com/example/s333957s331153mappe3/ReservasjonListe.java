@@ -38,6 +38,15 @@ public class ReservasjonListe extends AppCompatActivity {
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
 
+        tb.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
+        tb.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ReservasjonListe.this, MapsActivity.class);
+                startActivity(i);
+            }
+        });
+
         Intent intent = getIntent();
         husIDValgt = intent.getIntExtra("husID", 0);
 

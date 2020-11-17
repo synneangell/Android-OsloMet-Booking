@@ -49,9 +49,19 @@ public class HusAdministrerer extends AppCompatActivity {
         etasjer = (Spinner) findViewById(R.id.spinnerEtasjer);
 
         tb = findViewById(R.id.toolbarHus);
+        tb.setTitle("\tRegistrer nytt bygg");
         tb.setLogo(R.mipmap.ic_launcher_round);
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
+
+        tb.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
+        tb.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HusAdministrerer.this, MapsActivity.class);
+                startActivity(i);
+            }
+        });
 
         Integer[] items = new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
         ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,android.R.layout.simple_spinner_item, items);

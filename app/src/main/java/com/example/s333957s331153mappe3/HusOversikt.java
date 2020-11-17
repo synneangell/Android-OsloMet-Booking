@@ -56,6 +56,15 @@ public class HusOversikt extends AppCompatActivity {
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
 
+        tb.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
+        tb.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HusOversikt.this, MapsActivity.class);
+                startActivity(i);
+            }
+        });
+
         context = getApplicationContext();
 
         RomJSON task = new RomJSON();
@@ -104,7 +113,6 @@ public class HusOversikt extends AppCompatActivity {
             etasjeNr++;
         }
 
-
         ArrayAdapter<Integer> etasjeAdapter = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -115,7 +123,6 @@ public class HusOversikt extends AppCompatActivity {
             }
         };
         etasjer.setAdapter(etasjeAdapter);
-
 
         alleRom = new ArrayList<>();
 
@@ -150,8 +157,6 @@ public class HusOversikt extends AppCompatActivity {
                 };
                 lv.setAdapter(romAdapter);
             }
-
-
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
