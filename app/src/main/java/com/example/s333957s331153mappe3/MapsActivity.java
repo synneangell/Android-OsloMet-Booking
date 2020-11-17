@@ -52,7 +52,6 @@ public class MapsActivity extends AppCompatActivity implements
 
         tb = findViewById(R.id.toolbarMaps);
         tb.setLogo(R.mipmap.ic_launcher_round);
-        tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
         tb.setTitle("Kart");
 
