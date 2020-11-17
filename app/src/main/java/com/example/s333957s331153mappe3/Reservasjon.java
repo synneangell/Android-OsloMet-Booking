@@ -8,16 +8,14 @@ public class Reservasjon {
     public String navn;
     public String dato;
     public String tidFra;
-    public String tidTil;
 
-    public Reservasjon(int reservasjonsID, int husID, int romID, String navn, String dato, String tidFra, String tidTil) {
+    public Reservasjon(int reservasjonsID, int husID, int romID, String navn, String dato, String tidFra) {
         this.reservasjonsID = reservasjonsID;
         this.romID = romID;
         this.husID = husID;
         this.navn = navn;
         this.dato = dato;
         this.tidFra = tidFra;
-        this.tidTil = tidTil;
     }
 
     public Reservasjon(){}
@@ -68,13 +66,5 @@ public class Reservasjon {
 
     public void setTidFra(String tidFra) {
         this.tidFra = tidFra;
-    }
-
-    public String getTidTil() {
-        return tidTil;
-    }
-
-    public void setTidTil(String tidTil) {
-        this.tidTil = tidTil;
     }
 }

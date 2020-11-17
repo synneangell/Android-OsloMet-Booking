@@ -7,19 +7,18 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.s333957s331153mappe3.MapsActivity.context;
 
 public class ReservasjonListe extends AppCompatActivity {
     ListView lv;
@@ -28,6 +27,7 @@ public class ReservasjonListe extends AppCompatActivity {
     String stringAlleReservasjoner;
     Toolbar tb;
     int husIDValgt;
+    public static Context contextOfApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,9 @@ public class ReservasjonListe extends AppCompatActivity {
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
 
-        sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContext());
+        contextOfApplication = getApplicationContext();
+
+        sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContextOfApplication());
         husIDValgt = sp.getInt("husID", 0);
 
         ReservasjonJSON task = new ReservasjonJSON();
@@ -52,15 +54,15 @@ public class ReservasjonListe extends AppCompatActivity {
         String semikolon = ";";
         String[] tempArray2;
         tempArray2 = stringAlleReservasjoner.split(semikolon);
-        for (int i = 0; i < tempArray2.length; i+=7){
+        for (int i = 0; i < tempArray2.length; i+=6){
+            Log.d("alleReservasjoner ", stringAlleReservasjoner);
             Reservasjon enReservasjon = new Reservasjon();
-            enReservasjon.setReservasjonsID(Integer.parseInt(tempArray2[i]));
-            enReservasjon.setRomID(Integer.parseInt(tempArray2[i+1]));
-            enReservasjon.setHusID(Integer.parseInt(tempArray2[i+2]));
-            enReservasjon.setNavn(tempArray2[i+3]);
-            enReservasjon.setDato(tempArray2[i+4]);
-            enReservasjon.setTidFra(tempArray2[i+5]);
-            enReservasjon.setTidTil(tempArray2[i+6]);
+            enReservasjon.reservasjonsID = Integer.parseInt(tempArray2[i]);
+            enReservasjon.romID = Integer.parseInt(tempArray2[i + 1]);
+            enReservasjon.husID = Integer.parseInt(tempArray2[i + 2]);
+            enReservasjon.navn = tempArray2[i + 3];
+            enReservasjon.dato = tempArray2[i + 4];
+            enReservasjon.tidFra = tempArray2[i + 5];
             alleReservasjoner.add(enReservasjon);
         }
 
@@ -83,9 +85,11 @@ public class ReservasjonListe extends AppCompatActivity {
                 builder.setPositiveButton(getResources().getString(R.string.ja), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //sette inn kode for slett her
-                        Intent intent = new Intent(ReservasjonListe.this, MapsActivity.class);
-                        startActivity(intent);
+                        Reservasjon reservasjonID = alleReservasjoner.get(i);
+                        int romid = reservasjonID.getReservasjonsID();
+                        SlettReservasjonJSON task = new SlettReservasjonJSON();
+                        String url = "http://student.cs.hioa.no/~s331153/slettreservasjonjson.php/?ReservasjonID=" + Integer.toString(romid);
+                        task.execute(url);
                     }
                 });
                 builder.setNegativeButton(getResources().getString(R.string.nei), null);
@@ -96,19 +100,15 @@ public class ReservasjonListe extends AppCompatActivity {
 
     public List<String> visReservasjonListView(){
         List<String> alleReservasjonerLV = new ArrayList<>();
-
         for(Reservasjon enReservasjon : alleReservasjoner){
             if(enReservasjon.getHusID() == husIDValgt){
                     alleReservasjonerLV.add("\nHusID: "+enReservasjon.getHusID()+
                             "\nNavn: "+enReservasjon.getNavn()+"\nDato: "+enReservasjon.getDato()+
-                            "\nTidFra: "+enReservasjon.getTidFra()+"\nTidTil: "+enReservasjon.getTidTil());
+                            "\nTidFra: "+enReservasjon.getTidFra());
                 }
             }
         return alleReservasjonerLV;
     }
-
-    public static Context getContextOfApplication(){
-        return context;
-    }
-
 }
+
+

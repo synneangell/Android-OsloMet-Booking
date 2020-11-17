@@ -29,7 +29,7 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
     }
 
     public void lagreRes (View v){
-        /*AlleAsyncTask task = new AlleAsyncTask();
+        ReservasjonJSON task = new ReservasjonJSON();
         String urlString = ("http://student.cs.hioa.no/~s331153/reservasjonjsonin.php/?" +
                 "Navn=" + navn.getText().toString() +
                 "&Dato=" + dato.getText().toString() +
@@ -38,6 +38,6 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
         task.execute(urlString);
         Toast.makeText(this, "Reservasjon opprettet!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);*/
+        startActivity(intent);
     }
 }

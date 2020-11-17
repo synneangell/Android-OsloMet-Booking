@@ -1,8 +1,11 @@
 package com.example.s333957s331153mappe3;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,8 +55,7 @@ import java.util.List;
                             String dato = jsonobject.getString("Dato");
                             String tidFra = jsonobject.getString("TidFra");
                             String tidTil = jsonobject.getString("TidTil");
-                            Reservasjon enReservasjon = new Reservasjon(reservasjonID, romID, husID, navn, dato, tidFra, tidTil);
-                            alleReservasjoner.add(enReservasjon);
+                            retur = retur + reservasjonID + ";" + romID + ";" + husID + ";" + navn + ";" + dato + ";" + tidFra + ";" + tidTil + ";";
                         }
                         return retur;
                     } catch (JSONException e) {
@@ -67,12 +69,17 @@ import java.util.List;
             return retur;
         }
 
+        public List<Reservasjon> getAlleReservasjoner() {
+            return alleReservasjoner;
+        }
+
     @Override
     protected void onPostExecute(String ss) {
-        Context applicationContext = MapsActivity.getContext();
+        Context applicationContext = MapsActivity.getContextOfApplication();
         sp = PreferenceManager.getDefaultSharedPreferences(applicationContext);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("alleReservasjoner",ss);
         editor.apply();
+
     }
 }
