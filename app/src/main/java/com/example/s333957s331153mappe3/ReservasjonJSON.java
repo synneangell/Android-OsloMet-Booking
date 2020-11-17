@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
     public class ReservasjonJSON extends AsyncTask<String, Void,String> {
-        List<Reservasjon> alleReservasjoner = new ArrayList<>();
         SharedPreferences sp;
 
         @Override
@@ -41,6 +40,7 @@ import java.util.List;
                     System.out.println("Output from Server .... \n");
                     while ((s = br.readLine()) != null) {
                         output = output + s;
+                        Log.d("output i resJSON", output);
                     }
                     conn.disconnect();
 
@@ -54,8 +54,7 @@ import java.util.List;
                             String navn = jsonobject.getString("Navn");
                             String dato = jsonobject.getString("Dato");
                             String tidFra = jsonobject.getString("TidFra");
-                            String tidTil = jsonobject.getString("TidTil");
-                            retur = retur + reservasjonID + ";" + romID + ";" + husID + ";" + navn + ";" + dato + ";" + tidFra + ";" + tidTil + ";";
+                            retur = retur + reservasjonID + ";" + romID + ";" + husID + ";" + navn + ";" + dato + ";" + tidFra + ";";
                         }
                         return retur;
                     } catch (JSONException e) {
@@ -69,15 +68,12 @@ import java.util.List;
             return retur;
         }
 
-        public List<Reservasjon> getAlleReservasjoner() {
-            return alleReservasjoner;
-        }
-
     @Override
     protected void onPostExecute(String ss) {
         Context applicationContext = MapsActivity.getContext();
         sp = PreferenceManager.getDefaultSharedPreferences(applicationContext);
         SharedPreferences.Editor editor = sp.edit();
+        Log.d("ss i resJSON", ss);
         editor.putString("alleReservasjoner",ss);
         editor.apply();
 
