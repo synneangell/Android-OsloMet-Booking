@@ -80,45 +80,5 @@ public class RomJSON extends AsyncTask<String, Void,String> {
     }
 }
 
-/*private class SlettRomJSON extends AsyncTask<Rom, Void, Void>{
 
-    @Override
-    protected Void doInBackground(Rom... rom) {
-        Rom rom = rom[0];
-        String urlString = "http://student.cs.hioa.no/~s306631/deletebuilding.php/?" +
-                "RomID=" + rom.getRomID();
-
-        try {
-
-            URL url = new URL(urlString);
-            Log.d("RomJSON", "deleteBuilding: CONNECTING TO URL" + url.toString());
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
-            urlConnection.setRequestMethod("POST");
-            urlConnection.setRequestProperty("Accept", "application/json");
-
-            int status = urlConnection.getResponseCode();
-            if (status != 200) {
-                throw new RuntimeException("Failed to get response from server, HTTP response code: " + urlConnection.getResponseCode());
-            }
-
-            urlConnection.disconnect();
-
-        } catch (MalformedURLException e) {
-            Log.d("RomJSON", "deleteBuilding: MalformedURLException " + e.getMessage());
-        } catch (ProtocolException e) {
-            Log.d("RomJSON", "deleteBuilding: ProtocolException " + e.getMessage());
-        } catch (IOException e) {
-            Log.d("RomJSON", "deleteBuilding: IOException " + e.getMessage());
-        }
-
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        AddDeleteBuildingActivity activity = activityReference.get();
-        Toast.makeText(activity, "Hus slettet", Toast.LENGTH_SHORT).show();
-    }*/
 

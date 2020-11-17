@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class ReservasjonListe extends AppCompatActivity {
         String semikolon = ";";
         String[] tempArray2;
         tempArray2 = stringAlleReservasjoner.split(semikolon);
-        for (int i = 0; i < tempArray2.length; i+=7){
+        for (int i = 0; i < tempArray2.length; i+=6){
             Log.d("alleReservasjoner ", stringAlleReservasjoner);
             Reservasjon enReservasjon = new Reservasjon();
             enReservasjon.reservasjonsID = Integer.parseInt(tempArray2[i]);
@@ -62,7 +63,6 @@ public class ReservasjonListe extends AppCompatActivity {
             enReservasjon.navn = tempArray2[i + 3];
             enReservasjon.dato = tempArray2[i + 4];
             enReservasjon.tidFra = tempArray2[i + 5];
-            enReservasjon.tidTil = tempArray2[i + 6];
             alleReservasjoner.add(enReservasjon);
         }
 
@@ -85,7 +85,11 @@ public class ReservasjonListe extends AppCompatActivity {
                 builder.setPositiveButton(getResources().getString(R.string.ja), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //sette inn kode for slett her
+                        Reservasjon reservasjonID = alleReservasjoner.get(i);
+                        int romid = reservasjonID.getReservasjonsID();
+                        SlettReservasjonJSON task = new SlettReservasjonJSON();
+                        String url = "http://student.cs.hioa.no/~s331153/slettreservasjonjson.php/?ReservasjonID=" + Integer.toString(romid);
+                        task.execute(url);
                     }
                 });
                 builder.setNegativeButton(getResources().getString(R.string.nei), null);
@@ -100,7 +104,7 @@ public class ReservasjonListe extends AppCompatActivity {
             if(enReservasjon.getHusID() == husIDValgt){
                     alleReservasjonerLV.add("\nHusID: "+enReservasjon.getHusID()+
                             "\nNavn: "+enReservasjon.getNavn()+"\nDato: "+enReservasjon.getDato()+
-                            "\nTidFra: "+enReservasjon.getTidFra()+"\nTidTil: "+enReservasjon.getTidTil());
+                            "\nTidFra: "+enReservasjon.getTidFra());
                 }
             }
         return alleReservasjonerLV;

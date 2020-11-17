@@ -55,10 +55,7 @@ import java.util.List;
                             String dato = jsonobject.getString("Dato");
                             String tidFra = jsonobject.getString("TidFra");
                             String tidTil = jsonobject.getString("TidTil");
-                            Reservasjon enReservasjon = new Reservasjon(reservasjonID, romID, husID, navn, dato, tidFra, tidTil);
                             retur = retur + reservasjonID + ";" + romID + ";" + husID + ";" + navn + ";" + dato + ";" + tidFra + ";" + tidTil + ";";
-                            //alleReservasjoner.add(enReservasjon);
-
                         }
                         return retur;
                     } catch (JSONException e) {
