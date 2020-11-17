@@ -43,6 +43,8 @@ public class MapsActivity extends AppCompatActivity implements
     Geocoder geocoder;
     List<Address> adresser;
     private List<Marker> husMarkers = new ArrayList<>();
+    Marker markerValgt;
+    private boolean markerSatt;
 
 
     @Override
@@ -62,17 +64,12 @@ public class MapsActivity extends AppCompatActivity implements
 
     }
 
-    public static Context getContext(){
-        return context;
-    }
-
-    /* Ikke riktig! Men må finne en måte å få lagt til ny bygning i kartet!
-
+    /*
     @Override
-    public void startActivity(Intent intent) {
-        super.startActivity(intent);
-        intent = getIntent();
-        if(intent.hasExtra("name")){
+    protected void onPostResume() {
+        super.onPostResume();
+        Intent intent = getIntent();
+        if(intent.hasExtra("navn")) {
             Hus nyttHus = new Hus();
             nyttHus.navn = intent.getStringExtra("navn");
             nyttHus.beskrivelse = intent.getStringExtra("beskrivelse");
@@ -81,10 +78,15 @@ public class MapsActivity extends AppCompatActivity implements
             nyttHus.longitude = intent.getDoubleExtra("longitude", 0);
             nyttHus.etasjer = intent.getIntExtra("etasjer", 0);
             LatLng nyttHusLatLng = new LatLng(nyttHus.latitude, nyttHus.longitude);
-            husMarkers.add(mMap.addMarker(new MarkerOptions().position(nyttHusLatLng).title(nyttHus.getHusID() + ", "+nyttHus.getNavn())));
-
+            husMarkers.add(mMap.addMarker(new MarkerOptions().position(nyttHusLatLng).title(nyttHus.getHusID() + ", " + nyttHus.getNavn())));
         }
+        onMapReady(mMap);
     }*/
+
+    public static Context getContext(){
+        return context;
+    }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -142,28 +144,34 @@ public class MapsActivity extends AppCompatActivity implements
 
             @Override
             public void onMapClick(LatLng latLng) {
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
 
-                nyBygning = new LatLng(latLng.latitude, latLng.longitude);
-                geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
-                try {
-                    adresser = geocoder.getFromLocation(nyBygning.latitude, nyBygning.longitude, 1);
-                } catch (IOException e) {
-                    Toast.makeText(MapsActivity.this, "Ikke gyldig adresse funnet", Toast.LENGTH_SHORT).show();
-                    Log.d("TAG", "Fant ikke adresse til koordinater");
+                if(markerSatt == true) {
+                    markerValgt.remove();
+                    markerSatt = false;
+                }
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(latLng);
 
+                    nyBygning = new LatLng(latLng.latitude, latLng.longitude);
+                    geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
+                    try {
+                        adresser = geocoder.getFromLocation(nyBygning.latitude, nyBygning.longitude, 1);
+                    } catch (IOException e) {
+                        Toast.makeText(MapsActivity.this, "Ikke gyldig adresse funnet", Toast.LENGTH_SHORT).show();
+                        Log.d("TAG", "Fant ikke adresse til koordinater");
+
+                    }
+                    if (adresser == null) {
+                        Toast.makeText(MapsActivity.this, "Ikke gyldig adresse funnet", Toast.LENGTH_LONG);
+                        Log.d("TAG", "Fant ikke adresse til koordinater");
+                    } else {
+                        markerOptions.title("Ny bygning?");
+                        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                        markerValgt = mMap.addMarker(markerOptions);
+                        markerSatt = true;
+                    }
                 }
-                if(adresser == null){
-                    Toast.makeText(MapsActivity.this, "Ikke gyldig adresse funnet", Toast.LENGTH_LONG);
-                    Log.d("TAG", "Fant ikke adresse til koordinater");
-                }
-                else {
-                    markerOptions.title("Ny bygning?");
-                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                    mMap.addMarker(markerOptions);
-                }
-            }
+
         });
 
 
@@ -214,6 +222,11 @@ public class MapsActivity extends AppCompatActivity implements
                         @Override
                         public void onClick(View view) {
                             Intent i = new Intent(MapsActivity.this, ReservasjonListe.class);
+                            String[] tempArray;
+                            String komma = ",";
+                            tempArray = markerTittel.split(komma);
+                            int husID = Integer.parseInt(tempArray[0]);
+                            i.putExtra("husID", husID);
                             startActivity(i);
                             dialog.dismiss();
                         }
@@ -240,5 +253,6 @@ public class MapsActivity extends AppCompatActivity implements
             }
         });
     }
+
 }
 
