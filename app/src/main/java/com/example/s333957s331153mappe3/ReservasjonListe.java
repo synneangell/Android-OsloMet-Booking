@@ -73,7 +73,7 @@ public class ReservasjonListe extends AppCompatActivity {
             enReservasjon.husID = Integer.parseInt(tempArray2[i + 2]);
             enReservasjon.navn = tempArray2[i + 3];
             enReservasjon.dato = tempArray2[i + 4];
-            enReservasjon.Tid = tempArray2[i + 5];
+            enReservasjon.tid = tempArray2[i + 5];
             alleReservasjoner.add(enReservasjon);
         }
 

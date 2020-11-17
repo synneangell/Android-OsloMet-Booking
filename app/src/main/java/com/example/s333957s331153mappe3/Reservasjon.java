@@ -6,7 +6,7 @@ public class Reservasjon {
     public int husID;
     public String navn;
     public String dato;
-    public String Tid;
+    public String tid;
 
     public Reservasjon(int reservasjonsID, int husID, int romID, String navn, String dato, String tid) {
         this.reservasjonsID = reservasjonsID;
@@ -14,7 +14,7 @@ public class Reservasjon {
         this.husID = husID;
         this.navn = navn;
         this.dato = dato;
-        this.Tid = tid;
+        this.tid = tid;
     }
 
     public Reservasjon(){}
@@ -60,10 +60,10 @@ public class Reservasjon {
     }
 
     public String getTid() {
-        return Tid;
+        return tid;
     }
 
     public void setTid(String tid) {
-        this.Tid = tid;
+        this.tid = tid;
     }
 }
