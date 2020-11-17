@@ -49,6 +49,11 @@ public class HusOversikt extends AppCompatActivity {
         etasjer = findViewById(R.id.etasjer);
         tb = findViewById(R.id.toolbarHusOversikt);
 
+        tb = findViewById(R.id.toolbarHusOversikt);
+        tb.setLogo(R.mipmap.ic_launcher_round);
+        tb.inflateMenu(R.menu.manu_rom);
+        setActionBar(tb);
+
         context = getApplicationContext();
 
         RomJSON task = new RomJSON();

@@ -133,6 +133,11 @@ public class MapsActivity extends AppCompatActivity implements
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
         }
 
+        for(Marker marker : husMarkers){
+            Log.d("Marker", marker.getTitle());
+
+        }
+
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
             @Override
@@ -186,14 +191,22 @@ public class MapsActivity extends AppCompatActivity implements
                         @Override
                         public void onClick(View view) {
                             //Kode for å slette bygning
-                        /*    String[] tempArray;
+                            String[] tempArray;
                             String komma = ",";
                             tempArray = markerTittel.split(komma);
                             int husID = Integer.parseInt(tempArray[0]);
                             SlettHusJSON task = new SlettHusJSON();
                             String url = "http://student.cs.hioa.no/~s331153/sletthusjson.php/?HusID=" + Integer.toString(husID);
                             task.execute(url);
-                            dialog.dismiss();*/
+                            //Hus blir slettet, men må fjerne marker fra kart!!
+                            for(Marker marker : husMarkers){
+                                if(marker.getTitle().equals(markerTittel)){
+                                    husMarkers.remove(marker);
+                                }
+                            }
+
+                            dialog.dismiss();
+                            Toast.makeText(MapsActivity.getContext(), "Bygning slettet!", Toast.LENGTH_SHORT).show();
                         }
                     });
 

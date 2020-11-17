@@ -40,6 +40,8 @@
         android:ems="10"
         android:layout_marginLeft="70dp"
         android:textColor="@color/svart"
+
+        android:textColorHint="@color/svart"
         android:layout_marginTop="100dp"
         android:inputType="text"
         android:hint="Navn på bygning" />
@@ -61,6 +63,7 @@
         android:layout_marginLeft="70dp"
         android:layout_marginTop="150dp"
         android:textColor="@color/svart"
+        android:textColorHint="@color/svart"
         android:ems="10"
         android:inputType="text"
         android:hint="Beskrivelse" />
