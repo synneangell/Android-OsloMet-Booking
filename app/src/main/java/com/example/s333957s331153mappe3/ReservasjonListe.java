@@ -27,7 +27,6 @@ public class ReservasjonListe extends AppCompatActivity {
     String stringAlleReservasjoner;
     Toolbar tb;
     int husIDValgt;
-    public static Context contextOfApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +38,7 @@ public class ReservasjonListe extends AppCompatActivity {
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
 
-        contextOfApplication = getApplicationContext();
-
-        sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContextOfApplication());
+        sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContext());
         husIDValgt = sp.getInt("husID", 0);
 
         ReservasjonJSON task = new ReservasjonJSON();

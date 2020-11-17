@@ -30,6 +30,7 @@
         android:layout_marginTop="70dp"
         android:text="Legg til rom"
         android:textColor="@color/svart"
+        android:textColorHint="@color/svart"
         android:textAlignment="center"
         android:textSize="30dp"
         android:textStyle="bold" />
@@ -79,6 +80,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="220dp"
+        android:textColorHint="@color/svart"
+        android:textColor="@color/svart"
         android:ems="10" />
 
     <ImageView
@@ -108,6 +111,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="290dp"
+        android:textColorHint="@color/svart"
+        android:textColor="@color/svart"
         android:ems="10" />
 
     <ImageView
@@ -126,6 +131,8 @@
         app:srcCompat="@drawable/ic_baseline_comment_24"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:textColorHint="@color/svart"
+        android:textColor="@color/svart"
         android:layout_marginTop="350dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="10dp"
