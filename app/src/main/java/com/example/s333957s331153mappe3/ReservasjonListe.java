@@ -27,7 +27,6 @@ public class ReservasjonListe extends AppCompatActivity {
     String stringAlleReservasjoner;
     Toolbar tb;
     int husIDValgt;
-    public static Context contextOfApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +37,6 @@ public class ReservasjonListe extends AppCompatActivity {
         tb.setLogo(R.mipmap.ic_launcher_round);
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
-
-        contextOfApplication = getApplicationContext();
 
         sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContextOfApplication());
         husIDValgt = sp.getInt("husID", 0);
