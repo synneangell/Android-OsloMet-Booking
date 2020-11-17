@@ -1,6 +1,8 @@
 package com.example.s333957s331153mappe3;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -18,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class HusOversikt extends AppCompatActivity {
     FloatingActionButton fab;
     List<Rom> alleRom;
     List<Hus> alleHus;
+    List<Reservasjon> alleReservasjoner;
     String stringAlleHus;
     int husIDValgt;
     SharedPreferences sp;
@@ -65,7 +67,6 @@ public class HusOversikt extends AppCompatActivity {
 
         stringAlleRom = sp.getString("alleRom", "Får ikke hentet rom");
         Log.d("Alle rom i husoversikt", stringAlleRom);
-
 
         alleHus = new ArrayList<>();
 
@@ -136,8 +137,7 @@ public class HusOversikt extends AppCompatActivity {
         etasjer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int arg2, long arg3) {
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 String valgtEtasjeSpinner = etasjer.getItemAtPosition(arg2).toString();
                 ArrayAdapter<String> romAdapter = new ArrayAdapter<String>(HusOversikt.this, android.R.layout.simple_spinner_item, visRomListView(valgtEtasjeSpinner)) {
                     @Override
@@ -150,6 +150,8 @@ public class HusOversikt extends AppCompatActivity {
                 };
                 lv.setAdapter(romAdapter);
             }
+
+
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -183,7 +185,24 @@ public class HusOversikt extends AppCompatActivity {
                 slettRom.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view){
-                        //Her skal det komme inn kode for å slette rom
+                        AlertDialog.Builder builder = new AlertDialog.Builder(HusOversikt.this, R.style.AlertDialogStyle);
+                        builder.setMessage(getResources().getString(R.string.slettRom));
+                        builder.setPositiveButton(getResources().getString(R.string.ja), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Rom romID = alleRom.get(i);
+                                Log.d("Romid", String.valueOf(romID));
+                                int romid = romID.getRomID();
+
+                                SlettRomJSON task = new SlettRomJSON();
+                                String url = "http://student.cs.hioa.no/~s331153/slettromjson.php/?RomID=" + Integer.toString(romid);
+                                task.execute(url);
+                                Intent i2 = new Intent(HusOversikt.this, MapsActivity.class);
+                                startActivity(i2);
+                            }
+                        });
+                        builder.setNegativeButton(getResources().getString(R.string.nei), null);
+                        builder.show();
                         dialog.dismiss();
                     }
                 });

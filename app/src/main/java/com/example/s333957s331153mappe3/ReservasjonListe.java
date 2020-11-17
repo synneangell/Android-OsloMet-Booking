@@ -38,15 +38,15 @@ public class ReservasjonListe extends AppCompatActivity {
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
 
-        sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContext());
-        husIDValgt = sp.getInt("husID", 0);
-
         ReservasjonJSON task = new ReservasjonJSON();
         task.execute("http://student.cs.hioa.no/~s331153/reservasjonjsonout.php");
         sp = PreferenceManager.getDefaultSharedPreferences(this);
+        husIDValgt = sp.getInt("husID", 0);
         stringAlleReservasjoner = sp.getString("alleReservasjoner", "Får ikke hentet reservasjon");
 
+        Log.d("Alle resverasjoner", stringAlleReservasjoner);
         alleReservasjoner = new ArrayList<>();
+
 
         String semikolon = ";";
         String[] tempArray2;
@@ -99,13 +99,11 @@ public class ReservasjonListe extends AppCompatActivity {
         List<String> alleReservasjonerLV = new ArrayList<>();
         for(Reservasjon enReservasjon : alleReservasjoner){
             if(enReservasjon.getHusID() == husIDValgt){
-                    alleReservasjonerLV.add("\nHusID: "+enReservasjon.getHusID()+
-                            "\nNavn: "+enReservasjon.getNavn()+"\nDato: "+enReservasjon.getDato()+
-                            "\nTidFra: "+enReservasjon.getTidFra());
-                }
+                alleReservasjonerLV.add("\nHusID: "+enReservasjon.getHusID()+
+                        "\nNavn: "+enReservasjon.getNavn()+"\nDato: "+enReservasjon.getDato()+
+                        "\nTidFra: "+enReservasjon.getTidFra());
             }
+        }
         return alleReservasjonerLV;
     }
 }
-
-

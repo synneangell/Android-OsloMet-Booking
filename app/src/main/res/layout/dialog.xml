@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:textStyle="bold"
             android:background="@drawable/knapp"
-            android:text="@string/slettRom"
+            android:text="@string/slettrom"
             android:textColor="#000000" />
     </LinearLayout>
 
