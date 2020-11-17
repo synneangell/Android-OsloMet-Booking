@@ -1,5 +1,4 @@
 package com.example.s333957s331153mappe3;
-import java.util.Date;
 
 public class Reservasjon {
     public int reservasjonsID;
@@ -7,15 +6,15 @@ public class Reservasjon {
     public int husID;
     public String navn;
     public String dato;
-    public String tidFra;
+    public String Tid;
 
-    public Reservasjon(int reservasjonsID, int husID, int romID, String navn, String dato, String tidFra) {
+    public Reservasjon(int reservasjonsID, int husID, int romID, String navn, String dato, String tid) {
         this.reservasjonsID = reservasjonsID;
         this.romID = romID;
         this.husID = husID;
         this.navn = navn;
         this.dato = dato;
-        this.tidFra = tidFra;
+        this.Tid = tid;
     }
 
     public Reservasjon(){}
@@ -60,11 +59,11 @@ public class Reservasjon {
         this.dato = dato;
     }
 
-    public String getTidFra() {
-        return tidFra;
+    public String getTid() {
+        return Tid;
     }
 
-    public void setTidFra(String tidFra) {
-        this.tidFra = tidFra;
+    public void setTid(String tid) {
+        this.Tid = tid;
     }
 }

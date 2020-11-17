@@ -31,7 +31,6 @@ public class HusOversikt extends AppCompatActivity {
     FloatingActionButton fab;
     List<Rom> alleRom;
     List<Hus> alleHus;
-    List<Reservasjon> alleReservasjoner;
     String stringAlleHus;
     int husIDValgt;
     SharedPreferences sp;
@@ -41,6 +40,12 @@ public class HusOversikt extends AppCompatActivity {
     String valgtEtasje;
     Hus valgtHus;
     public static Context context;
+    int slettetIndeks;
+    List<String> alleRomLV = new ArrayList<>();
+    ArrayAdapter<String> romAdapter;
+    List<Integer> alleRomIndeksLV;
+    Button slettRom, opprettReservasjon;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +151,7 @@ public class HusOversikt extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 String valgtEtasjeSpinner = etasjer.getItemAtPosition(arg2).toString();
-                ArrayAdapter<String> romAdapter = new ArrayAdapter<String>(HusOversikt.this, android.R.layout.simple_spinner_item, visRomListView(valgtEtasjeSpinner)) {
+                romAdapter = new ArrayAdapter<String>(HusOversikt.this, android.R.layout.simple_spinner_item, visRomListView(valgtEtasjeSpinner)) {
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View view = super.getView(position, convertView, parent);
@@ -183,47 +188,52 @@ public class HusOversikt extends AppCompatActivity {
                 dialog.setCancelable(true);
                 dialog.show();
 
-                Button slettRom, opprettReservasjon;
                 slettRom = dialog.findViewById(R.id.btnSlett);
                 opprettReservasjon = dialog.findViewById(R.id.btnReservasjon);
+                final int indeks = i;
 
-                slettRom.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View view){
-                        AlertDialog.Builder builder = new AlertDialog.Builder(HusOversikt.this, R.style.AlertDialogStyle);
-                        builder.setMessage(getResources().getString(R.string.slettRom));
-                        builder.setPositiveButton(getResources().getString(R.string.ja), new DialogInterface.OnClickListener() {
+                        slettRom.setOnClickListener(new View.OnClickListener(){
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Rom romID = alleRom.get(i);
-                                Log.d("Romid", String.valueOf(romID));
-                                int romid = romID.getRomID();
-
-                                SlettRomJSON task = new SlettRomJSON();
-                                String url = "http://student.cs.hioa.no/~s331153/slettromjson.php/?RomID=" + Integer.toString(romid);
-                                task.execute(url);
-                                Intent i2 = new Intent(HusOversikt.this, MapsActivity.class);
-                                startActivity(i2);
+                            public void onClick(View view){
+                                AlertDialog.Builder builder = new AlertDialog.Builder(HusOversikt.this, R.style.AlertDialogStyle);
+                                builder.setMessage(getResources().getString(R.string.slettRom));
+                                builder.setPositiveButton(getResources().getString(R.string.ja), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        int romID = alleRomIndeksLV.get(indeks);
+                                        Log.d("Romid", String.valueOf(romID));
+                                        SlettRomJSON task = new SlettRomJSON();
+                                        String url = "http://student.cs.hioa.no/~s331153/slettromjson.php/?RomID=" + Integer.toString(romID);
+                                        task.execute(url);
+                                        slettetIndeks = indeks;
+                                        slettRom();
+                                        dialog.dismiss();
+                                    }
+                                });
+                                builder.setNegativeButton(getResources().getString(R.string.nei), null);
+                                builder.show();
+                                dialog.dismiss();
                             }
                         });
-                        builder.setNegativeButton(getResources().getString(R.string.nei), null);
-                        builder.show();
-                        dialog.dismiss();
-                    }
-                });
 
-                opprettReservasjon.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View view){
-                        //Her må det også bli sendt med valgt hus og rom
-                        Intent intent = new Intent(HusOversikt.this, ReservasjonAdministrerer.class);
-                        startActivity(intent);
-                        dialog.dismiss();
-                    }
-                });
+                        opprettReservasjon.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View view){
+                                //Her må det også bli sendt med valgt hus og rom
+                                Intent intent = new Intent(HusOversikt.this, ReservasjonAdministrerer.class);
+                                startActivity(intent);
+                                dialog.dismiss();
+                            }
+                        });
             }
         });
 
+    }
+
+    public void slettRom(){
+        alleRomLV.remove(slettetIndeks);
+        alleRom.remove(slettetIndeks);
+        romAdapter.notifyDataSetChanged();
     }
 
     public static Context getContext() {
@@ -231,14 +241,14 @@ public class HusOversikt extends AppCompatActivity {
     }
 
     public List<String> visRomListView(String valgtEtasjeSpinner) {
-        List<String> alleRomLV = new ArrayList<>();
-
-        //valgtEtasje = etasjer.getSelectedItem().toString();
+        alleRomLV = new ArrayList<>();
+        alleRomIndeksLV = new ArrayList<>();
 
         for (Rom etRom : alleRom) {
             if (etRom.getHusID() == husIDValgt) {
                 if (Integer.toString(etRom.getEtasje()).equals(valgtEtasjeSpinner)) {
                     alleRomLV.add("\nRomnr: " + etRom.getRomNr() + "\nBeskrivelse: " + etRom.getBeskrivelse());
+                    alleRomIndeksLV.add(etRom.getRomID());
                 }
             }
         }
