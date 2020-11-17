@@ -38,10 +38,13 @@ public class ReservasjonListe extends AppCompatActivity {
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
 
+        Intent intent = getIntent();
+        husIDValgt = intent.getIntExtra("husID", 0);
+
         ReservasjonJSON task = new ReservasjonJSON();
         task.execute("http://student.cs.hioa.no/~s331153/reservasjonjsonout.php");
         sp = PreferenceManager.getDefaultSharedPreferences(this);
-        husIDValgt = sp.getInt("husID", 0);
+        Log.d("HusID i res", Integer.toString(husIDValgt));
         stringAlleReservasjoner = sp.getString("alleReservasjoner", "Får ikke hentet reservasjon");
 
         Log.d("Alle resverasjoner", stringAlleReservasjoner);
