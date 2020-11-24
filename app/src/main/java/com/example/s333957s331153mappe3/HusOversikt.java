@@ -234,7 +234,6 @@ public class HusOversikt extends AppCompatActivity {
                         });
             }
         });
-
     }
 
     public void slettRom(){
