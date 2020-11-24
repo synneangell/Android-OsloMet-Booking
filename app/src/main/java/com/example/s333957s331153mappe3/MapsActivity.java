@@ -1,8 +1,10 @@
 package com.example.s333957s331153mappe3;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
@@ -46,7 +48,6 @@ public class MapsActivity extends AppCompatActivity implements
     Marker markerValgt;
     private boolean markerSatt;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,6 @@ public class MapsActivity extends AppCompatActivity implements
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
     }
 
     /*
@@ -89,19 +89,17 @@ public class MapsActivity extends AppCompatActivity implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         CameraUpdate startPosisjon = CameraUpdateFactory.newLatLngZoom(pilestredet, 15);
         mMap.animateCamera(startPosisjon);
-
         context = getApplicationContext();
+        Log.d("Markører: ", String.valueOf(markerSatt));
+
 
         HusJSON task = new HusJSON();
         task.execute(new String[]{"http://student.cs.hioa.no/~s331153/husjsonout.php"});
-
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         stringAlleHus = sp.getString("alleHus", "Får ikke hentet data");
         Log.d("Alle hus i mapsactivity", stringAlleHus);
-
         alleHus = new ArrayList<>();
 
         String[] tempArray;
@@ -120,9 +118,6 @@ public class MapsActivity extends AppCompatActivity implements
             alleHus.add(etHus);
         }
 
-
-        Log.d("Allehus size ",Integer.toString(alleHus.size()));
-
         for(Hus etHus : alleHus){
             Log.d("Et hus sitt navn", etHus.navn);
             Double latitude = etHus.getLatitude();
@@ -132,10 +127,8 @@ public class MapsActivity extends AppCompatActivity implements
             husMarkers.add(mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getHusID() + ", "+etHus.getNavn())));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
         }
-
         for(Marker marker : husMarkers){
             Log.d("Marker", marker.getTitle());
-
         }
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -188,33 +181,9 @@ public class MapsActivity extends AppCompatActivity implements
                     dialog.setCancelable(true);
                     dialog.show();
 
-                    Button slettBygning, seOversikt, seReservasjoner;
-                    slettBygning = dialog.findViewById(R.id.btnSlettHus);
+                    Button seOversikt, seReservasjoner;
                     seOversikt = dialog.findViewById(R.id.btnHusOversikt);
                     seReservasjoner = dialog.findViewById(R.id.btnSeReservasjon);
-
-                    slettBygning.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            //Kode for å slette bygning
-                            String[] tempArray;
-                            String komma = ",";
-                            tempArray = markerTittel.split(komma);
-                            int husID = Integer.parseInt(tempArray[0]);
-                            SlettHusJSON task = new SlettHusJSON();
-                            String url = "http://student.cs.hioa.no/~s331153/sletthusjson.php/?HusID=" + Integer.toString(husID);
-                            task.execute(url);
-                            //Hus blir slettet, men må fjerne marker fra kart!!
-                            for(Marker marker : husMarkers){
-                                if(marker.getTitle().equals(markerTittel)){
-                                    husMarkers.remove(marker);
-                                }
-                            }
-
-                            dialog.dismiss();
-                            Toast.makeText(MapsActivity.getContext(), "Bygning slettet!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
 
                     seReservasjoner.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -251,6 +220,5 @@ public class MapsActivity extends AppCompatActivity implements
             }
         });
     }
-
 }
 

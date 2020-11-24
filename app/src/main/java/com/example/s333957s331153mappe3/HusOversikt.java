@@ -17,8 +17,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
@@ -242,6 +245,23 @@ public class HusOversikt extends AppCompatActivity {
 
     public static Context getContext() {
         return context;
+    }
+
+    public void slettHus(View v){
+        AlertDialog.Builder builder = new AlertDialog.Builder(HusOversikt.this, R.style.AlertDialogStyle);
+        builder.setMessage(getResources().getString(R.string.slettHus));
+        builder.setPositiveButton(getResources().getString(R.string.ja), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                SlettHusJSON task = new SlettHusJSON();
+                String url = "http://student.cs.hioa.no/~s331153/sletthusjson.php/?HusID=" + Integer.toString(husIDValgt);
+                task.execute(url);
+                Intent j = new Intent(HusOversikt.this, MapsActivity.class);
+                startActivity(j);
+            }
+        });
+        builder.setNegativeButton(getResources().getString(R.string.nei), null);
+        builder.show();
     }
 
     public List<String> visRomListView(String valgtEtasjeSpinner) {

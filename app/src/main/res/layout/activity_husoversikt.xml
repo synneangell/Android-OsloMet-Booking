@@ -17,6 +17,16 @@
         android:background="@color/gul"
         android:clickable="true"/>
 
+    <ImageView
+        android:id="@+id/imgLagreRes"
+        app:srcCompat="@drawable/ic_baseline_delete_forever_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="350dp"
+        android:layout_marginRight="10dp"
+        android:onClick="slettHus"/>
+
     <TextView
         android:id="@+id/husInfo"
         android:layout_width="400dp"
