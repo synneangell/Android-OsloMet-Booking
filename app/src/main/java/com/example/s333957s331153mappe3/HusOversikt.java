@@ -256,6 +256,7 @@ public class HusOversikt extends AppCompatActivity {
                 String url = "http://student.cs.hioa.no/~s331153/sletthusjson.php/?HusID=" + Integer.toString(husIDValgt);
                 task.execute(url);
                 Intent j = new Intent(HusOversikt.this, MapsActivity.class);
+                j.putExtra("slett", husIDValgt);
                 startActivity(j);
             }
         });

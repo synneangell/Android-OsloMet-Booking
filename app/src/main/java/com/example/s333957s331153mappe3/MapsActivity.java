@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -62,32 +63,14 @@ public class MapsActivity extends AppCompatActivity implements
         mapFragment.getMapAsync(this);
     }
 
-    /*
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        Intent intent = getIntent();
-        if(intent.hasExtra("navn")) {
-            Hus nyttHus = new Hus();
-            nyttHus.navn = intent.getStringExtra("navn");
-            nyttHus.beskrivelse = intent.getStringExtra("beskrivelse");
-            nyttHus.gateAdresse = intent.getStringExtra("gateadresse");
-            nyttHus.latitude = intent.getDoubleExtra("latitude", 0);
-            nyttHus.longitude = intent.getDoubleExtra("longitude", 0);
-            nyttHus.etasjer = intent.getIntExtra("etasjer", 0);
-            LatLng nyttHusLatLng = new LatLng(nyttHus.latitude, nyttHus.longitude);
-            husMarkers.add(mMap.addMarker(new MarkerOptions().position(nyttHusLatLng).title(nyttHus.getHusID() + ", " + nyttHus.getNavn())));
-        }
-        onMapReady(mMap);
-    }*/
-
     public static Context getContext(){
         return context;
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.d("onMapReady", "Inne i onMapReady");
+
         mMap = googleMap;
         CameraUpdate startPosisjon = CameraUpdateFactory.newLatLngZoom(pilestredet, 15);
         mMap.animateCamera(startPosisjon);
@@ -127,6 +110,19 @@ public class MapsActivity extends AppCompatActivity implements
             husMarkers.add(mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getHusID() + ", "+etHus.getNavn())));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
         }
+        Intent intent = getIntent();
+        if(intent.hasExtra("navn")) {
+            Hus nyttHus = new Hus();
+            nyttHus.navn = intent.getStringExtra("navn");
+            nyttHus.beskrivelse = intent.getStringExtra("beskrivelse");
+            nyttHus.gateAdresse = intent.getStringExtra("gateadresse");
+            nyttHus.latitude = intent.getDoubleExtra("latitude", 0);
+            nyttHus.longitude = intent.getDoubleExtra("longitude", 0);
+            nyttHus.etasjer = intent.getIntExtra("etasjer", 0);
+            LatLng nyttHusLatLng = new LatLng(nyttHus.latitude, nyttHus.longitude);
+            husMarkers.add(mMap.addMarker(new MarkerOptions().position(nyttHusLatLng).title(nyttHus.getHusID() + ", " + nyttHus.getNavn())));
+        }
+
         for(Marker marker : husMarkers){
             Log.d("Marker", marker.getTitle());
         }
@@ -168,7 +164,7 @@ public class MapsActivity extends AppCompatActivity implements
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
-            public boolean onMarkerClick(Marker marker) {
+            public boolean onMarkerClick(final Marker marker) {
                 final String markerTittel = marker.getTitle();
                 if (markerTittel.equals("Ny bygning?")) {
                     Intent i = new Intent(MapsActivity.this, HusAdministrerer.class);
@@ -210,6 +206,8 @@ public class MapsActivity extends AppCompatActivity implements
                             editor.putString("alleHus", stringAlleHus);
                             editor.putInt("husID", husID);
                             editor.apply();
+                            markerValgt = marker;
+                            Log.d("Marker valgt", markerValgt.toString());
                             Intent i = new Intent(MapsActivity.this, HusOversikt.class);
                             startActivity(i);
                             dialog.dismiss();
