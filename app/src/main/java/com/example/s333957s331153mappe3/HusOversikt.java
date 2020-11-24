@@ -221,7 +221,6 @@ public class HusOversikt extends AppCompatActivity {
                         opprettReservasjon.setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View view){
-                                //Her må det også bli sendt med valgt hus og rom
                                 int romID = alleRomIndeksLV.get(indeks);
                                 Intent intent = new Intent(HusOversikt.this, ReservasjonAdministrerer.class);
                                 intent.putExtra("romID", romID);
