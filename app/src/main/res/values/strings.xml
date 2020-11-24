@@ -8,7 +8,7 @@
     <string name="slettrom">Slett rom</string>
     <string name="opprettReservasjon">Reserver</string>
     <string name="slettRom">Er du sikker på at du vil slette rommet?</string>
-    <string name="slettHus">Er du sikker på at du vil slette huset?</string>
+    <string name="slettHus">Er du sikker på at du vil slette bygningen?</string>
     <string name="avbryt">Avbryt</string>
     <string name="slettBygning">Slett bygning</string>
     <string name="husOversikt">Se oversikt</string>

@@ -37,7 +37,6 @@ public class ReservasjonListe extends AppCompatActivity {
         tb.setLogo(R.mipmap.ic_launcher_round);
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
-
         tb.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
         tb.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,13 +48,10 @@ public class ReservasjonListe extends AppCompatActivity {
 
         Intent intent = getIntent();
         husIDValgt = intent.getIntExtra("husID", 0);
-
         ReservasjonJSON task = new ReservasjonJSON();
         task.execute("http://student.cs.hioa.no/~s331153/reservasjonjsonout.php");
         sp = PreferenceManager.getDefaultSharedPreferences(this);
-        Log.d("HusID i res", Integer.toString(husIDValgt));
         stringAlleReservasjoner = sp.getString("alleReservasjoner", "Får ikke hentet reservasjon");
-
         Log.d("Alle resverasjoner", stringAlleReservasjoner);
         alleReservasjoner = new ArrayList<>();
 
@@ -113,7 +109,7 @@ public class ReservasjonListe extends AppCompatActivity {
             if(enReservasjon.getHusID() == husIDValgt){
                 alleReservasjonerLV.add("\nHusID: "+enReservasjon.getHusID()+
                         "\nNavn: "+enReservasjon.getNavn()+"\nDato: "+enReservasjon.getDato()+
-                        "\nTidFra: "+enReservasjon.getTid());
+                        "\nTid: "+enReservasjon.getTid());
             }
         }
         return alleReservasjonerLV;

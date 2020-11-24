@@ -66,7 +66,7 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
             }
         });
 
-        dato.addTextChangedListener(new TextWatcher() {
+/*        dato.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
@@ -77,7 +77,7 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 visLedigeTider();
             }
-        });
+        });*/
 
         ReservasjonJSON task = new ReservasjonJSON();
         task.execute("http://student.cs.hioa.no/~s331153/reservasjonjsonout.php");

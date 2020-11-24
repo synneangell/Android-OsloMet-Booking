@@ -79,6 +79,7 @@
         android:layout_marginLeft="220dp"
         android:background="@color/gul"
         android:textColor="@color/svart"
+        android:onClick="dato"
         android:text="@string/velgDato" />
 
     <ImageView
