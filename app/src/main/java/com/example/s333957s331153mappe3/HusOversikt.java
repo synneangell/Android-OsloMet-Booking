@@ -133,15 +133,17 @@ public class HusOversikt extends AppCompatActivity {
 
         String[] tempArray2;
         tempArray2 = stringAlleRom.split(semikolon);
-        for (int i = 0; i < tempArray2.length; i += 6) {
-            Rom etRom = new Rom();
-            etRom.setRomID(Integer.parseInt(tempArray2[i]));
-            etRom.setHusID(Integer.parseInt(tempArray2[i + 1]));
-            etRom.setEtasje(Integer.parseInt(tempArray2[i + 2]));
-            etRom.setRomNr(Integer.parseInt(tempArray2[i + 3]));
-            etRom.setKapasitet(Integer.parseInt(tempArray2[i + 4]));
-            etRom.setBeskrivelse(tempArray2[i + 5]);
-            alleRom.add(etRom);
+        if(tempArray2.length > 2) {
+            for (int i = 0; i < tempArray2.length; i += 6) {
+                Rom etRom = new Rom();
+                etRom.setRomID(Integer.parseInt(tempArray2[i]));
+                etRom.setHusID(Integer.parseInt(tempArray2[i + 1]));
+                etRom.setEtasje(Integer.parseInt(tempArray2[i + 2]));
+                etRom.setRomNr(Integer.parseInt(tempArray2[i + 3]));
+                etRom.setKapasitet(Integer.parseInt(tempArray2[i + 4]));
+                etRom.setBeskrivelse(tempArray2[i + 5]);
+                alleRom.add(etRom);
+            }
         }
 
         Log.d("Alle rom size", Integer.toString(alleRom.size()));
@@ -220,7 +222,10 @@ public class HusOversikt extends AppCompatActivity {
                             @Override
                             public void onClick(View view){
                                 //Her må det også bli sendt med valgt hus og rom
+                                int romID = alleRomIndeksLV.get(indeks);
                                 Intent intent = new Intent(HusOversikt.this, ReservasjonAdministrerer.class);
+                                intent.putExtra("romID", romID);
+                                intent.putExtra("husID", husIDValgt);
                                 startActivity(intent);
                                 dialog.dismiss();
                             }

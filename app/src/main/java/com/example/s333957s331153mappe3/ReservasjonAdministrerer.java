@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -17,13 +18,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -35,6 +42,7 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
     Spinner tid;
     SharedPreferences sp;
     String stringAlleReservasjoner;
+    int valgtHusID, valgtRomID;
     List<Reservasjon> alleReservasjoner;
     List<String> ledigeTider;
     String[] tider = new String[]{"08:00-09:00", "09:00-10:00", "10:00-11:00", "11:00-12:00", "12:00-13:00",
@@ -66,7 +74,11 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
             }
         });
 
-        dato.addTextChangedListener(new TextWatcher() {
+        Intent intent = getIntent();
+        valgtHusID = intent.getIntExtra("husID", 0);
+        valgtRomID = intent.getIntExtra("romID", 0);
+
+    /*    dato.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
@@ -75,9 +87,11 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                //visLedigeTider();
+                Log.d("Dato valgt", dato.getText().toString());
                 visLedigeTider();
             }
-        });
+        });*/
 
         ReservasjonJSON task = new ReservasjonJSON();
         task.execute("http://student.cs.hioa.no/~s331153/reservasjonjsonout.php");
@@ -88,7 +102,8 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
         String semikolon = ";";
         String[] tempArray2;
         tempArray2 = stringAlleReservasjoner.split(semikolon);
-        for (int i = 0; i < tempArray2.length; i+=6){
+        if(tempArray2.length > 4){
+            for (int i = 0; i < tempArray2.length; i+=6){
             Reservasjon enReservasjon = new Reservasjon();
             enReservasjon.reservasjonsID = Integer.parseInt(tempArray2[i]);
             enReservasjon.romID = Integer.parseInt(tempArray2[i + 1]);
@@ -96,11 +111,16 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
             enReservasjon.navn = tempArray2[i + 3];
             enReservasjon.dato = tempArray2[i + 4];
             enReservasjon.tid = tempArray2[i + 5];
-            alleReservasjoner.add(enReservasjon);
+            if(enReservasjon.husID == valgtHusID && enReservasjon.romID == valgtRomID){
+                alleReservasjoner.add(enReservasjon);
+            }
         }
+        }
+        Log.d("Alle res size", Integer.toString(alleReservasjoner.size()));
+        settAdapter();
     }
 
-    public List<String> visLedigeTider(){
+   /* public List<String> visLedigeTider(){
         for(Reservasjon enReservasjon : alleReservasjoner){
             if(enReservasjon.getDato().equals(dato)){
                     for(String ledigTid : tider){
@@ -116,10 +136,10 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
         }
         settAdapter();
         return ledigeTider;
-    }
+    }*/
 
     public void settAdapter(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, visLedigeTider()){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, tider){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -138,16 +158,36 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
             return;
         }
         else {
-            String urlString = ("http://student.cs.hioa.no/~s331153/reservasjonjsonin.php/?" +
-                    "Navn=" + navn.getText().toString() +
-                    "&Dato=" + dato.getText().toString() +
-                    "&Tid=" + tid.getSelectedItem()).replaceAll(" ", "%20");
-            task.execute(urlString);
-            Toast.makeText(this, "Reservasjon opprettet!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, MapsActivity.class);
-            startActivity(intent);
+            boolean tidOpptatt = false;
+            Log.d("Tid valgt:", tid.getSelectedItem().toString());
+            for (Reservasjon enReservasjon : alleReservasjoner) {
+                Log.d("Dato equals", enReservasjon.getDato() + ", " + dato.getText().toString());
+                Log.d("Tid equals", enReservasjon.getTid() + ", " + tid.getSelectedItem().toString());
+                if (enReservasjon.getDato().equals(dato.getText().toString()) && enReservasjon.getTid().equals(tid.getSelectedItem().toString())) {
+                    tidOpptatt = true;
+                }
+            }
+            if (tidOpptatt == true) {
+                Toast.makeText(ReservasjonAdministrerer.this, "Rommet er opptatt på dette tidspunktet. Velg en annen tid", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                String urlString = ("http://student.cs.hioa.no/~s331153/reservasjonjsonin.php/?" +
+                        "RomID=" + valgtRomID +
+                        "&HusID=" + valgtHusID +
+                        "&Navn=" + navn.getText().toString() +
+                        "&Dato=" + dato.getText().toString() +
+                        "&Tid=" + tid.getSelectedItem()).replaceAll(" ", "%20");
+                Log.d("URL", urlString);
+                task.execute(urlString);
+                Toast.makeText(this, "Reservasjon opprettet!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, MapsActivity.class);
+                startActivity(intent);
+            }
+
         }
     }
+
+
 
     public boolean validerNavn(){
         String navnInput = navn.getText().toString().trim();
