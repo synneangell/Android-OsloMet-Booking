@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -23,6 +24,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,15 +43,12 @@ public class HusOversikt extends AppCompatActivity {
     TextView husInfo;
     FloatingActionButton fab;
     List<Rom> alleRom;
-    List<Hus> alleHus;
-    String stringAlleHus;
     int husIDValgt;
     SharedPreferences sp;
     Integer[] husEtasjer;
     String husInfoString;
-    String stringAlleRom;
     String valgtEtasje;
-    Hus valgtHus;
+    Hus valgtHus = new Hus();
     public static Context context;
     int slettetIndeks;
     List<String> alleRomLV = new ArrayList<>();
@@ -75,38 +82,16 @@ public class HusOversikt extends AppCompatActivity {
 
         context = getApplicationContext();
 
-        RomJSON task = new RomJSON();
-        task.execute(new String[]{"http://student.cs.hioa.no/~s331153/romjsonout.php"});
-        sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContext());
-        stringAlleHus = sp.getString("alleHus", "Får ikke hentet data");
-        husIDValgt = sp.getInt("husID", 0);
-        Log.d("Alle hus i husoversikt", stringAlleHus);
+        sp = getApplicationContext().getSharedPreferences("Husoversikt", Context.MODE_PRIVATE);
+        valgtHus.husID = sp.getInt("husID", 0);
+        valgtHus.navn = sp.getString("navn", "Tomt");
+        valgtHus.beskrivelse = sp.getString("beskrivelse", "Tomt");
+        valgtHus.gateAdresse = sp.getString("gateadresse", "Tomt");
+        valgtHus.latitude = Double.parseDouble(sp.getString("latitude", "Tomt"));
+        valgtHus.longitude = Double.parseDouble(sp.getString("longitude", "Tomt"));
+        valgtHus.etasjer = sp.getInt("etasjer", 0);
 
-        stringAlleRom = sp.getString("alleRom", "Får ikke hentet rom");
-        Log.d("Alle rom i husoversikt", stringAlleRom);
-
-        alleHus = new ArrayList<>();
-
-        String[] tempArray;
-        String semikolon = ";";
-        tempArray = stringAlleHus.split(semikolon);
-        for (int i = 0; i < tempArray.length; i += 7) {
-            Hus etHus = new Hus();
-            etHus.husID = Integer.parseInt(tempArray[i]);
-            etHus.navn = tempArray[i + 1];
-            etHus.beskrivelse = tempArray[i + 2];
-            etHus.gateAdresse = tempArray[i + 3];
-            etHus.latitude = Double.parseDouble(tempArray[i + 4]);
-            etHus.longitude = Double.parseDouble(tempArray[i + 5]);
-            etHus.etasjer = Integer.parseInt(tempArray[i + 6]);
-            alleHus.add(etHus);
-        }
-
-        for (Hus etHus : alleHus) {
-            if (etHus.husID == husIDValgt) {
-                valgtHus = etHus;
-            }
-        }
+        husIDValgt = valgtHus.husID;
 
         husInfoString = "HusID: " + valgtHus.husID +
                 "\nNavn: " + valgtHus.navn +
@@ -121,6 +106,16 @@ public class HusOversikt extends AppCompatActivity {
             etasjeNr++;
         }
 
+        RomJSON task = new RomJSON();
+        task.execute(new String[]{"http://student.cs.hioa.no/~s331153/romjsonout.php"});
+
+    }
+
+    public void klar(){
+        hentRom();
+    }
+
+    public void hentRom(){
         ArrayAdapter<Integer> etasjeAdapter = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -131,25 +126,6 @@ public class HusOversikt extends AppCompatActivity {
             }
         };
         etasjer.setAdapter(etasjeAdapter);
-
-        alleRom = new ArrayList<>();
-
-        String[] tempArray2;
-        tempArray2 = stringAlleRom.split(semikolon);
-        if(tempArray2.length > 2) {
-            for (int i = 0; i < tempArray2.length; i += 6) {
-                Rom etRom = new Rom();
-                etRom.setRomID(Integer.parseInt(tempArray2[i]));
-                etRom.setHusID(Integer.parseInt(tempArray2[i + 1]));
-                etRom.setEtasje(Integer.parseInt(tempArray2[i + 2]));
-                etRom.setRomNr(Integer.parseInt(tempArray2[i + 3]));
-                etRom.setKapasitet(Integer.parseInt(tempArray2[i + 4]));
-                etRom.setBeskrivelse(tempArray2[i + 5]);
-                alleRom.add(etRom);
-            }
-        }
-
-        Log.d("Alle rom size", Integer.toString(alleRom.size()));
 
         etasjer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -197,44 +173,45 @@ public class HusOversikt extends AppCompatActivity {
                 opprettReservasjon = dialog.findViewById(R.id.btnReservasjon);
                 final int indeks = i;
 
-                        slettRom.setOnClickListener(new View.OnClickListener(){
+                slettRom.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(HusOversikt.this, R.style.AlertDialogStyle);
+                        builder.setMessage(getResources().getString(R.string.slettRom));
+                        builder.setPositiveButton(getResources().getString(R.string.ja), new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(View view){
-                                AlertDialog.Builder builder = new AlertDialog.Builder(HusOversikt.this, R.style.AlertDialogStyle);
-                                builder.setMessage(getResources().getString(R.string.slettRom));
-                                builder.setPositiveButton(getResources().getString(R.string.ja), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        int romID = alleRomIndeksLV.get(indeks);
-                                        Log.d("Romid", String.valueOf(romID));
-                                        SlettRomJSON task = new SlettRomJSON();
-                                        String url = "http://student.cs.hioa.no/~s331153/slettromjson.php/?RomID=" + Integer.toString(romID);
-                                        task.execute(url);
-                                        slettetIndeks = indeks;
-                                        slettRom();
-                                        dialog.dismiss();
-                                    }
-                                });
-                                builder.setNegativeButton(getResources().getString(R.string.nei), null);
-                                builder.show();
-                                dialog.dismiss();
-                            }
-                        });
-
-                        opprettReservasjon.setOnClickListener(new View.OnClickListener(){
-                            @Override
-                            public void onClick(View view){
+                            public void onClick(DialogInterface dialogInterface, int i) {
                                 int romID = alleRomIndeksLV.get(indeks);
-                                Intent intent = new Intent(HusOversikt.this, ReservasjonAdministrerer.class);
-                                intent.putExtra("romID", romID);
-                                intent.putExtra("husID", husIDValgt);
-                                startActivity(intent);
+                                Log.d("Romid", String.valueOf(romID));
+                                SlettRomJSON task = new SlettRomJSON();
+                                String url = "http://student.cs.hioa.no/~s331153/slettromjson.php/?RomID=" + Integer.toString(romID);
+                                task.execute(url);
+                                slettetIndeks = indeks;
+                                slettRom();
                                 dialog.dismiss();
                             }
                         });
+                        builder.setNegativeButton(getResources().getString(R.string.nei), null);
+                        builder.show();
+                        dialog.dismiss();
+                    }
+                });
+
+                opprettReservasjon.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view){
+                        int romID = alleRomIndeksLV.get(indeks);
+                        Intent intent = new Intent(HusOversikt.this, ReservasjonAdministrerer.class);
+                        intent.putExtra("romID", romID);
+                        intent.putExtra("husID", husIDValgt);
+                        startActivity(intent);
+                        dialog.dismiss();
+                    }
+                });
             }
         });
     }
+
 
     public void slettRom(){
         alleRomLV.remove(slettetIndeks);
@@ -277,6 +254,67 @@ public class HusOversikt extends AppCompatActivity {
             }
         }
         return alleRomLV;
+    }
+
+    private class RomJSON extends AsyncTask<String, Void,String> {
+        SharedPreferences sp;
+        List<Rom> alleRomFraJson = new ArrayList<>();
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String retur = "";
+            String s = "";
+            String output = "";
+            for (String url : urls) {
+
+                try {
+                    URL urlen = new URL(urls[0]);
+                    HttpURLConnection conn = (HttpURLConnection)
+                            urlen.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Accept", "application/json");
+
+                    if (conn.getResponseCode() != 200) {
+                        throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
+                    }
+                    BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+                    System.out.println("Output from Server .... \n");
+                    while ((s = br.readLine()) != null) {
+                        output = output + s;
+                    }
+                    conn.disconnect();
+
+                    try {
+                        JSONArray mat = new JSONArray(output);
+                        for (int i = 0; i < mat.length(); i++) {
+                            JSONObject jsonobject = mat.getJSONObject(i);
+                            Rom etRom = new Rom();
+                            etRom.RomID = jsonobject.getInt("RomID");
+                            etRom.HusID = jsonobject.getInt("HusID");
+                            etRom.Etasje = jsonobject.getInt("EtasjeNr");
+                            etRom.RomNr = jsonobject.getInt("RomNr");
+                            etRom.Kapasitet = jsonobject.getInt("Kapasitet");
+                            etRom.Beskrivelse = jsonobject.getString("Beskrivelse");
+                            //retur = retur + romID+";" + husID+";" + etasjeNr+";" + romNr+";" + kapasitet+";" + beskrivelse+";";
+                            alleRomFraJson.add(etRom);
+                        }
+                        return retur;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    return retur;
+                } catch (Exception e) {
+                    return "Noe gikk feil";
+                }
+            }
+            return retur;
+        }
+
+        @Override
+        protected void onPostExecute(String ss) {
+            alleRom = alleRomFraJson;
+            klar();
+        }
     }
 }
 
