@@ -1,15 +1,11 @@
 package com.example.s333957s331153mappe3;
 
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class LagreHusJSON extends AsyncTask<String, Void,String> {
-    SharedPreferences sp;
-
     @Override
     protected String doInBackground(String... urls) {
         String retur = "";
@@ -41,6 +37,5 @@ public class LagreHusJSON extends AsyncTask<String, Void,String> {
     @Override
     protected void onPostExecute(String ss) {
         Log.d("Vellykket lagring", ss);
-
     }
 }

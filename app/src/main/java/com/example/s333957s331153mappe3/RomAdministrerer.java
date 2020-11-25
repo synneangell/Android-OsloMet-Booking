@@ -1,5 +1,4 @@
 package com.example.s333957s331153mappe3;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.regex.Pattern;
 
 public class RomAdministrerer extends AppCompatActivity {
-    public static Context context;
     Spinner etasjer;
     EditText romNr, kapasitet, beskrivelse;
     Toolbar tb;
@@ -51,12 +49,11 @@ public class RomAdministrerer extends AppCompatActivity {
             }
         });
 
-        context = getContext();
-
         Intent intent = getIntent();
         husID = intent.getIntExtra("HusID", 0);
         antallEtasjer = intent.getIntExtra("Etasjer", 0);
 
+        //----- Metoder for aa fylle spinner med etasjer -----//
         husEtasjer = new Integer[antallEtasjer];
         int etasjeNr = 1;
         for (int i = 0; i < husEtasjer.length; i++) {
@@ -76,10 +73,6 @@ public class RomAdministrerer extends AppCompatActivity {
         etasjer.setAdapter(etasjeAdapter);
     }
 
-    public static Context getContext(){
-        return context;
-    }
-
     public void lagreRom(View v){
         LagreRomJSON task = new LagreRomJSON();
         if(!validerRomnr() | !validerKapasitet() | !validerBeskrivelse()) {
@@ -94,11 +87,13 @@ public class RomAdministrerer extends AppCompatActivity {
                     "&Beskrivelse=" + beskrivelse.getText().toString()).replaceAll(" ", "%20");
             task.execute(urlString);
             Toast.makeText(this, "Rom opprettet!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, HusOversikt.class);
+            Intent intent = new Intent(this,
+                    HusOversikt.class);
             startActivity(intent);
         }
     }
 
+    //----- Metoder for validering -----//
     public boolean validerRomnr(){
         String romNrInput = romNr.getText().toString().trim();
         if(romNrInput.isEmpty()){

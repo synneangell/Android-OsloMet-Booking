@@ -11,27 +11,6 @@ public class Hus {
 
     public Hus(){ }
 
-    public Hus(String navn, String beskrivelse, String gateAdresse, Double latitude, Double longitude, int etasjer){
-        this.navn = navn;
-        this.beskrivelse = beskrivelse;
-        this.gateAdresse = gateAdresse;
-        this.etasjer = etasjer;
-        this.latitude = latitude;
-        this.longitude = longitude;
-
-    }
-
-    public Hus(int husID, String navn, String beskrivelse, String gateAdresse, Double latitude, Double longitude, int etasjer){
-        this.husID = husID;
-        this.navn = navn;
-        this.beskrivelse = beskrivelse;
-        this.gateAdresse = gateAdresse;
-        this.etasjer = etasjer;
-        this.latitude = latitude;
-        this.longitude = longitude;
-
-    }
-
     public int getHusID(){
         return husID;
     }

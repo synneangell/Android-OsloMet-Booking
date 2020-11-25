@@ -30,7 +30,7 @@
         android:textColor="@color/svart"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="150dp"
-        android:text="Navn" />
+        android:text="@string/navn" />
 
     <ImageView
         android:id="@+id/imgNavn"
@@ -60,7 +60,7 @@
         android:textColor="@color/svart"
         android:layout_marginTop="220dp"
         android:ems="10"
-        android:text="Dato" />
+        android:text="@string/dato" />
 
     <EditText
         android:id="@+id/dato"
@@ -102,7 +102,7 @@
         android:textColor="@color/svart"
         android:layout_marginTop="290dp"
         android:ems="10"
-        android:text="Tid" />
+        android:text="@string/tid" />
 
     <Spinner
         android:id="@+id/spinnerTid"

@@ -8,15 +8,6 @@ public class Reservasjon {
     public String dato;
     public String tid;
 
-    public Reservasjon(int reservasjonsID, int husID, int romID, String navn, String dato, String tid) {
-        this.reservasjonsID = reservasjonsID;
-        this.romID = romID;
-        this.husID = husID;
-        this.navn = navn;
-        this.dato = dato;
-        this.tid = tid;
-    }
-
     public Reservasjon(){}
 
     public int getReservasjonsID() {

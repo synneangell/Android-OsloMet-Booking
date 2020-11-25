@@ -1,15 +1,11 @@
 package com.example.s333957s331153mappe3;
 
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class LagreReservasjonJSON extends AsyncTask<String, Void,String> {
-    SharedPreferences sp;
-
     @Override
     protected String doInBackground(String... urls) {
         String retur = "";

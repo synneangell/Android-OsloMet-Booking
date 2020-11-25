@@ -31,7 +31,7 @@
         android:layout_marginLeft="70dp"
         android:layout_marginTop="150dp"
         android:ems="10"
-        android:text="Velg etasje"/>
+        android:text="@string/velgEtasje"/>
 
     <ImageView
         android:id="@+id/imgEtasjer"
@@ -59,7 +59,7 @@
         android:textColor="@color/svart"
         android:layout_marginTop="200dp"
         android:ems="10"
-        android:text="Romnr" />
+        android:text="@string/romNr" />
 
     <EditText
         android:id="@+id/romNr"
@@ -91,7 +91,7 @@
         android:textColor="@color/svart"
         android:layout_marginTop="270dp"
         android:ems="10"
-        android:text="Kapasitet" />
+        android:text="@string/kapasitet" />
 
     <EditText
         android:id="@+id/kapasitet"
@@ -135,7 +135,7 @@
         android:textColor="@color/svart"
         android:layout_marginTop="340dp"
         android:ems="10"
-        android:text="Beskrivelse" />
+        android:text="@string/beskrivelse" />
 
     <EditText
         android:id="@+id/beskrivelseRom"
