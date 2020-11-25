@@ -150,8 +150,6 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
         settAdapter();
     }
 
-
-
     public boolean validerNavn(){
         String navnInput = navn.getText().toString().trim();
         if(navnInput.isEmpty()){
