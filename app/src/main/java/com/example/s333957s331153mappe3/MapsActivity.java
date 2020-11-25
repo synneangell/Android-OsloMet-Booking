@@ -223,7 +223,6 @@ public class MapsActivity extends AppCompatActivity implements
         context = getApplicationContext();
         Log.d("Markører: ", String.valueOf(markerSatt));
 
-
     /*    Intent intent = getIntent();
         if(intent.hasExtra("navn")) {
             Hus nyttHus = new Hus();
@@ -236,7 +235,6 @@ public class MapsActivity extends AppCompatActivity implements
             LatLng nyttHusLatLng = new LatLng(nyttHus.latitude, nyttHus.longitude);
             husMarkers.add(mMap.addMarker(new MarkerOptions().position(nyttHusLatLng).title(nyttHus.getHusID() + ", " + nyttHus.getNavn())));
         }*/
-
     }
     private class HusJSON extends AsyncTask<String, Void,String> {
         SharedPreferences sp;
