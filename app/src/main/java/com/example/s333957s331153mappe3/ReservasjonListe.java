@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -69,6 +70,41 @@ public class ReservasjonListe extends AppCompatActivity {
 
     }
 
+    public void klar(){
+        hentReservasjoner();
+    }
+
+    public void hentReservasjoner(){
+        for(Reservasjon enReservasjon : alleReservasjoner){
+            Log.d("Reservasjon", enReservasjon.navn);
+        }
+
+        adapter = lagAdapter();
+        lv.setAdapter(adapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> adapterView, View view, int i, long j) {
+                final int indeks = i;
+                AlertDialog.Builder builder = new AlertDialog.Builder(ReservasjonListe.this, R.style.AlertDialogStyle);
+                builder.setMessage(getResources().getString(R.string.slettReservasjon));
+                builder.setPositiveButton(getResources().getString(R.string.ja), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        int reservasjonsID = alleReservasjonerIndeksLV.get(indeks);
+                        SlettReservasjonJSON task = new SlettReservasjonJSON();
+                        String url = "http://student.cs.hioa.no/~s331153/slettreservasjonjson.php/?ReservasjonID=" + Integer.toString(reservasjonsID);
+                        task.execute(url);
+                        slettetIndeks = indeks;
+                        slettReservasjon();
+                    }
+                });
+                builder.setNegativeButton(getResources().getString(R.string.nei), null);
+                builder.show();
+
+            }
+        });
+    }
     public void slettReservasjon(){
         alleReservasjoner.remove(slettetIndeks);
         alleReservasjonerLV.remove(slettetIndeks);
@@ -106,41 +142,8 @@ public class ReservasjonListe extends AppCompatActivity {
         return alleReservasjonerLV;
     }
 
-    public void klar(){
-        hentReservasjoner();
-    }
-
-    public void hentReservasjoner(){
-        adapter = lagAdapter();
-        lv.setAdapter(adapter);
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(final AdapterView<?> adapterView, View view, int i, long j) {
-                final int indeks = i;
-                AlertDialog.Builder builder = new AlertDialog.Builder(ReservasjonListe.this, R.style.AlertDialogStyle);
-                builder.setMessage(getResources().getString(R.string.slettReservasjon));
-                builder.setPositiveButton(getResources().getString(R.string.ja), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        int reservasjonsID = alleReservasjonerIndeksLV.get(indeks);
-                        SlettReservasjonJSON task = new SlettReservasjonJSON();
-                        String url = "http://student.cs.hioa.no/~s331153/slettreservasjonjson.php/?ReservasjonID=" + Integer.toString(reservasjonsID);
-                        task.execute(url);
-                        slettetIndeks = indeks;
-                        slettReservasjon();
-                    }
-                });
-                builder.setNegativeButton(getResources().getString(R.string.nei), null);
-                builder.show();
-
-            }
-        });
-    }
-
     private class ReservasjonJSON extends AsyncTask<String, Void,String> {
-        SharedPreferences sp;
-        List <Reservasjon> reservasjonJSON;
+        List <Reservasjon> reservasjonJSON = new ArrayList<>();
 
         @Override
         protected String doInBackground(String... urls) {
@@ -178,7 +181,6 @@ public class ReservasjonListe extends AppCompatActivity {
                             enReservasjon.navn = jsonobject.getString("Navn");
                             enReservasjon.dato = jsonobject.getString("Dato");
                             enReservasjon.tid = jsonobject.getString("Tid");
-                            //retur = retur + reservasjonID + ";" + romID + ";" + husID + ";" + navn + ";" + dato + ";" + tid + ";";
                             reservasjonJSON.add(enReservasjon);
                         }
                         return retur;
@@ -195,12 +197,6 @@ public class ReservasjonListe extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String ss) {
-            /*Context applicationContext = MapsActivity.getContext();
-            sp = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-            SharedPreferences.Editor editor = sp.edit();
-            Log.d("ss i resJSON", ss);
-            editor.putString("alleReservasjoner",ss);
-            editor.apply();*/
             alleReservasjoner = reservasjonJSON;
             klar();
 

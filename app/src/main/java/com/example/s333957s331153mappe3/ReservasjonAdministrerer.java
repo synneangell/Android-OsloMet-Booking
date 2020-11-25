@@ -88,42 +88,10 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
         valgtHusID = intent.getIntExtra("husID", 0);
         valgtRomID = intent.getIntExtra("romID", 0);
 
-    /*    dato.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                //visLedigeTider();
-                Log.d("Dato valgt", dato.getText().toString());
-                visLedigeTider();
-            }
-        });*/
 
         ReservasjonJSON task = new ReservasjonJSON();
         task.execute("http://student.cs.hioa.no/~s331153/reservasjonjsonout.php");
     }
-
-   /* public List<String> visLedigeTider(){
-        for(Reservasjon enReservasjon : alleReservasjoner){
-            if(enReservasjon.getDato().equals(dato)){
-                    for(String ledigTid : tider){
-                        if(!enReservasjon.getTid().equals(tid)){
-                            ledigeTider.add(ledigTid);
-                        }
-                    }
-                } else {
-                for(String tid : tider){
-                    ledigeTider.add(tid);
-                }
-            }
-        }
-        settAdapter();
-        return ledigeTider;
-    }*/
 
     public void settAdapter(){
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, tider){
@@ -260,8 +228,7 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
     }
 
     private class ReservasjonJSON extends AsyncTask<String, Void,String> {
-        SharedPreferences sp;
-        List <Reservasjon> reservasjonJSON;
+        List <Reservasjon> reservasjonJSON = new ArrayList<>();
 
         @Override
         protected String doInBackground(String... urls) {
@@ -299,7 +266,6 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
                             enReservasjon.navn = jsonobject.getString("Navn");
                             enReservasjon.dato = jsonobject.getString("Dato");
                             enReservasjon.tid = jsonobject.getString("Tid");
-                            //retur = retur + reservasjonID + ";" + romID + ";" + husID + ";" + navn + ";" + dato + ";" + tid + ";";
                             reservasjonJSON.add(enReservasjon);
                         }
                         return retur;
@@ -316,12 +282,6 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String ss) {
-            /*Context applicationContext = MapsActivity.getContext();
-            sp = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-            SharedPreferences.Editor editor = sp.edit();
-            Log.d("ss i resJSON", ss);
-            editor.putString("alleReservasjoner",ss);
-            editor.apply();*/
             alleReservasjoner = reservasjonJSON;
             klar();
 
