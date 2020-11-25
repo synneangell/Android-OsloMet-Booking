@@ -95,7 +95,7 @@ public class RomAdministrerer extends AppCompatActivity {
             task.execute(urlString);
             Toast.makeText(this, "Rom opprettet!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this,
-                    MapsActivity.class);
+                    HusOversikt.class);
             startActivity(intent);
         }
     }
