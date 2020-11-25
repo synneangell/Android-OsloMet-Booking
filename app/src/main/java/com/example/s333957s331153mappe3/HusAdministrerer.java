@@ -54,6 +54,7 @@ public class HusAdministrerer extends AppCompatActivity {
             }
         });
 
+        //----- Fyller spinner med valg for etasjer  -----//
         Integer[] items = new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
         ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,android.R.layout.simple_spinner_item, items){
             @Override
@@ -66,9 +67,9 @@ public class HusAdministrerer extends AppCompatActivity {
         };
         etasjer.setAdapter(adapter);
 
+        //----- Endrer koordinater til adresse -----//
         innKoordinater = getIntent().getExtras().getParcelable("koordinater");
         geocoder = new Geocoder(this, Locale.getDefault());
-
         try {
             addresses = geocoder.getFromLocation(innKoordinater.latitude, innKoordinater.longitude, 1);
         } catch (IOException e) {
@@ -94,12 +95,12 @@ public class HusAdministrerer extends AppCompatActivity {
             task.execute(urlString);
             Toast.makeText(this, "Bygning opprettet!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MapsActivity.class);
-            intent.putExtra("navn", navn.getText().toString());
+        /*    intent.putExtra("navn", navn.getText().toString());
             intent.putExtra("beskrivelse", beskrivelse.getText().toString());
             intent.putExtra("gateadresse",gateadresse.getText().toString());
             intent.putExtra("latitude", innKoordinater.latitude);
             intent.putExtra("longitude", innKoordinater.longitude);
-            intent.putExtra("etasjer", (Integer) etasjer.getSelectedItem());
+            intent.putExtra("etasjer", (Integer) etasjer.getSelectedItem());*/
             startActivity(intent);
         }
     }

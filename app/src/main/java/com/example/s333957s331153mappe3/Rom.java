@@ -8,19 +8,7 @@ public class Rom {
     public int Kapasitet;
     public String Beskrivelse;
 
-
-    public Rom() {
-
-    }
-
-    public Rom(int RomID, int HusID, int Etasje, int RomNr, int Kapasitet, String Beskrivelse) {
-        this.RomID = RomID;
-        this.HusID = HusID;
-        this.Etasje = Etasje;
-        this.RomNr = RomNr;
-        this.Kapasitet = Kapasitet;
-        this.Beskrivelse = Beskrivelse;
-    }
+    public Rom() { }
 
     public int getRomID() {
         return RomID;

@@ -1,13 +1,9 @@
 package com.example.s333957s331153mappe3;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,15 +15,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -36,11 +27,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -50,11 +38,8 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
     Button datePicker;
     Toolbar tb;
     Spinner tid;
-    SharedPreferences sp;
-    String stringAlleReservasjoner;
     int valgtHusID, valgtRomID;
     List<Reservasjon> alleReservasjoner;
-    List<String> ledigeTider;
     String[] tider = new String[]{"08:00-09:00", "09:00-10:00", "10:00-11:00", "11:00-12:00", "12:00-13:00",
             "13:00-14:00", "14:00-15:00", "15:00-16:00", "16:00-17:00", "17:00-18:00", "18:00-19:00",
             "19:00-20:00", "20:00-21:00", "21:00-22:00", "22:00-23:00"};
@@ -88,9 +73,17 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
         valgtHusID = intent.getIntExtra("husID", 0);
         valgtRomID = intent.getIntExtra("romID", 0);
 
-
         ReservasjonJSON task = new ReservasjonJSON();
         task.execute("http://student.cs.hioa.no/~s331153/reservasjonjsonout.php");
+    }
+
+    //----- Metoder som skjer i det task blir ferdig -----//
+    public void klar(){
+        hentReservasjoner();
+    }
+
+    public void hentReservasjoner(){
+        settAdapter();
     }
 
     public void settAdapter(){
@@ -106,6 +99,7 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
         tid.setAdapter(adapter);
     }
 
+    //----- Lagre funksjonalitet -----//
     public void lagreRes (View v) throws ParseException {
         LagreReservasjonJSON task = new LagreReservasjonJSON();
         if(!validerNavn() | !validerDato()) {
@@ -142,16 +136,7 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
         }
     }
 
-    public void klar(){
-        hentReservasjoner();
-    }
-
-    public void hentReservasjoner(){
-        settAdapter();
-    }
-
-
-
+    //----- Metoder for validering -----//
     public boolean validerNavn(){
         String navnInput = navn.getText().toString().trim();
         if(navnInput.isEmpty()){

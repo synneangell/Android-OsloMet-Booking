@@ -17,4 +17,19 @@
     <string name="ja">Ja</string>
     <string name="nei">Nei</string>
     <string name="velgDato">Velg dato</string>
+    <string name="beskrivelse">Beskrivelse</string>
+    <string name="navn">Navn</string>
+    <string name="gateadresse">Gateadresse</string>
+    <string name="romNr">Romnummer</string>
+    <string name="kapasitet">Kapasitet</string>
+    <string name="dato">Dato</string>
+    <string name="tid">Tid</string>
+    <string name="etasjer">Antall etasjer</string>
+
+
+
+
+
+
+
 </resources>

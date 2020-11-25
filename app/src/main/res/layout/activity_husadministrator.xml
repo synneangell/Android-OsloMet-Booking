@@ -30,7 +30,7 @@
         android:textColor="@color/svart"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="150dp"
-        android:text="Navn" />
+        android:text="@string/navn" />
 
     <EditText
         android:id="@+id/navnBygning"
@@ -62,7 +62,7 @@
         android:textColor="@color/svart"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="220dp"
-        android:text="Navn" />
+        android:text="@string/beskrivelse" />
 
     <EditText
         android:id="@+id/beskrivelseBygning"
@@ -95,9 +95,9 @@
         android:layout_marginTop="290dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Adresse" />
+        android:text="@string/gateadresse" />
 
-    <EditText
+    <TextView
         android:id="@+id/adresseBygning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
         android:layout_marginTop="360dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Etasjer" />
+        android:text="@string/etasjer" />
 
     <ImageView
         android:id="@+id/imgEtasjer"

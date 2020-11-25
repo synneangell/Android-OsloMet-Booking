@@ -1,46 +1,37 @@
 package com.example.s333957s331153mappe3;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReservasjonListe extends AppCompatActivity {
-    ListView lv;
-    SharedPreferences sp;
     List<Reservasjon> alleReservasjoner;
-    String stringAlleReservasjoner;
-    Toolbar tb;
-    int husIDValgt;
     List<String> alleReservasjonerLV = new ArrayList<>();
     List<Integer> alleReservasjonerIndeksLV;
+    ListView lv;
     ArrayAdapter<String> adapter;
+    Toolbar tb;
+    int husIDValgt;
     int slettetIndeks;
 
     @Override
@@ -70,6 +61,7 @@ public class ReservasjonListe extends AppCompatActivity {
 
     }
 
+    //----- Metoder som skjer naar task er klar -----//
     public void klar(){
         hentReservasjoner();
     }
@@ -105,11 +97,15 @@ public class ReservasjonListe extends AppCompatActivity {
             }
         });
     }
+
+    //----- Oppdaterer listview dersom resverasjon slettes -----//
     public void slettReservasjon(){
         alleReservasjoner.remove(slettetIndeks);
         alleReservasjonerLV.remove(slettetIndeks);
         adapter.notifyDataSetChanged();
     }
+
+    //----- Metoder for aa fylle listview -----//
 
     public ArrayAdapter lagAdapter() {
         ArrayAdapter nyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, visReservasjonListView()) {

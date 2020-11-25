@@ -1,24 +1,19 @@
 package com.example.s333957s331153mappe3;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.Toolbar;
-
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,11 +22,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,22 +33,18 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class MapsActivity extends AppCompatActivity implements
  OnMapReadyCallback {
 
     private GoogleMap mMap;
+    Toolbar tb;
+    SharedPreferences sp;
+    Geocoder geocoder;
     LatLng pilestredet = new LatLng(59.923889, 10.731474);
     LatLng nyBygning;
     List<Hus> alleHus;
-    String stringAlleHus;
-    Toolbar tb;
-    public static Context context;
-    SharedPreferences sp;
-    Geocoder geocoder;
     List<Address> adresser;
-    private List<Marker> husMarkers = new ArrayList<>();
     Marker markerValgt;
     private boolean markerSatt;
     String navn, beskrivelse, gateadresse;
@@ -76,9 +65,7 @@ public class MapsActivity extends AppCompatActivity implements
         mapFragment.getMapAsync(this);
     }
 
-    public static Context getContext(){
-        return context;
-    }
+    //----- Metoder som skjer i det task blir ferdig -----//
 
     public void klar(){
         hentHus();
@@ -91,18 +78,15 @@ public class MapsActivity extends AppCompatActivity implements
             Double longitude = etHus.getLongitude();
             LatLng latLng = new LatLng(latitude, longitude);
             float zoomSize = 15.0f;
-            husMarkers.add(mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getHusID() + ", "+etHus.getNavn())));
+            mMap.addMarker(new MarkerOptions().position(latLng).title(etHus.getHusID() + ", "+etHus.getNavn()));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomSize));
-        }
-        for(Marker marker : husMarkers){
-            Log.d("Marker", marker.getTitle());
         }
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
             @Override
             public void onMapClick(LatLng latLng) {
-
+                //----- Fjerner siste marker dersom ny marker settes -----//
                 if(markerSatt == true) {
                     markerValgt.remove();
                     markerSatt = false;
@@ -132,7 +116,7 @@ public class MapsActivity extends AppCompatActivity implements
 
         });
 
-
+        //----- Metoder for klikk på marker -----//
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(final Marker marker) {
@@ -173,8 +157,6 @@ public class MapsActivity extends AppCompatActivity implements
                             String komma = ",";
                             tempArray = markerTittel.split(komma);
                             int husID = Integer.parseInt(tempArray[0]);
-                            //sp = PreferenceManager.getDefaultSharedPreferences(MapsActivity.getContext());
-                            //SharedPreferences.Editor editor = sp.edit();
                             sp = getSharedPreferences("Husoversikt", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sp.edit();
                             for(Hus etHus : alleHus){
@@ -215,27 +197,12 @@ public class MapsActivity extends AppCompatActivity implements
         HusJSON task = new HusJSON();
         task.execute(new String[]{"http://student.cs.hioa.no/~s331153/husjsonout.php"});
 
-        Log.d("onMapReady", "Inne i onMapReady");
-
         mMap = googleMap;
         CameraUpdate startPosisjon = CameraUpdateFactory.newLatLngZoom(pilestredet, 15);
         mMap.animateCamera(startPosisjon);
-        context = getApplicationContext();
-        Log.d("Markører: ", String.valueOf(markerSatt));
 
-    /*    Intent intent = getIntent();
-        if(intent.hasExtra("navn")) {
-            Hus nyttHus = new Hus();
-            nyttHus.navn = intent.getStringExtra("navn");
-            nyttHus.beskrivelse = intent.getStringExtra("beskrivelse");
-            nyttHus.gateAdresse = intent.getStringExtra("gateadresse");
-            nyttHus.latitude = intent.getDoubleExtra("latitude", 0);
-            nyttHus.longitude = intent.getDoubleExtra("longitude", 0);
-            nyttHus.etasjer = intent.getIntExtra("etasjer", 0);
-            LatLng nyttHusLatLng = new LatLng(nyttHus.latitude, nyttHus.longitude);
-            husMarkers.add(mMap.addMarker(new MarkerOptions().position(nyttHusLatLng).title(nyttHus.getHusID() + ", " + nyttHus.getNavn())));
-        }*/
     }
+
     private class HusJSON extends AsyncTask<String, Void,String> {
         SharedPreferences sp;
         List <Hus> hus = new ArrayList<>();
@@ -277,7 +244,6 @@ public class MapsActivity extends AppCompatActivity implements
                             etHus.latitude = jsonobject.getDouble("Latitude");
                             etHus.longitude = jsonobject.getDouble("Longitude");
                             etHus.etasjer = jsonobject.getInt("Etasjer");
-                            //retur = retur + husID + ";" + navn + ";" +beskrivelse + ";" +gateadresse + ";" +latitude + ";" +longitude + ";" + etasjer +";";
                             hus.add(etHus);
                         }
                         return retur;

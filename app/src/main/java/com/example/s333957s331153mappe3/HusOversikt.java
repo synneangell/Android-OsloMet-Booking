@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +17,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -42,20 +36,21 @@ public class HusOversikt extends AppCompatActivity {
     Spinner etasjer;
     TextView husInfo;
     FloatingActionButton fab;
-    List<Rom> alleRom;
-    int husIDValgt;
-    SharedPreferences sp;
-    Integer[] husEtasjer;
-    String husInfoString;
-    String valgtEtasje;
-    Hus valgtHus = new Hus();
-    public static Context context;
-    int slettetIndeks;
-    List<String> alleRomLV = new ArrayList<>();
     ArrayAdapter<String> romAdapter;
-    List<Integer> alleRomIndeksLV;
     Button slettRom, opprettReservasjon;
 
+    List<Rom> alleRom;
+    List<String> alleRomLV = new ArrayList<>();
+    List<Integer> alleRomIndeksLV;
+    Integer[] husEtasjer;
+
+    SharedPreferences sp;
+
+    String husInfoString;
+    int slettetIndeks;
+    int husIDValgt;
+
+    Hus valgtHus = new Hus();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +60,6 @@ public class HusOversikt extends AppCompatActivity {
         husInfo = findViewById(R.id.husInfo);
         etasjer = findViewById(R.id.etasjer);
         tb = findViewById(R.id.toolbarHusOversikt);
-
         tb = findViewById(R.id.toolbarHusOversikt);
         tb.setLogo(R.mipmap.ic_launcher_round);
         tb.inflateMenu(R.menu.manu_rom);
@@ -80,8 +74,7 @@ public class HusOversikt extends AppCompatActivity {
             }
         });
 
-        context = getApplicationContext();
-
+        //----- Henter informasjon om valgt hus -----//
         sp = getApplicationContext().getSharedPreferences("Husoversikt", Context.MODE_PRIVATE);
         valgtHus.husID = sp.getInt("husID", 0);
         valgtHus.navn = sp.getString("navn", "Tomt");
@@ -116,6 +109,7 @@ public class HusOversikt extends AppCompatActivity {
     }
 
     public void hentRom(){
+        //----- Fyller spinner med rom fra huset  -----//
         ArrayAdapter<Integer> etasjeAdapter = new ArrayAdapter<Integer>(HusOversikt.this, android.R.layout.simple_spinner_item, husEtasjer) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -128,7 +122,6 @@ public class HusOversikt extends AppCompatActivity {
         etasjer.setAdapter(etasjeAdapter);
 
         etasjer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 String valgtEtasjeSpinner = etasjer.getItemAtPosition(arg2).toString();
@@ -145,9 +138,7 @@ public class HusOversikt extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) { }
         });
 
         fab = findViewById(R.id.fab);
@@ -161,6 +152,7 @@ public class HusOversikt extends AppCompatActivity {
             }
         });
 
+        //----- Funksjon for slett rom og opprett reservasjon -----//
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long j){
@@ -212,17 +204,14 @@ public class HusOversikt extends AppCompatActivity {
         });
     }
 
-
+    //----- Oppdaterer listview ved sletting av rom -----//
     public void slettRom(){
         alleRomLV.remove(slettetIndeks);
         alleRom.remove(slettetIndeks);
         romAdapter.notifyDataSetChanged();
     }
 
-    public static Context getContext() {
-        return context;
-    }
-
+    //----- Funksjonalitet for sletting av hus -----//
     public void slettHus(View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(HusOversikt.this, R.style.AlertDialogStyle);
         builder.setMessage(getResources().getString(R.string.slettHus));
@@ -241,6 +230,7 @@ public class HusOversikt extends AppCompatActivity {
         builder.show();
     }
 
+    //----- Fyller listview med rom -----//
     public List<String> visRomListView(String valgtEtasjeSpinner) {
         alleRomLV = new ArrayList<>();
         alleRomIndeksLV = new ArrayList<>();
@@ -295,7 +285,6 @@ public class HusOversikt extends AppCompatActivity {
                             etRom.RomNr = jsonobject.getInt("RomNr");
                             etRom.Kapasitet = jsonobject.getInt("Kapasitet");
                             etRom.Beskrivelse = jsonobject.getString("Beskrivelse");
-                            //retur = retur + romID+";" + husID+";" + etasjeNr+";" + romNr+";" + kapasitet+";" + beskrivelse+";";
                             alleRomFraJson.add(etRom);
                         }
                         return retur;
