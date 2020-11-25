@@ -237,7 +237,7 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
         month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.AlertDialogStyle,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.datepicker,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {

@@ -1,10 +1,8 @@
 package com.example.s333957s331153mappe3;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
@@ -85,7 +83,6 @@ public class MapsActivity extends AppCompatActivity implements
         return context;
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -93,7 +90,6 @@ public class MapsActivity extends AppCompatActivity implements
         mMap.animateCamera(startPosisjon);
         context = getApplicationContext();
         Log.d("Markører: ", String.valueOf(markerSatt));
-
 
         HusJSON task = new HusJSON();
         task.execute(new String[]{"http://student.cs.hioa.no/~s331153/husjsonout.php"});
@@ -162,9 +158,7 @@ public class MapsActivity extends AppCompatActivity implements
                         markerSatt = true;
                     }
                 }
-
         });
-
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override

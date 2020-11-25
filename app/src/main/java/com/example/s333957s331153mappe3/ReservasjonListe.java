@@ -6,10 +6,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -40,7 +38,6 @@ public class ReservasjonListe extends AppCompatActivity {
         tb.setLogo(R.mipmap.ic_launcher_round);
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
-
         tb.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
         tb.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,17 +53,13 @@ public class ReservasjonListe extends AppCompatActivity {
         ReservasjonJSON task = new ReservasjonJSON();
         task.execute("http://student.cs.hioa.no/~s331153/reservasjonjsonout.php");
         sp = PreferenceManager.getDefaultSharedPreferences(this);
-        Log.d("HusID i res", Integer.toString(husIDValgt));
         stringAlleReservasjoner = sp.getString("alleReservasjoner", "Får ikke hentet reservasjon");
-
-        Log.d("Alle resverasjoner", stringAlleReservasjoner);
         alleReservasjoner = new ArrayList<>();
 
         String semikolon = ";";
         String[] tempArray2;
         tempArray2 = stringAlleReservasjoner.split(semikolon);
         for (int i = 0; i < tempArray2.length; i += 6) {
-            Log.d("alleReservasjoner ", stringAlleReservasjoner);
             Reservasjon enReservasjon = new Reservasjon();
             enReservasjon.reservasjonsID = Integer.parseInt(tempArray2[i]);
             enReservasjon.romID = Integer.parseInt(tempArray2[i + 1]);
@@ -99,10 +92,8 @@ public class ReservasjonListe extends AppCompatActivity {
                 });
                 builder.setNegativeButton(getResources().getString(R.string.nei), null);
                 builder.show();
-
             }
         });
-
     }
 
     public void slettReservasjon(){
@@ -128,7 +119,6 @@ public class ReservasjonListe extends AppCompatActivity {
         alleReservasjonerLV = new ArrayList<>();
         alleReservasjonerIndeksLV = new ArrayList<>();
         for (Reservasjon enReservasjon : alleReservasjoner) {
-            Log.d("Res size i metode", Integer.toString(alleReservasjoner.size()));
             if (enReservasjon.getHusID() == husIDValgt) {
                 alleReservasjonerLV.add("\nReservasjonsID: " + enReservasjon.getReservasjonsID() +
                         "\nHusID: " + enReservasjon.getHusID() +

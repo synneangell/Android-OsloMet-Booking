@@ -45,6 +45,7 @@
     <Spinner
         android:id="@+id/spinnerEtasjer"
         android:layout_width="76dp"
+        android:backgroundTint="@color/svart"
         android:textColor="@color/svart"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
@@ -68,6 +69,7 @@
         android:layout_marginTop="220dp"
         android:textColorHint="@color/svart"
         android:textColor="@color/svart"
+        android:backgroundTint="@color/svart"
         android:ems="10" />
 
     <ImageView
@@ -99,6 +101,7 @@
         android:layout_marginTop="290dp"
         android:textColorHint="@color/svart"
         android:textColor="@color/svart"
+        android:backgroundTint="@color/svart"
         android:ems="10" />
 
     <ImageView
@@ -141,6 +144,7 @@
         android:layout_marginLeft="70dp"
         android:textColor="@color/svart"
         android:layout_marginTop="360dp"
+        android:backgroundTint="@color/svart"
         android:ems="10" />
 
 </RelativeLayout>

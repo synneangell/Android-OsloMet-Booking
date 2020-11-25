@@ -11,4 +11,8 @@
         <item name="android:background">@color/gul</item>
     </style>
 
+    <style name="datepicker" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="android:colorAccent">@color/gul</item>
+    </style>
+
 </resources>
