@@ -37,7 +37,7 @@ public class HusOversikt extends AppCompatActivity {
     TextView husInfo;
     FloatingActionButton fab;
     ArrayAdapter<String> romAdapter;
-    Button slettRom, opprettReservasjon;
+    Button slettRom, opprettReservasjon, endreRom;
 
     List<Rom> alleRom;
     List<String> alleRomLV = new ArrayList<>();
@@ -152,7 +152,7 @@ public class HusOversikt extends AppCompatActivity {
             }
         });
 
-        //----- Funksjon for slett rom og opprett reservasjon -----//
+        //----- Funksjon for slett rom, endre og opprett reservasjon -----//
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long j){
@@ -163,6 +163,7 @@ public class HusOversikt extends AppCompatActivity {
 
                 slettRom = dialog.findViewById(R.id.btnSlett);
                 opprettReservasjon = dialog.findViewById(R.id.btnReservasjon);
+                endreRom = dialog.findViewById(R.id.btnEndreRom);
                 final int indeks = i;
 
                 slettRom.setOnClickListener(new View.OnClickListener(){
@@ -199,6 +200,26 @@ public class HusOversikt extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
+
+                endreRom.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view){
+                        Intent i = new Intent(HusOversikt.this, EndreRom.class);
+                        int romID = alleRomIndeksLV.get(indeks);
+                        for(Rom etRom : alleRom){
+                            if(etRom.getRomID() == romID){
+                                i.putExtra("romID", etRom.getRomID());
+                                Log.d("RomID valgt: ", Integer.toString(romID));
+                                Log.d("RomID fra etRom ", Integer.toString(etRom.getRomID()));
+                                i.putExtra("romNr", etRom.getRomNr());
+                                i.putExtra("beskrivelse", etRom.getBeskrivelse() );
+                                i.putExtra("kapasitet", etRom.getKapasitet());
+                            }
+                        }
+                        startActivity(i);
+                    }
+                });
+
             }
         });
     }
@@ -237,12 +258,22 @@ public class HusOversikt extends AppCompatActivity {
         for (Rom etRom : alleRom) {
             if (etRom.getHusID() == husIDValgt) {
                 if (Integer.toString(etRom.getEtasje()).equals(valgtEtasjeSpinner)) {
-                    alleRomLV.add("\nRomnr: " + etRom.getRomNr() + "\nBeskrivelse: " + etRom.getBeskrivelse());
+                    alleRomLV.add("\nRomnr: " + etRom.getRomNr() +
+                            "\nBeskrivelse: " + etRom.getBeskrivelse() +
+                            "\nKapasitet: " + etRom.getKapasitet());
                     alleRomIndeksLV.add(etRom.getRomID());
                 }
             }
         }
         return alleRomLV;
+    }
+
+    public void endreHus (View v){
+        Intent i = new Intent(HusOversikt.this, EndreHus.class);
+        i.putExtra("husID", husIDValgt);
+        i.putExtra("navn", valgtHus.navn);
+        i.putExtra("beskrivelse", valgtHus.beskrivelse);
+        startActivity(i);
     }
 
     private class RomJSON extends AsyncTask<String, Void,String> {

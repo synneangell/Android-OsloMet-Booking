@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/hvit"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Toolbar
+        android:id="@+id/toolbarRom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:background="@color/gul"/>
+
+    <ImageView
+        android:id="@+id/imgLagreRes"
+        app:srcCompat="@drawable/ic_baseline_save_alt_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="350dp"
+        android:layout_marginRight="10dp"
+        android:onClick="lagreRom"/>
+
+    <TextView
+        android:id="@+id/txtRomNr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:textColor="@color/svart"
+        android:layout_marginTop="100dp"
+        android:ems="10"
+        android:text="@string/romNr" />
+
+    <EditText
+        android:id="@+id/innRomNr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="120dp"
+        android:textColorHint="@color/svart"
+        android:textColor="@color/svart"
+        android:backgroundTint="@color/svart"
+        android:ems="10" />
+
+    <ImageView
+        android:id="@+id/imgRomNr"
+        app:srcCompat="@drawable/ic_baseline_location_on_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        />
+
+    <!-- Kapasitet -->
+    <TextView
+        android:id="@+id/txtKapasitet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:textColor="@color/svart"
+        android:layout_marginTop="170dp"
+        android:ems="10"
+        android:text="@string/kapasitet" />
+
+    <EditText
+        android:id="@+id/innKapasitet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="190dp"
+        android:textColorHint="@color/svart"
+        android:textColor="@color/svart"
+        android:backgroundTint="@color/svart"
+        android:ems="10" />
+
+    <ImageView
+        android:id="@+id/imgKapasitet"
+        app:srcCompat="@drawable/ic_baseline_people_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="180dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        />
+
+    <!-- Beskrivelse -->
+    <ImageView
+        android:id="@+id/imgBeskrivelse"
+        app:srcCompat="@drawable/ic_baseline_comment_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:textColorHint="@color/svart"
+        android:textColor="@color/svart"
+        android:layout_marginTop="250dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        />
+
+    <TextView
+        android:id="@+id/txtBeskrivelse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:textColor="@color/svart"
+        android:layout_marginTop="240dp"
+        android:ems="10"
+        android:text="@string/beskrivelse" />
+
+    <EditText
+        android:id="@+id/innBeskrivelseRom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:textColor="@color/svart"
+        android:layout_marginTop="260dp"
+        android:backgroundTint="@color/svart"
+        android:ems="10" />
+
+</RelativeLayout>

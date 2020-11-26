@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/hvit"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Toolbar
+        android:id="@+id/toolbarHus"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:background="@color/gul"/>
+
+    <ImageView
+        android:id="@+id/imgLagre"
+        app:srcCompat="@drawable/ic_baseline_save_alt_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="350dp"
+        android:layout_marginRight="10dp"
+        android:onClick="lagre" />
+
+    <TextView
+        android:id="@+id/Navn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textColor="@color/svart"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="100dp"
+        android:text="@string/navn" />
+
+    <EditText
+        android:id="@+id/navnBygning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginLeft="70dp"
+        android:textColor="@color/svart"
+        android:textColorHint="@color/svart"
+        android:layout_marginTop="120dp"
+        android:backgroundTint="@color/svart"
+        android:inputType="text"/>
+
+    <ImageView
+        android:id="@+id/imgNavnBygning"
+        app:srcCompat="@drawable/ic_baseline_business_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        />
+
+    <TextView
+        android:id="@+id/txtBeskrivelse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textColor="@color/svart"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="180dp"
+        android:text="@string/beskrivelse" />
+
+    <EditText
+        android:id="@+id/beskrivelseBygning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="200dp"
+        android:textColor="@color/svart"
+        android:textColorHint="@color/svart"
+        android:backgroundTint="@color/svart"
+        android:ems="10"
+        android:inputType="text"/>
+
+    <ImageView
+        android:id="@+id/imgBeskrivelseBygning"
+        app:srcCompat="@drawable/ic_baseline_comment_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="190dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        />
+
+
+
+</RelativeLayout>
