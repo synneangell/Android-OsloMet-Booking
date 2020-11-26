@@ -100,10 +100,10 @@ public class RomAdministrerer extends AppCompatActivity {
             romNr.setError("Romnr kan ikke være tomt");
             return false;
         } else if (!ROMNR.matcher(romNrInput).matches()){
-            kapasitet.setError("Romnr må bestå av tall mellom 1 og 999");
+            romNr.setError("Romnr må bestå av tall mellom 1 og 999");
             return false;
         } else {
-            kapasitet.setError(null);
+            romNr.setError(null);
             return true;
         }
     }
