@@ -41,7 +41,7 @@ public class HusAdministrerer extends AppCompatActivity {
         etasjer = findViewById(R.id.spinnerEtasjer);
 
         tb = findViewById(R.id.toolbarHus);
-        tb.setTitle("\tRegistrer nytt bygg");
+        tb.setTitle("\tOsloMet-Booking");
         tb.setLogo(R.mipmap.ic_launcher_round);
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);

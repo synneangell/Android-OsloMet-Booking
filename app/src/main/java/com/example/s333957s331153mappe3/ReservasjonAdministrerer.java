@@ -57,7 +57,7 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
         tid = findViewById(R.id.spinnerTid);
 
         tb = findViewById(R.id.toolbarReservasjon);
-        tb.setTitle("\tReserver rom");
+        tb.setTitle("\tOsloMet-Booking");
         tb.setLogo(R.mipmap.ic_launcher_round);
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);

@@ -258,9 +258,9 @@ public class HusOversikt extends AppCompatActivity {
         for (Rom etRom : alleRom) {
             if (etRom.getHusID() == husIDValgt) {
                 if (Integer.toString(etRom.getEtasje()).equals(valgtEtasjeSpinner)) {
-                    alleRomLV.add("\nRomnr: " + etRom.getRomNr() +
-                            "\nBeskrivelse: " + etRom.getBeskrivelse() +
-                            "\nKapasitet: " + etRom.getKapasitet());
+                    alleRomLV.add("\nNr: " + etRom.getRomNr() +
+                            ", \nbeskrivelse: " + etRom.getBeskrivelse() +
+                            ", \nkapasitet: " + etRom.getKapasitet());
                     alleRomIndeksLV.add(etRom.getRomID());
                 }
             }

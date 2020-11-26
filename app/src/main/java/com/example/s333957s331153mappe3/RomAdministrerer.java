@@ -35,7 +35,7 @@ public class RomAdministrerer extends AppCompatActivity {
         beskrivelse = findViewById(R.id.beskrivelseRom);
 
         tb = findViewById(R.id.toolbarRom);
-        tb.setTitle("\tRegistrer nytt rom");
+        tb.setTitle("\tOsloMet-Booking");
         tb.setLogo(R.mipmap.ic_launcher_round);
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);

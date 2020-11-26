@@ -34,7 +34,7 @@ public class EndreRom extends AppCompatActivity {
         beskrivelse = findViewById(R.id.innBeskrivelseRom);
 
         tb = findViewById(R.id.toolbarRom);
-        tb.setTitle("\tEndre rom");
+        tb.setTitle("\tOsloMet-Booking");
         tb.setLogo(R.mipmap.ic_launcher_round);
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);

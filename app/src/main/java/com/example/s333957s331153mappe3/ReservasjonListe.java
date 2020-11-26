@@ -40,6 +40,7 @@ public class ReservasjonListe extends AppCompatActivity {
         setContentView(R.layout.activity_reservasjonliste);
         lv = findViewById(R.id.reservasjoner);
         tb = findViewById(R.id.toolbarReservasjon);
+        tb.setTitle("\tOsloMet-Booking");
         tb.setLogo(R.mipmap.ic_launcher_round);
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);

@@ -29,7 +29,7 @@ public class EndreHus extends AppCompatActivity {
         beskrivelse = findViewById(R.id.beskrivelseBygning);
 
         tb = findViewById(R.id.toolbarHus);
-        tb.setTitle("\tEndre bygg");
+        tb.setTitle("\tOsloMet-Booking");
         tb.setLogo(R.mipmap.ic_launcher_round);
         tb.inflateMenu(R.menu.manu_rom);
         setActionBar(tb);
