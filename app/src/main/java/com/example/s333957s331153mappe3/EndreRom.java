@@ -1,16 +1,11 @@
 package com.example.s333957s331153mappe3;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -21,11 +16,8 @@ import java.net.URL;
 import java.util.regex.Pattern;
 
 public class EndreRom extends AppCompatActivity {
-    Spinner etasjer;
     EditText romNr, kapasitet, beskrivelse;
     Toolbar tb;
-    Integer[] husEtasjer;
-    int antallEtasjer;
     int innRomID, innRomNr, innKapasitet;
     String innBeskrivelse;
 

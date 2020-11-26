@@ -1,26 +1,15 @@
 package com.example.s333957s331153mappe3;
 import android.content.Intent;
-import android.graphics.Color;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.gms.maps.model.LatLng;
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
-import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class EndreHus extends AppCompatActivity {
