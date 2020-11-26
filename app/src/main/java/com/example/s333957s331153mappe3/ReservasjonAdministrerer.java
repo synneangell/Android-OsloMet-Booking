@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -78,16 +79,16 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
     }
 
     //----- Metoder som skjer i det task blir ferdig -----//
-    public void klar(){
+    public void klar() {
         hentReservasjoner();
     }
 
-    public void hentReservasjoner(){
+    public void hentReservasjoner() {
         settAdapter();
     }
 
-    public void settAdapter(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, tider){
+    public void settAdapter() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, tider) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -100,13 +101,12 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
     }
 
     //----- Lagre funksjonalitet -----//
-    public void lagreRes (View v) throws ParseException {
+    public void lagreRes(View v) throws ParseException {
         LagreReservasjonJSON task = new LagreReservasjonJSON();
-        if(!validerNavn() | !validerDato()) {
+        if (!validerNavn() | !validerDato()) {
             Toast.makeText(ReservasjonAdministrerer.this, "Alle felt må være riktig fylt inn riktig", Toast.LENGTH_SHORT).show();
             return;
-        }
-        else {
+        } else {
             boolean tidOpptatt = false;
             Log.d("Tid valgt:", tid.getSelectedItem().toString());
             for (Reservasjon enReservasjon : alleReservasjoner) {
@@ -137,12 +137,12 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
     }
 
     //----- Metoder for validering -----//
-    public boolean validerNavn(){
+    public boolean validerNavn() {
         String navnInput = navn.getText().toString().trim();
-        if(navnInput.isEmpty()){
+        if (navnInput.isEmpty()) {
             navn.setError("Navn kan ikke være tomt");
             return false;
-        } else if (!NAVN.matcher(navnInput).matches()){
+        } else if (!NAVN.matcher(navnInput).matches()) {
             navn.setError("Navnet må bestå av mellom 2 og 20 tegn");
             return false;
         } else {
@@ -157,27 +157,39 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
         Date d1 = sdformat.parse(currentDate);
         String datoInput = dato.getText().toString().trim();
 
-        if(datoInput.isEmpty()) {
+        if (datoInput.isEmpty()) {
             dato.setError("Dato må være valgt eller skrevet inn");
             return false;
-        }
-        else {
+        } else {
             try {
                 Date d2 = sdformat.parse(datoInput);
                 if (d1.compareTo(d2) > 0) {
                     dato.setError("Dato kan ikke være tilbake i tid");
                     return false;
+                } else if (d1.equals(d2)) {
+                    String tidInput = tid.getSelectedItem().toString();
+                    Date date = new Date();
+                    DateFormat format = new SimpleDateFormat("HH:mm");
+                    String tidNaa = format.format(date);
+                    Log.d("Tider", tidInput + " " + tidNaa);
+                    String[] tidArray = tidInput.split(":");
+                    String[] tidNaaArray = tidNaa.split(":");
+                    if ((Integer.parseInt(tidArray[0]) <= Integer.parseInt(tidNaaArray[0]))) {
+                        dato.setError("Tidspunkt og dato må være frem i tid");
+                        return false;
+                    }
                 } else {
                     dato.setError(null);
                     return true;
                 }
-            }
-            catch(ParseException e){
+            } catch (ParseException e) {
                 dato.setError("Dato må være i format DD-MM-YYYY");
                 return false;
             }
         }
+        return true;
     }
+
 
     public void dato(View v){
         final Calendar c = Calendar.getInstance();
