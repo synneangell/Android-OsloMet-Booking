@@ -95,12 +95,6 @@ public class HusAdministrerer extends AppCompatActivity {
             task.execute(urlString);
             Toast.makeText(this, "Bygning opprettet!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MapsActivity.class);
-        /*    intent.putExtra("navn", navn.getText().toString());
-            intent.putExtra("beskrivelse", beskrivelse.getText().toString());
-            intent.putExtra("gateadresse",gateadresse.getText().toString());
-            intent.putExtra("latitude", innKoordinater.latitude);
-            intent.putExtra("longitude", innKoordinater.longitude);
-            intent.putExtra("etasjer", (Integer) etasjer.getSelectedItem());*/
             startActivity(intent);
         }
     }

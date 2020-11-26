@@ -174,7 +174,6 @@ public class HusOversikt extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 int romID = alleRomIndeksLV.get(indeks);
-                                Log.d("Romid", String.valueOf(romID));
                                 SlettRomJSON task = new SlettRomJSON();
                                 String url = "http://student.cs.hioa.no/~s331153/slettromjson.php/?RomID=" + Integer.toString(romID);
                                 task.execute(url);

@@ -73,7 +73,6 @@ public class MapsActivity extends AppCompatActivity implements
 
     public void hentHus(){
         for(Hus etHus : alleHus){
-            Log.d("Et hus sitt navn", etHus.navn);
             Double latitude = etHus.getLatitude();
             Double longitude = etHus.getLongitude();
             LatLng latLng = new LatLng(latitude, longitude);
@@ -100,12 +99,10 @@ public class MapsActivity extends AppCompatActivity implements
                     adresser = geocoder.getFromLocation(nyBygning.latitude, nyBygning.longitude, 1);
                 } catch (IOException e) {
                     Toast.makeText(MapsActivity.this, "Ikke gyldig adresse funnet", Toast.LENGTH_SHORT).show();
-                    Log.d("TAG", "Fant ikke adresse til koordinater");
 
                 }
                 if (adresser == null) {
                     Toast.makeText(MapsActivity.this, "Ikke gyldig adresse funnet", Toast.LENGTH_LONG);
-                    Log.d("TAG", "Fant ikke adresse til koordinater");
                 } else {
                     markerOptions.title("Ny bygning?");
                     mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -228,7 +225,6 @@ public class MapsActivity extends AppCompatActivity implements
                     System.out.println("Output from Server .... \n");
                     while ((s = br.readLine()) != null) {
                         output = output + s;
-                        Log.d("output i husjson", output);
                     }
                     conn.disconnect();
 

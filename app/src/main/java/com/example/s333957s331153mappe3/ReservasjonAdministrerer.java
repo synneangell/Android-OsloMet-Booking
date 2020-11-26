@@ -108,10 +108,7 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
             return;
         } else {
             boolean tidOpptatt = false;
-            Log.d("Tid valgt:", tid.getSelectedItem().toString());
             for (Reservasjon enReservasjon : alleReservasjoner) {
-                Log.d("Dato equals", enReservasjon.getDato() + ", " + dato.getText().toString());
-                Log.d("Tid equals", enReservasjon.getTid() + ", " + tid.getSelectedItem().toString());
                 if (enReservasjon.getDato().equals(dato.getText().toString()) && enReservasjon.getTid().equals(tid.getSelectedItem().toString())) {
                     tidOpptatt = true;
                 }
@@ -126,7 +123,6 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
                         "&Navn=" + navn.getText().toString() +
                         "&Dato=" + dato.getText().toString() +
                         "&Tid=" + tid.getSelectedItem()).replaceAll(" ", "%20");
-                Log.d("URL", urlString);
                 task.execute(urlString);
                 Toast.makeText(this, "Reservasjon opprettet!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, MapsActivity.class);
@@ -171,7 +167,6 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
                     Date date = new Date();
                     DateFormat format = new SimpleDateFormat("HH:mm");
                     String tidNaa = format.format(date);
-                    Log.d("Tider", tidInput + " " + tidNaa);
                     String[] tidArray = tidInput.split(":");
                     String[] tidNaaArray = tidNaa.split(":");
                     if ((Integer.parseInt(tidArray[0]) <= Integer.parseInt(tidNaaArray[0]))) {
@@ -248,7 +243,6 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
                     System.out.println("Output from Server .... \n");
                     while ((s = br.readLine()) != null) {
                         output = output + s;
-                        Log.d("output i resJSON", output);
                     }
                     conn.disconnect();
 

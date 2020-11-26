@@ -67,10 +67,6 @@ public class ReservasjonListe extends AppCompatActivity {
     }
 
     public void hentReservasjoner(){
-        for(Reservasjon enReservasjon : alleReservasjoner){
-            Log.d("Reservasjon", enReservasjon.navn);
-        }
-
         adapter = lagAdapter();
         lv.setAdapter(adapter);
 
@@ -124,7 +120,6 @@ public class ReservasjonListe extends AppCompatActivity {
         alleReservasjonerLV = new ArrayList<>();
         alleReservasjonerIndeksLV = new ArrayList<>();
         for (Reservasjon enReservasjon : alleReservasjoner) {
-            Log.d("Res size i metode", Integer.toString(alleReservasjoner.size()));
             if (enReservasjon.getHusID() == husIDValgt) {
                 alleReservasjonerLV.add("\nReservasjonsID: " + enReservasjon.getReservasjonsID() +
                         "\nHusID: " + enReservasjon.getHusID() +
@@ -162,7 +157,6 @@ public class ReservasjonListe extends AppCompatActivity {
                     System.out.println("Output from Server .... \n");
                     while ((s = br.readLine()) != null) {
                         output = output + s;
-                        Log.d("output i resJSON", output);
                     }
                     conn.disconnect();
 
