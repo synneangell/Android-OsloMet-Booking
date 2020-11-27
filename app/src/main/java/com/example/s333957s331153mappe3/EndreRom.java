@@ -1,7 +1,6 @@
 package com.example.s333957s331153mappe3;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,8 +10,6 @@ import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.regex.Pattern;
 
 public class EndreRom extends AppCompatActivity {
@@ -61,7 +58,7 @@ public class EndreRom extends AppCompatActivity {
     }
 
     public void lagreRom(View v){
-        EndreRomJSON task = new EndreRomJSON();
+        SendJSON task = new SendJSON();
         if(!validerRomnr() | !validerKapasitet() | !validerBeskrivelse()) {
             Toast.makeText(EndreRom.this, "Alle felt må være riktig fylt inn riktig", Toast.LENGTH_SHORT).show();
             return;
@@ -119,41 +116,6 @@ public class EndreRom extends AppCompatActivity {
         } else {
             beskrivelse.setError(null);
             return true;
-        }
-    }
-
-    private class EndreRomJSON extends AsyncTask<String, Void,String> {
-        @Override
-        protected String doInBackground(String... urls) {
-            String retur = "";
-            String s = "";
-            String output = "";
-            for (String url : urls) {
-
-                try {
-                    URL urlen = new URL(urls[0]);
-                    HttpURLConnection conn = (HttpURLConnection)
-                            urlen.openConnection();
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Accept", "application/json");
-
-                    if (conn.getResponseCode() != 200) {
-                        throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
-                    }
-
-                    retur = "Vellykket oppdatering av rom!";
-                    conn.disconnect();
-
-                } catch (Exception e) {
-                    return "Noe gikk feil";
-                }
-            }
-            return retur;
-        }
-
-        @Override
-        protected void onPostExecute(String ss) {
-            Log.d("Vellykket lagring", ss);
         }
     }
 }

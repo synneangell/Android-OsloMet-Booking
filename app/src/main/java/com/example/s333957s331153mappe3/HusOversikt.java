@@ -175,7 +175,7 @@ public class HusOversikt extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 int romID = alleRomIndeksLV.get(indeks);
-                                SlettRomJSON task = new SlettRomJSON();
+                                SendJSON task = new SendJSON();
                                 String url = "http://student.cs.hioa.no/~s331153/slettromjson.php/?RomID=" + Integer.toString(romID);
                                 task.execute(url);
                                 slettetIndeks = indeks;
@@ -238,7 +238,7 @@ public class HusOversikt extends AppCompatActivity {
         builder.setPositiveButton(getResources().getString(R.string.ja), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                SlettHusJSON task = new SlettHusJSON();
+                SendJSON task = new SendJSON();
                 String url = "http://student.cs.hioa.no/~s331153/sletthusjson.php/?HusID=" + Integer.toString(husIDValgt);
                 task.execute(url);
                 Intent j = new Intent(HusOversikt.this, MapsActivity.class);

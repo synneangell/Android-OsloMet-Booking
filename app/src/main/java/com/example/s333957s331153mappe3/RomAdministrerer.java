@@ -74,7 +74,7 @@ public class RomAdministrerer extends AppCompatActivity {
     }
 
     public void lagreRom(View v){
-        LagreRomJSON task = new LagreRomJSON();
+        SendJSON task = new SendJSON();
         if(!validerRomnr() | !validerKapasitet() | !validerBeskrivelse()) {
             Toast.makeText(RomAdministrerer.this, "Alle felt må være riktig fylt inn riktig", Toast.LENGTH_SHORT).show();
             return;

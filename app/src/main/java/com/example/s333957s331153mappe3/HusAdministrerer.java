@@ -79,7 +79,7 @@ public class HusAdministrerer extends AppCompatActivity {
     }
 
     public void lagre (View v){
-        LagreHusJSON task = new LagreHusJSON();
+        SendJSON task = new SendJSON();
         if(!validerNavn() | !validerBeskrivelse()) {
             Toast.makeText(HusAdministrerer.this, "Alle felt må være riktig fylt inn riktig", Toast.LENGTH_SHORT).show();
             return;

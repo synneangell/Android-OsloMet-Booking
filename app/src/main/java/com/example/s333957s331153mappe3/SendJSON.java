@@ -5,14 +5,14 @@ import android.util.Log;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class SlettRomJSON extends AsyncTask<String, Void,String> {
-
+public class SendJSON extends AsyncTask<String, Void,String> {
     @Override
     protected String doInBackground(String... urls) {
         String retur = "";
         String s = "";
         String output = "";
         for (String url : urls) {
+
             try {
                 URL urlen = new URL(urls[0]);
                 HttpURLConnection conn = (HttpURLConnection)
@@ -24,7 +24,7 @@ public class SlettRomJSON extends AsyncTask<String, Void,String> {
                     throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
                 }
 
-                retur = "Rom slettet!";
+                retur = "Vellykket lagring/sletting!";
                 conn.disconnect();
 
             } catch (Exception e) {
@@ -36,6 +36,6 @@ public class SlettRomJSON extends AsyncTask<String, Void,String> {
 
     @Override
     protected void onPostExecute(String ss) {
-        Log.d("Rom slettet", ss);
+        Log.d("TAG", ss);
     }
 }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -102,7 +101,7 @@ public class ReservasjonAdministrerer extends AppCompatActivity {
 
     //----- Lagre funksjonalitet -----//
     public void lagreRes(View v) throws ParseException {
-        LagreReservasjonJSON task = new LagreReservasjonJSON();
+        SendJSON task = new SendJSON();
         if (!validerNavn() | !validerDato()) {
             Toast.makeText(ReservasjonAdministrerer.this, "Alle felt må være riktig fylt inn riktig", Toast.LENGTH_SHORT).show();
             return;

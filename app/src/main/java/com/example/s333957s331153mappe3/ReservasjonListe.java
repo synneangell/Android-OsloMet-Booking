@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -81,7 +80,7 @@ public class ReservasjonListe extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         int reservasjonsID = alleReservasjonerIndeksLV.get(indeks);
-                        SlettReservasjonJSON task = new SlettReservasjonJSON();
+                        SendJSON task = new SendJSON();
                         String url = "http://student.cs.hioa.no/~s331153/slettreservasjonjson.php/?ReservasjonID=" + Integer.toString(reservasjonsID);
                         task.execute(url);
                         slettetIndeks = indeks;

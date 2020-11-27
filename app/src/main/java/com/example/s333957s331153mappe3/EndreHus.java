@@ -1,15 +1,12 @@
 package com.example.s333957s331153mappe3;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
 import java.util.regex.Pattern;
 
 public class EndreHus extends AppCompatActivity {
@@ -52,9 +49,9 @@ public class EndreHus extends AppCompatActivity {
 
     }
 
-    public void lagre (View v){
-      EndreHusJSON task = new EndreHusJSON();
-        if(!validerNavn() | !validerBeskrivelse()) {
+    public void lagre(View v) {
+        SendJSON task = new SendJSON();
+        if (!validerNavn() | !validerBeskrivelse()) {
             Toast.makeText(EndreHus.this, "Alle felt må være riktig fylt inn riktig", Toast.LENGTH_SHORT).show();
             return;
         } else {
@@ -70,12 +67,12 @@ public class EndreHus extends AppCompatActivity {
         }
     }
 
-    public boolean validerNavn(){
+    public boolean validerNavn() {
         String navnInput = navn.getText().toString().trim();
-        if(navnInput.isEmpty()){
+        if (navnInput.isEmpty()) {
             navn.setError("Navn kan ikke være tomt");
             return false;
-        } else if (!NAVN.matcher(navnInput).matches()){
+        } else if (!NAVN.matcher(navnInput).matches()) {
             navn.setError("Navnet må bestå av mellom 2 og 20 tegn");
             return false;
         } else {
@@ -84,52 +81,17 @@ public class EndreHus extends AppCompatActivity {
         }
     }
 
-    public boolean validerBeskrivelse(){
+    public boolean validerBeskrivelse() {
         String beskrivelseInput = beskrivelse.getText().toString().trim();
-        if(beskrivelseInput.isEmpty()){
+        if (beskrivelseInput.isEmpty()) {
             beskrivelse.setError("Beskrivelse kan ikke være tomt");
             return false;
-        } else if (!BESKRIVELSE.matcher(beskrivelseInput).matches()){
+        } else if (!BESKRIVELSE.matcher(beskrivelseInput).matches()) {
             beskrivelse.setError("Beskrivelse må bestå av mellom 2 og 40 tegn");
             return false;
         } else {
             beskrivelse.setError(null);
             return true;
-        }
-    }
-
-    private class EndreHusJSON extends AsyncTask<String, Void,String> {
-        @Override
-        protected String doInBackground(String... urls) {
-            String retur = "";
-            String s = "";
-            String output = "";
-            for (String url : urls) {
-
-                try {
-                    URL urlen = new URL(urls[0]);
-                    HttpURLConnection conn = (HttpURLConnection)
-                            urlen.openConnection();
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Accept", "application/json");
-
-                    if (conn.getResponseCode() != 200) {
-                        throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
-                    }
-
-                    retur = "Vellykket oppdatering av hus!";
-                    conn.disconnect();
-
-                } catch (Exception e) {
-                    return "Noe gikk feil";
-                }
-            }
-            return retur;
-        }
-
-        @Override
-        protected void onPostExecute(String ss) {
-            Log.d("Vellykket lagring", ss);
         }
     }
 }
