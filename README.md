@@ -13,4 +13,8 @@ Det må også være webtjenester som gjør det mulig å legge inn rom og reserva
 
 Applikasjonen bør zoome på Pilestredet ved oppstart. Ikke ta hensyn til Kjeller siden det skal avvikles der.
 
+# Annen informasjon
+
+Prosjektet er avhengig av tilgang på Oslo Met sin server for å fungere optimalt
+
 
